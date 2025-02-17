@@ -1,0 +1,122 @@
+.header{
+  border-radius: 100px;
+  box-shadow: 0px 2px 40px 0px #0068FF1A;
+  @include mobile-larger{
+    box-shadow: none;
+  }
+  &-logo{
+    width: 112px;
+  }
+}
+.form-control{
+  width: 425px;
+}
+.dropdown-item{
+  padding: 12px;
+  padding-left: 24px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  
+  &::after {
+    content: "\e5cc";
+    font-family: "Material Symbols Outlined";
+  }
+  &:hover {
+    background: $primary;
+    color: $white;
+    font-weight: bold;
+    &::after {
+      color: $white;
+    }
+  }
+  }
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  &::after {
+    content: "\e313";
+    font-family: "Material Symbols Outlined";
+    border: none;
+  }
+}
+.dropdown{
+  .active{
+    background-color: $primary;
+    color: #fff;
+  }
+  &-width{
+    // width: 100%;
+    max-width: 863px;
+  }
+  &-list-1,
+  &-list-2, 
+  &-list-3 {
+    max-height: 600px;
+    height: calc(100vh - 190px);
+    overflow-y: scroll;
+  }
+  &-list-1,
+  &-list-2 {
+    width: 27%;
+    padding: 12px 12px 4px;
+  }
+  &-list-3{
+    width: 46%;
+    padding: 12px 24px 4px;
+    padding-bottom: 0;
+  }
+}
+.dropdown-item-title{
+  padding: 12px;
+  padding-left: 24px;
+  margin-bottom: 8px;
+}
+.ca{
+  width: 100px;
+  height: 100px;
+}
+
+.material-symbols-outlined-fill {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+}
+.dropdown-menu[data-bs-popper]{
+  left: 15%;
+}
+.dropdown-item-menu{
+  height: calc(100vh - 90px);
+  overflow-y: scroll;
+  // padding-bottom: 20px;
+}
+.dropdown-menu-2{
+  padding: 16px 24px;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.test{
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow-y: hidden;
+}
+
+// #navbarSupportedContent {
+//   height: 100vh !important; /* 讓下拉內容佔滿整個視窗 */
+//   // background: rgba(0, 0, 0, 0.8); /* 可選：給它背景色，增強可讀性 */
+//   transition: all 0.3s ease-in-out;
+// }
+
+// .navbar-collapse {
+//   display: flex;
+//   flex-direction: column; /* 讓內容垂直排列 */
+//   justify-content: center; /* 讓內容置中 */
+//   align-items: center; /* 讓內容水平置中 */
+// }
