@@ -16,10 +16,10 @@ export default function Header() {
             {/* <!-- //logo --> */}
             <NavLink
             className="navbar-brand me-7"
-            to={`/`}
+            to={``}
             >
               <img
-                src="/assets/images/logo.png"
+                src="/images/icons/Logo.png"
                 alt="logo"
                 className="header-logo"
               />
@@ -78,11 +78,11 @@ export default function Header() {
                 </li>
                 <li className="nav-item d-flex align-items-center">
                   <button type="button" className="btn position-relative p-0">
-                    <a href="test.html" type="button" className=" px-4 py-0">
+                    <Link href="test.html" type="button" className=" px-4 py-0">
                       <span className="material-symbols-outlined align-text-bottom text-white">
                         notifications
                       </span>
-                    </a>
+                    </Link>
                   </button>
                 </li>
               </ul>
@@ -101,16 +101,15 @@ export default function Header() {
               <div className="" style={{ height: "100vh" }}>
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mt-12">
                   <li className="nav-item dropdown">
-                    <a
+                    <NavLink
                       className="nav-link dropdown-toggle text-white fw-bold fs-7 p-0"
-                      href="#"
                       id="navbarDropdown"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
                       產品分類
-                    </a>
+                    </NavLink>
                     <ul
                       className="dropdown-menu bg-primary border-0 pt-0 pt-6"
                       aria-labelledby="navbarDropdown"
@@ -152,13 +151,13 @@ export default function Header() {
                     </ul>
                   </li>
                   <li className="nav-item mt-12">
-                    <a
+                    <NavLink
                       className="nav-link active text-white fw-bold fs-7 p-0"
                       aria-current="page"
-                      href="#"
+                      to={`/ProductsDetail`}
                     >
                       關於青松
-                    </a>
+                    </NavLink>
                   </li>
                   <li className="nav-item mt-12">
                     <a className="nav-link text-white fw-bold fs-7 p-0" href="#">

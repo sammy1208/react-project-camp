@@ -1,275 +1,46 @@
-
-.img-flower{
-  &-left{
-    position: relative;
-    background-color: $neutral-10;
-    z-index: -2;
-    overflow: hidden;
-    &::before {
-      content:"";
-      position: absolute;
-      z-index: -1;
-      left: -48px;
-      top: 50%;
-      transform: translatey(-50%);
-      background-image: url(/assets/images/deco/flower-2.png);
-      width: 560px;
-      height: 560px;
-      background-repeat: no-repeat;
-      @include pad {
-        display: none;
-      }
-    }
-  }
-  &-right{
-    &::before {
-      content:"";
-      position: absolute;
-      z-index: -1;
-      right: 0;
-      bottom: 0;
-      transform: translateY(50%);
-      background-image: url(/assets/images/deco/flower-2.png);
-      width: 560px;
-      height: 560px;
-      background-repeat: no-repeat;
-      background-size: cover;
-      @include pad {
-        width: 240px;
-        height: 240px;
-        bottom: 50%;
-      }
-    }
-  }
-  &-title{
-    position: relative;
-    &::before {
-      content:"";
-      position: absolute;
-      z-index: 1;
-      left: -88px;
-      top: 0;
-      background-image: url(/assets/images/deco/polygon-1.png);
-      width: 80px;
-      height: 80px;
-      background-repeat: no-repeat;
-    }
-  }
-  &-title2{
-    position: relative;
-    &::before {
-      content:"";
-      position: absolute;
-      z-index: 1;
-      left: 0;
-      bottom: -94px;
-      transform: translatey(0);
-      background-image: url(/assets/images/deco/line-2.png);
-      width: 439px;
-      height: 94px;
-      background-repeat: no-repeat;
-    }
-  }
-} 
-
-.shadows-card{
-  box-shadow: 0px 25px 50px -12px #0000001F;
-  @include mobile-larger {
-    box-shadow: none;
-  }
-}
-.btn{
-  &-nav-suject{
-    :active{
-      color: #ffffff;
-      background-color: $primary-100;
-    }
-    color: $neutral-80;
-    border: $neutral-40 1px solid;
-    :hover{
-      color: #ffffff;
-    }
-  }
-  &-arrow{
-    box-shadow: 0px 10px 15px -3px #0000001A;    
-    &:hover{
-      background-color: #ffffff;
-      color: $primary-100;
-      border: none;
-    }
-  }
-  &-arrow-back{
-    &::after {
-      content: "\e5c4";
-      font-family: "Material Symbols Outlined";
-    }
-  }
-  &-arrow-forward{
-    &::after {
-      content: "\e5c8";
-      font-family: "Material Symbols Outlined";
-    }
-  }
-}
-.nav-item-hover{
-  color: $neutral-80;
-  &:hover{
-    border-bottom: solid 4px $primary-100;
-    color: #0068FF;
-    font-weight: 600;
-  }
-}
-.icon-1{
-  height: 64px;
-  width: 64px;
-  background-color: #FF994F;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/megaphoneSimple.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-2{
-  height: 64px;
-  width: 64px;
-  background-color: #5E5E5E;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/camera.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-3{
-  height: 64px;
-  width: 64px;
-  background-color: #FF9BAD;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/chartBarHorizontal.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-4{
-  height: 64px;
-  width: 64px;
-  background-color: #564FFD;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/penNib.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-5{
-  height: 64px;
-  width: 64px;
-  background-color: #54DFF2;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/bugDroid.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-6{
-  height: 64px;
-  width: 64px;
-  background-color: #52E9BC;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/creditCard.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-7{
-  height: 64px;
-  width: 64px;
-  background-color: #CF93FF;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/headphones.png);
-    background-repeat: no-repeat;
-  }
-}
-.icon-8{
-  height: 64px;
-  width: 64px;
-  background-color: #0068FF;
-  border-radius: 16px;
-  font-size: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &::after {
-    content: "";
-    width: 32px;
-    height: 32px;
-    background-image: url(/assets/images/icons/arrow.png);
-    background-repeat: no-repeat;
-    margin-top: 10px;
-    margin-left: 4px;
-  }
-}
-.h{
-  @media (max-width: 1199.98px) {
-    padding-bottom: 142px;
-  }
-}
-.card-img-top-rounded{
-  border-radius: 20px 20px 0 0;
-  @include mobile-larger {
-    border-radius: 20px;
+.container-index{
+  padding-top: 120px;
+  padding-bottom: 160px;
+  @include mobile-larger{
+    padding-top: 48px;
+    padding-bottom: 56px;
   }
 }
 
-///ProductListPage
+.card-padding{
+padding-left: 24px;
+padding-right: 24px;
+padding-top: 56px;
+padding-bottom: 32px;
+@include mobile-larger{
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 42px;
+  padding-bottom: 16px;
+}
+}
+
+.designer-img{
+background-image: url(/assets/images/camp/peopo.png);
+height: 200px;
+background-position-x: 50%;
+background-position-y: bottom;
+background-size: contain;
+background-repeat: no-repeat; /* 避免重複 */
+@include mobile-larger{
+  height: 123px;
+}
+}
+.tips-img{
+height: 306px;
+width: 306px;
+@include mobile-larger{
+  height: 90px;
+  width: 120px;
+}
+}
+
+///_ProductsPage
 .add-icon{
   padding: 16px, 0;
   display: flex;
@@ -292,61 +63,4 @@
   &:active {
     color: $gray-900;
   }
-}
-
-.banner{
-  background-image: url("https://s3-alpha-sig.figma.com/img/8835/5c8c/752ea4219d9204491205321901ad1dfc?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=FuDV-sduYvJLIjgD6b3nKZow36uryKbQD6pjDJX2YQr5UZ~9chhqx~cW3TrYFUaAhxVdh~vxXNwQ6d6COogvTe7XP4XsifPML8ou24vlOkRzgkr8AwCnEk9g5ndHv8KDi1mAIKmN29wuHYTUSb9fHScbg3nyGo7NNtDj83pznzYq1-jcHiXqCYe-nNKI0c832rSevW~mPFSaG8UwZXVOcvDKFIvJ5C-O5Ba1A9xO-8v9X5bHKTTUbGqPdVC9n~5YeTrgYkkHlTlOcwXxi5EroC5S5LOqZlmH1SeMPEBZGZNe0F0dlxtCawm2ZVyUtSuN7qS5fb~82j4N8nTK1aIKOQ__");
-  height: 100vh;
-  background-size: cover;
-  background-position: center; /* 縮放時保持中心點 */
-  background-repeat: no-repeat; /* 避免重複 */
-}
-//100vh
-
-.banner-1{
-  background-image: url("https://s3-alpha-sig.figma.com/img/8835/5c8c/752ea4219d9204491205321901ad1dfc?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=FuDV-sduYvJLIjgD6b3nKZow36uryKbQD6pjDJX2YQr5UZ~9chhqx~cW3TrYFUaAhxVdh~vxXNwQ6d6COogvTe7XP4XsifPML8ou24vlOkRzgkr8AwCnEk9g5ndHv8KDi1mAIKmN29wuHYTUSb9fHScbg3nyGo7NNtDj83pznzYq1-jcHiXqCYe-nNKI0c832rSevW~mPFSaG8UwZXVOcvDKFIvJ5C-O5Ba1A9xO-8v9X5bHKTTUbGqPdVC9n~5YeTrgYkkHlTlOcwXxi5EroC5S5LOqZlmH1SeMPEBZGZNe0F0dlxtCawm2ZVyUtSuN7qS5fb~82j4N8nTK1aIKOQ__");
-  height: 100vh;
-  background-size: cover;
-  background-position: center; /* 縮放時保持中心點 */
-  background-repeat: no-repeat; /* 避免重複 */
-}
-.banner-2{
-  background-image: url("https://s3-alpha-sig.figma.com/img/a308/edc3/e1dba6ebc7129d5878b2a9a3721b0dee?Expires=1739750400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=rSPVo17NoY8rd-LsgqOnFcq7O~Mb-JWp7iVrYuf95jZyiWMfNQt6y7CKYMm2M~VmJzZQe5SiUZXYVuUGbynCVSd~idn2rd-cQ~Rw8durb-3MLThLjOOG-3rP51XI9MLL~RRbsUusVlx9k5EEbCOgpsOHXHZrxajnMk2fiBj~LjK45HjkXrCRP3VIEbEX4iNdOXERp2GAsGbXeTV71W6ijsnp1pVLbBceAzkOwUqeZsNDTpVhMY4vEVK5AzFJiS74XhSPSaVLBdFmOEu-PMCKFB6AKkK3550Piq5hEoiSYL4f3jm8kha9JwQTjV9yIdVMmOnBi~95~wbwOvYXs6Q2Lg__");
-  height: 100vh;
-  background-size: cover;
-  background-position: center; /* 縮放時保持中心點 */
-  background-repeat: no-repeat; /* 避免重複 */
-}
-.banner-3{
-  background-image: url("https://s3-alpha-sig.figma.com/img/aa15/6217/fd9acf662d45ea43cedd23360970669c?Expires=1739750400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oEcQRPy-twsMVXlwYwsSgR2xh-yAWS8WsQ2QxoTgURrCe95vLXfhdlbCRfRDOwtLMd0eVE1640svqbI4vIrghskmdPQ4QfRNSn88XdmQ~1hcoWxHuhjNwzfbo48Nsw3U0v4UGD2KNhiVAiztpcK76Za3UIGuf-tbGcgjZRtmCZdjgSjqnXBox3JIssJ~SP5P33XW5C9esqnfCLo0YL25oYjzfp0RUGAJN0H0VCdSQL9l-AcxTMfuPJEmhnghg77Y5KgVyGb8RhWYhAJZyebialr8KCMYgoWCdkNCTbfraa~JL3ZrJdsoD7zohLeL~JJpuN4lICpe30OnfQYYY3yRjw__");
-  height: 100vh;
-  background-size: cover;
-  background-position: center; /* 縮放時保持中心點 */
-  background-repeat: no-repeat; /* 避免重複 */
-}
-
-.container-index{
-    padding-top: 120px;
-    padding-bottom: 160px;
-    @mixin mobile-larger{
-      padding-top: 48px;
-      padding-bottom: 56px;
-    }
-  }
-
-.card-padding{
-  padding: 85px, 24px, 48px;
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-top: 85px;
-  padding-bottom: 48px;
-}
-
-.designer-img{
-  background-image: url(/assets/images/camp/peopo.png);
-  height: 200px;
-  background-position-x: 50%;
-  background-position-y: bottom;
-  background-size: contain;
-  background-repeat: no-repeat; /* 避免重複 */
 }

@@ -1,4 +1,64 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import ReactLoading from 'react-loading';
+import { useParams } from "react-router-dom";
+import ProductLmg from "../components/ProductLmg";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const API_PATH = import.meta.env.VITE_API_PATH;
+
 export default function ProductsDetailPage () {
+  const [product, setProduct] = useState({});
+  const [qtySelect, setQtySelect] = useState(1);
+  const [isLoading, setIsLoading] = useState(false)
+
+
+  const { id: product_id } = useParams();//因為有重新命名
+
+    useEffect(() =>{
+      const getProduct = async () => {
+        try {
+          const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products`)
+          setProduct(res.data.products[0])
+          console.log(res.data.products[0])
+        } catch (error) {
+          alert("取得產品失敗")
+        };
+      }
+      getProduct()
+    },[])
+
+  // useEffect(() => {
+  //     const getProduct = async () => {
+  //     //   setIsScreenLoading(true);
+  //       try {
+  //         const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products`);
+  //         setProduct(res.data.products[0]);
+  //       } catch (error) {
+  //         alert("取得產品失敗");
+  //       } finally {
+  //         // setIsScreenLoading(false);
+  //       }
+  //     };
+  //     getProduct();
+  // }, []);
+
+  // const addCartItem = async (product_id, qty) =>{
+  //     setIsLoading(true);
+  //     try {
+  //       await axios.post(`${BASE_URL}/v2/api/${API_PATH}/cart`, {
+  //         data: {
+  //         product_id,
+  //         qty: Number(qty)
+  //       }
+  //       });
+  //       alert(`加入購物車成功`)
+  //     } catch (error) {
+  //       alert(`加入購物車失敗`)
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  // }
     return (
         <div className="container">
         <main className="pt-8 pb-14 pt-md-18 pb-md-23">
@@ -13,29 +73,31 @@ export default function ProductsDetailPage () {
             <div className="row">
               <figure className="col-md-7 m-0">
                 <div className="mb-md-10 mb-4">
-                  
+                <div className="bg-gray-30 rounded py-md-10 px-md-8 p-6">
+                    <img src={product.imageUrl} className="" alt="..." />
+                </div>
                 </div>
                 <div className="row gx-4 gx-md-10">
                   <div className="col">
-                    
+                    < ProductLmg img={product.imageUrl}/>
                   </div>
                   <div className="col">
-                    
+                  < ProductLmg img={product.imageUrl}/>
                   </div>
                   <div className="col">
-                    
+                  < ProductLmg img={product.imageUrl}/>
                   </div>
                   <div className="col">
-                    
+                  < ProductLmg img={product.imageUrl}/>
                   </div>
                 </div>
               </figure>
       
               <div className="col-md-5 pt-8 pt-md-0">
                 <section className="border-bottom mb-9 mb-md-12">
-                  <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">陽光牧場單人帳篷 (T301)</h3>
+                  <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">{product.title}</h3>
                   <p className="pb-md-4 pb-2 text-gray-70">VIP 會員獨享/VIP 會員獨享/VIP 會員獨享</p>
-                  <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">$5,161</p>
+                  <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${product.price}`}</p>
                 </section>
       
                 <div className="mb-6 mb-md-10">
@@ -116,18 +178,16 @@ export default function ProductsDetailPage () {
                 </p>
                 <div className="collapse" id="ProductDataPage-1">
                   <div className="pb-8 border-bottom">
-                    輕巧便攜設計：重量僅1.5公斤，方便隨身攜帶。
-                    快速搭建：支架簡易，3分鐘內完成安裝。
-                    高效防水功能：採用 PU 防水布料，抵禦中強度雨水。
-                    通風透氣結構：雙層設計，確保空氣流通不悶熱。
-                    穩定抗風支架：鋁合金支架，抵抗惡劣天氣。
+                    {product.introduce?.map((item, index) => (
+                      <p key={index}>{`●${item}`}</p>
+                    ))}
                   </div>
                 </div>
               </div>
               <div className="mb-md-12 mb-8">
                 <p className="d-flex pb-md-6 pb-2">
                   <a className="btn w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon" data-bs-toggle="collapse" href="#ProductDataPage-2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    產品說明
+                  注意事項
                   </a>
                 </p>
                 <div className="collapse" id="ProductDataPage-2">
@@ -143,16 +203,14 @@ export default function ProductsDetailPage () {
               <div className="mb-md-12 mb-8">
                 <p className="d-flex pb-md-6 pb-2">
                   <a className="btn w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon" data-bs-toggle="collapse" href="#ProductDataPage-3" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    產品說明
+                  產品規格
                   </a>
                 </p>
                 <div className="collapse" id="ProductDataPage-3">
                   <div className="pb-8 border-bottom">
-                    輕巧便攜設計：重量僅1.5公斤，方便隨身攜帶。
-                    快速搭建：支架簡易，3分鐘內完成安裝。
-                    高效防水功能：採用 PU 防水布料，抵禦中強度雨水。
-                    通風透氣結構：雙層設計，確保空氣流通不悶熱。
-                    穩定抗風支架：鋁合金支架，抵抗惡劣天氣。
+                    {product.specification?.map((item, index) => (
+                      <p key={index}>{`●${item}`}</p>
+                    ))}
                   </div>
                 </div>
               </div>

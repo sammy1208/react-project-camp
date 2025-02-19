@@ -4,33 +4,3 @@
     padding: 32px 0;
   }
 }
-
-.search-box {
-  position: relative;
-  display: inline-block;
-
-}
-
-.search-box::before,
-.search-box::after {
-  content: "";
-  position: absolute;
-  background: white;
-}
-
-/* 斜線 (左上角到搜尋框) */
-.search-box::before {
-  width: 20px;
-  height: 2px;
-  transform: rotate(-45deg);
-  top: -8px;
-  left: 0;
-}
-
-/* 底部直線 */
-.search-box::after {
-  width: 100px;
-  height: 2px;
-  bottom: 0;
-  left: 2px;
-}
