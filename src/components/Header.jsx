@@ -3,8 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 const routes = [
     { path: "/", name: "首頁" },
     { path: "/products", name: "產品分類" },
-    { path: "/products", name: "關於青松" },
-    { path: "/products", name: "知識專欄" },
+    { path: "/aboutUs", name: "關於青松" },
+    { path: "/KnowledgePage", name: "知識專欄" },
     { path: "/CartPage", name: "購物車" },
 ];
 
@@ -37,7 +37,7 @@ export default function Header() {
                 <li className="nav-item">
                   <NavLink
                   className="nav-link text-white px-4"
-                  to={`/ProductsDetail`}
+                  to={`/aboutUs`}
                   >
                     關於青松
                   </NavLink>
@@ -46,7 +46,7 @@ export default function Header() {
                   <NavLink
                     className="nav-link text-white px-4"
                     aria-current="page"
-                    to={`/CartPage`}
+                    to={`/KnowledgePage`}
                   >
                     知識專欄
                   </NavLink>

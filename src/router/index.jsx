@@ -5,6 +5,9 @@ import HomePage from "../pages/HomePage"
 import ProductsPage from "../pages/ProductsPage"
 import CartPage from "../pages/CartPage"
 import ProductsDetailPageId from "../pages/ProductsDetailPageid"
+import AboutUsPage from "../pages/AboutUsPage"
+import KnowledgePage from "../pages/KnowledgePage"
+
 
 const router = createHashRouter ([
     {
@@ -20,12 +23,16 @@ const router = createHashRouter ([
                 element: < ProductsPage />
             },
             {
-                path: 'ProductsDetail',
-                element: < ProductsDetailPage />
+                path: 'aboutUs',
+                element: < AboutUsPage />
             },
             {
                 path: 'CartPage',
                 element: < CartPage />
+            },
+            {
+                path: 'KnowledgePage',
+                element: < KnowledgePage />
             },
             {
                 path: 'Products/:id',

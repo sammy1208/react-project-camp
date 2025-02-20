@@ -41,17 +41,13 @@ export default function ProductsDetailPageId () {
             <div className="row">
               <figure className="col-md-7 m-0">
                 <div className="mb-md-10 mb-4">
-                <div className="bg-gray-30 rounded py-md-10 px-md-8 p-6">
-                    <img src={product?.imageUrl} className="" alt="..." />
-                </div>
+                < ProductLmg img={product?.imageUrl} product={product} />
                 </div>
                 <div className="row gx-4 gx-md-10">
                   {
                     product?.imagesUrl?.length > 0 && product?.imagesUrl.map((img, index) => (
                       <div className="col" key={index}>
-                      <div className="bg-gray-30 rounded py-md-10 px-md-8 p-6 h-100">
-                          <img src={img} className="" alt={product.title} />
-                      </div>
+                        < ProductLmg img={img} product={product} />
                       </div>
                     ))}
                 </div>
