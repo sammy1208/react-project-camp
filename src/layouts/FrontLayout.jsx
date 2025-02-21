@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom"
 import Header from "../components/header";
+import Footer from "../components/Footer";
 
 export default function FrontLayout() {
     const location = useLocation();
@@ -14,6 +15,7 @@ export default function FrontLayout() {
     <div className={layoutClass}>
         < Header />
     </div>
-    <Outlet/>
+    < Outlet />
+    < Footer />
     </>)
 }

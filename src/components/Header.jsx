@@ -8,6 +8,8 @@ const routes = [
     { path: "/CartPage", name: "購物車" },
 ];
 
+const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
+
 export default function Header() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary py-10">
@@ -16,10 +18,10 @@ export default function Header() {
             {/* <!-- //logo --> */}
             <NavLink
             className="navbar-brand me-7"
-            to={``}
+            to={"/"}
             >
               <img
-                src="/images/icons/Logo.png"
+                src={`${PUBLIC_URL}/images/icons/Logo.png`}
                 alt="logo"
                 className="header-logo"
               />

@@ -1,81 +1,90 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
+import ProductNav from "../components/ProductNav";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 function ProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [productsAll, setProductsAll] = useState([]);
+  const [products, setProducts] = useState([]); // 當前頁面的產品
+  const [productsAll, setProductsAll] = useState([]); // 全部產品
   const [isScreenLoading, setIsScreenLoading] = useState(false);
+  const [pageInfo, setPageInfo] = useState({})
+  const [selectedFilter, setSelectedFilter] = useState(null)// 存儲當前篩選條件
+
+
+  const getProducts = async (page) => {
+      setIsScreenLoading(true);
+    try {
+      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products?page=${page}`);
+      setProductsAll(res.data.products);
+      setPageInfo(res.data.pagination);
+
+      if(selectedFilter){
+        applyFilter(selectedFilter, res.data.products)
+      }else{
+        setProducts(res.data.products);
+      }
+
+    } catch (error) {
+      alert("取得產品失敗");
+    } finally {
+      setIsScreenLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getProducts = async () => {
-        setIsScreenLoading(true);
-      try {
-        const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products`);
-        setProductsAll(res.data.products);
-        setProducts(res.data.products);
-        console.log(res.data.products);
-      } catch (error) {
-        alert("取得產品失敗");
-      } finally {
-        setIsScreenLoading(false);
-      }
-    };
-    getProducts();
+    getProducts(1);
   }, []);
 
-  // 新品報到
-  const getNewProduct = () => {
-    const newProduct = productsAll.filter((product) => {
-      return product.unit === "新";
-    });
-    setProducts(newProduct);
-  };
-  //冠軍排名
-  const getTopProduct = () => {
-    const topProduct = productsAll.filter((product) => {
-      return product.category === "帳篷";
-    });
-    setProducts(topProduct);
-  };
+  const handelPageChange = (page) => {
+    setPageInfo(page)
+    getProducts(page)
+  }
 
-  // 冬眠季應援團·全面 85 折
-  const getLowPriceProduct = () => {
-    const topProduct = productsAll.filter((product) => {
-      return product.price < 2000;
-    });
-    setProducts(topProduct);
-  };
+  const applyFilter = (filter, products) => {
+    let filteredProducts = [];
 
-  // 周年慶·滿千折百
-  const getHighPriceProduct = () => {
-    const topProduct = productsAll.filter((product) => {
-      return product.price > 2000;
-    });
-    setProducts(topProduct);
-  };
+    switch (filter) {
+      case "new":
+        filteredProducts = products.filter((product) => product.unit === "新" );
+        break;// 新品報到 new
 
-  // 帳篷
-  const getTentProduct = () => {
-    const topProduct = productsAll.filter((product) => {
-      return product.category === "帳篷";
-    });
-    setProducts(topProduct);
-  };
+      case "top":
+        filteredProducts = products.filter((product) => product.category === "帳篷" && product.price < 2000 );
+        break;//冠軍排名 top
 
-  // 戶外用品
-  const getOutdoorProduct = () => {
-    const topProduct = productsAll.filter((product) => {
-      return product.category === "露營用品";
-    });
-    setProducts(topProduct);
-  };
+      case "lowPrice":
+        filteredProducts = products.filter((product) => product.price < 2000 )
+        break;// 冬眠季應援團·全面 85 折 lowPrice
+
+      case "highPrice":
+        filteredProducts = products.filter((product) => product.price > 2000 )
+        break;// 周年慶·滿千折百 highPrice
+
+      case "tent":
+        filteredProducts = products.filter((product) => product.category === "帳篷" )
+        break;// 帳篷 tent
+
+      case "outdoor":
+        filteredProducts = products.filter((product) => product.category === "露營用品" )
+        break;// 戶外用品 outdoor
+
+      default:
+        filteredProducts = products
+        break;
+    }
+    setProducts(filteredProducts);
+  }
+
+  const handelFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    applyFilter(filter, productsAll);
+  }
 
   return (
     <>
@@ -87,12 +96,12 @@ function ProductsPage() {
               <p className="fs-8 fw-bold mb-6">產品分類</p>
               <ul className="list-unstyled">
                 <li className="mb-4 border-bottom">
-                  <Link className="py-8 w-100" onClick={() => getNewProduct()}>
+                  <Link className="py-8 w-100" onClick={() => handelFilterChange("new")}>
                     新品報到
                   </Link>
                 </li>
                 <li className="mb-4 border-bottom ">
-                  <Link className="py-8 w-100" onClick={() => getTopProduct()}>
+                  <Link className="py-8 w-100" onClick={() => handelFilterChange("top")}>
                     冠軍排名
                   </Link>
                 </li>
@@ -109,13 +118,13 @@ function ProductsPage() {
                   <div className="collapse" id="ProductList-1">
                     <Link
                       className="fs-10 text-gray-70 pb-4"
-                      onClick={() => getLowPriceProduct()}
+                      onClick={() => handelFilterChange("lowPrice")}
                     >
                       冬眠季應援團·全面 85 折
                     </Link>
                     <Link
                       className="fs-10 text-gray-70 pb-6"
-                      onClick={() => getHighPriceProduct()}
+                      onClick={() => handelFilterChange("highPrice")}
                     >
                       周年慶·滿千折百
                     </Link>
@@ -134,7 +143,7 @@ function ProductsPage() {
                   <div className="collapse" id="ProductList-2">
                     <Link
                       className="fs-10 text-gray-70 pb-4"
-                      onClick={() => getTentProduct()}
+                      onClick={() => handelFilterChange("tent")}
                     >
                       帳篷系列
                     </Link>
@@ -153,7 +162,7 @@ function ProductsPage() {
                   <div className="collapse" id="ProductList-3">
                     <Link
                       className="fs-10 text-gray-70 pb-4"
-                      onClick={() => getOutdoorProduct()}
+                      onClick={() => handelFilterChange("outdoor")}
                     >
                       戶外用品
                     </Link>
@@ -163,19 +172,9 @@ function ProductsPage() {
             </div>
             {/* 右側產品列表 */}
             <div className="col">
-              <nav aria-label="breadcrumb" className=" pb-4 pb-md-8">
-                <ol className="breadcrumb fs-10 m-0">
-                  <li className="breadcrumb-item">
-                    <a href="#">首頁</a>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    <a href="#">青松·帳篷系列</a>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    <a href="#">標準帳篷</a>
-                  </li>
-                </ol>
-              </nav>
+              
+              < ProductNav  id={null} product={null} />
+
               <section className="pb-md-10 pb-8 border-bottom">
                 <h5 className="mb-4 fs-md-5 fs-7">
                   經典設計，可靠守護你的露營時光
@@ -198,62 +197,40 @@ function ProductsPage() {
                 className="d-flex justify-content-md-center justify-content-center mt-16"
               >
                 <ul className="pagination m-0 d-flex align-items-center justify-content-center">
-                  <li className="page-item">
-                    <a className="page-link border-0 text-gray-80">
+                  <li className={`page-item  ${!pageInfo.has_pre && "disabled"}`}>
+                    <Link
+                    className="page-link border-0 text-gray-80"
+                    to={`/products`}
+                    onClick={() => handelPageChange(`${pageInfo.current_page - 1}`)}
+                    >
                       <span className="material-symbols-outlined  d-flex align-items-center">
                         chevron_left
                       </span>
-                    </a>
+                    </Link>
                   </li>
-                  <li className="page-item">
-                    <a
+                {
+                  Array.from({ length: pageInfo.total_pages}).map((item, index) => (
+                    <li className="page-item" key={index}>
+                      <Link
+                        className={`page-link border-0 text-gray-70 fs-md-9 fs-10 ${pageInfo.current_page === index + 1 && "active"}`}
+                        to={`/products`}
+                        onClick={() => handelPageChange(index + 1)}
+                      >
+                        {index + 1}
+                      </Link>
+                    </li>
+                  ))
+                }
+                  <li className={`page-item ${!pageInfo.has_next && "disabled"}`}>
+                    <Link
                       className="page-link border-0 text-gray-70 fs-md-9 fs-10"
-                      href="#"
-                    >
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item" aria-current="page">
-                    <a
-                      className="page-link border-0 text-gray-70 fs-md-9 fs-10"
-                      href="#"
-                    >
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a
-                      className="page-link border-0 text-gray-70 fs-md-9 fs-10"
-                      href="#"
-                    >
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a
-                      className="page-link border-0 text-gray-70 fs-md-9 fs-10"
-                      href="#"
-                    >
-                      ...
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a
-                      className="page-link border-0 text-gray-70 fs-md-9 fs-10"
-                      href="#"
-                    >
-                      10
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a
-                      className="page-link  border-0 text-gray-70 fs-md-9 fs-10"
-                      href="#"
+                      to={`/products`}
+                      onClick={() => handelPageChange(`${pageInfo.current_page + 1}`)}
                     >
                       <span className="material-symbols-outlined  d-flex align-items-center">
                         chevron_right
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>

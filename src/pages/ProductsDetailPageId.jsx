@@ -3,6 +3,8 @@ import axios from "axios";
 import ReactLoading from 'react-loading';
 import { useParams } from "react-router-dom";
 import ProductLmg from "../components/ProductLmg";
+import ProductNav from "../components/ProductNav";
+import { Link, useLocation } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -11,6 +13,7 @@ export default function ProductsDetailPageId () {
   const [product, setProduct] = useState({});
   const [qtySelect, setQtySelect] = useState(1);
 
+  const location = useLocation();
 
   const { id: product_id } = useParams();//因為有重新命名
 
@@ -31,13 +34,8 @@ export default function ProductsDetailPageId () {
         <div className="container">
         <main className="pt-8 pb-14 pt-md-18 pb-md-23">
           <div className="pb-md-18">
-            <nav aria-label="breadcrumb" className="pb-4 pb-md-10">
-              <ol className="breadcrumb fs-10 m-0">
-                <li className="breadcrumb-item"><a href="#">首頁</a></li>
-                <li className="breadcrumb-item" aria-current="page"><a href="#">青松·帳篷系列</a></li>
-                <li className="breadcrumb-item active" aria-current="page"><a href="#">標準帳篷</a></li>
-              </ol>
-            </nav>
+            < ProductNav  id={product_id} product={product} />
+
             <div className="row">
               <figure className="col-md-7 m-0">
                 <div className="mb-md-10 mb-4">
