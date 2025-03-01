@@ -39,6 +39,14 @@ width: 306px;
 }
 }
 
+///ProductNav
+.breadcrumb-item{
+  color: $gray-600;
+  &.active {
+    color: $neutral-120!important;
+  }
+}
+
 ///_ProductsPage
 .add-icon{
   padding: 16px, 0;
@@ -54,12 +62,19 @@ width: 306px;
   }
 }
 
-.breadcrumb-item{
-  color: $gray-600;
+/* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
+.add-icon[aria-expanded="true"]::after {
+  content: "\e15b"; /* 這是 Material Symbols Outlined 的收合箭頭 (⬆) */
+}
+
+
+
+.btn-nav{
+  border: none;
   &.active {
-    color: $gray-900;
+    color: $neutral-120!important;
   }
-  &:active {
-    color: $gray-900;
+  &:hover {
+    color: $neutral-120!important;
   }
 }

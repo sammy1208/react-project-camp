@@ -13,23 +13,20 @@ function ProductsPage() {
   const [products, setProducts] = useState([]); // 當前頁面的產品
   const [productsAll, setProductsAll] = useState([]); // 全部產品
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const [pageInfo, setPageInfo] = useState({})
-  const [selectedFilter, setSelectedFilter] = useState(null)// 存儲當前篩選條件
+  const [pageInfo, setPageInfo] = useState(1)// 當前頁數
+  const [selectedFilter, setSelectedFilter] = useState([])// 存儲當前篩選條件
+  const [isActive, setIsActive] = useState(null)
 
+  const itemsPerPage = 6
 
-  const getProducts = async (page) => {
+  const getProducts = async () => {
       setIsScreenLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products?page=${page}`);
+      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products/all`);
       setProductsAll(res.data.products);
-      setPageInfo(res.data.pagination);
-
-      if(selectedFilter){
-        applyFilter(selectedFilter, res.data.products)
-      }else{
-        setProducts(res.data.products);
-      }
-
+      // setProducts(res.data.products);//為了在初始值時有全部商品
+      setSelectedFilter(res.data.products);
+      console.log(res.data.products)
     } catch (error) {
       alert("取得產品失敗");
     } finally {
@@ -38,134 +35,153 @@ function ProductsPage() {
   };
 
   useEffect(() => {
-    getProducts(1);
+    getProducts();
   }, []);
 
-  const handelPageChange = (page) => {
-    setPageInfo(page)
-    getProducts(page)
-  }
+  // const page = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ,21]
+  // console.log(page.slice(0, 10))
+  // console.log(page.slice(10, 20))
 
-  const applyFilter = (filter, products) => {
-    let filteredProducts = [];
+  //篩選功能
+  const applyFilter = (filter) =>{
+    let filteredProducts = [...productsAll];
 
     switch (filter) {
       case "new":
-        filteredProducts = products.filter((product) => product.unit === "新" );
-        break;// 新品報到 new
-
+        filteredProducts = productsAll.filter((product) => product.unit === "新");
+        break;
       case "top":
-        filteredProducts = products.filter((product) => product.category === "帳篷" && product.price < 2000 );
-        break;//冠軍排名 top
-
+        filteredProducts = productsAll.filter((product) => product.category === "帳篷" && product.price < 2000);
+        break;
       case "lowPrice":
-        filteredProducts = products.filter((product) => product.price < 2000 )
-        break;// 冬眠季應援團·全面 85 折 lowPrice
-
+        filteredProducts = productsAll.filter((product) => product.price < 2000);
+        break;
       case "highPrice":
-        filteredProducts = products.filter((product) => product.price > 2000 )
-        break;// 周年慶·滿千折百 highPrice
-
+        filteredProducts = productsAll.filter((product) => product.price > 2000);
+        break;
       case "tent":
-        filteredProducts = products.filter((product) => product.category === "帳篷" )
-        break;// 帳篷 tent
-
+        filteredProducts = productsAll.filter((product) => product.category === "帳篷");
+        break;
       case "outdoor":
-        filteredProducts = products.filter((product) => product.category === "露營用品" )
-        break;// 戶外用品 outdoor
-
+        filteredProducts = productsAll.filter((product) => product.category === "露營用品");
+        break;
       default:
-        filteredProducts = products
+        filteredProducts = productsAll;
         break;
     }
-    setProducts(filteredProducts);
+
+    setSelectedFilter(filteredProducts)
+    setPageInfo(1)
   }
 
-  const handelFilterChange = (filter) => {
-    setSelectedFilter(filter);
-    applyFilter(filter, productsAll);
+  const handleFilterChange = (filter) => {
+    applyFilter(filter)
+    setIsActive(filter)
   }
+
+  //分頁功能
+
+  const handlePageChange = (page) => {
+    setPageInfo(page)
+  }
+
+  useEffect (() => {
+    const startIndex = (pageInfo - 1) * itemsPerPage
+    const endIndex = (pageInfo * itemsPerPage)
+    setProducts(selectedFilter.slice(startIndex, endIndex))
+  }, [pageInfo, selectedFilter])
+
+  const filterPage = Math.ceil(selectedFilter.length / itemsPerPage);
+  const allPage = Math.ceil(productsAll.length / itemsPerPage);
 
   return (
     <>
-      <main className="container-lg">
-        <div className="pt-8 pb-14 pt-md-18 pb-md-23">
+      <div className="container-lg">
+        <main className="pt-8 pb-14 pt-md-18 pb-md-23">
           <div className="row">
             {/* 左側nav */}
             <div className="col-3 d-none d-md-block">
               <p className="fs-8 fw-bold mb-6">產品分類</p>
               <ul className="list-unstyled">
                 <li className="mb-4 border-bottom">
-                  <Link className="py-8 w-100" onClick={() => handelFilterChange("new")}>
+                  <button
+                  type="button"
+                  className={`btn-nav btn py-8 px-0 w-100 border-0 fw-normal text-start ${isActive === "new" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("new")}
+                  >
                     新品報到
-                  </Link>
+                  </button>
                 </li>
                 <li className="mb-4 border-bottom ">
-                  <Link className="py-8 w-100" onClick={() => handelFilterChange("top")}>
+                  <button
+                  type="button"
+                  className={`btn-nav btn py-8 px-0 w-100 border-0 fw-normal text-start ${isActive === "top" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("top")}>
                     冠軍排名
-                  </Link>
+                  </button>
                 </li>
                 <li className="mb-4 border-bottom">
-                  <button
-                    className="btn py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    type="button"
+                  <div
+                    className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
                     data-bs-toggle="collapse"
                     data-bs-target="#ProductList-1"
                     aria-expanded="false"
                   >
                     限時搶購
-                  </button>
+                  </div>
                   <div className="collapse" id="ProductList-1">
-                    <Link
-                      className="fs-10 text-gray-70 pb-4"
-                      onClick={() => handelFilterChange("lowPrice")}
+                    <button
+                      type="button"
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "lowPrice" ? "active" : ""}`}
+                      onClick={() => handleFilterChange("lowPrice")}
                     >
                       冬眠季應援團·全面 85 折
-                    </Link>
-                    <Link
-                      className="fs-10 text-gray-70 pb-6"
-                      onClick={() => handelFilterChange("highPrice")}
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "highPrice" ? "active" : ""}`}
+                      onClick={() => handleFilterChange("highPrice")}
                     >
                       周年慶·滿千折百
-                    </Link>
+                    </button>
                   </div>
                 </li>
                 <li className="mb-4 border-bottom">
-                  <button
-                    className="btn py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    type="button"
+                  <div
+                    className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
                     data-bs-toggle="collapse"
                     data-bs-target="#ProductList-2"
                     aria-expanded="false"
                   >
                     青松｜帳篷系列
-                  </button>
+                  </div>
                   <div className="collapse" id="ProductList-2">
-                    <Link
-                      className="fs-10 text-gray-70 pb-4"
-                      onClick={() => handelFilterChange("tent")}
+                    <button
+                      type="button"
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "tent" ? "active" : ""}`}
+                      onClick={() => handleFilterChange("tent")}
                     >
                       帳篷系列
-                    </Link>
+                    </button>
                   </div>
                 </li>
                 <li className="mb-4 border-bottom">
-                  <button
-                    className="btn py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    type="button"
+                  <div
+                    className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
                     data-bs-toggle="collapse"
                     data-bs-target="#ProductList-3"
                     aria-expanded="false"
                   >
                     青松｜環保系列
-                  </button>
+                  </div>
                   <div className="collapse" id="ProductList-3">
-                    <Link
-                      className="fs-10 text-gray-70 pb-4"
-                      onClick={() => handelFilterChange("outdoor")}
+                    <button
+                      type="button"
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "outdoor" ? "active" : ""}`}
+                      onClick={() => handleFilterChange("outdoor")}
                     >
                       戶外用品
-                    </Link>
+                    </button>
                   </div>
                 </li>
               </ul>
@@ -183,7 +199,7 @@ function ProductsPage() {
                   充氣帳篷以其快速搭建、輕便攜帶的特性，成為露營愛好者的新寵。無需繁瑣的支架安裝，僅需幾分鐘即可完成搭建，省時又省力。堅固的氣柱結構，具備卓越的抗風與穩定性，無論是家庭露營還是好友野營，都能提供安全舒適的居住空間。讓你專注享受大自然，而非繁瑣的搭帳過程。
                 </p>
               </section>
-              <p className="fs-10 text-gray-70 py-md-10 py-8">{`共 ${products.length} 項商品`}</p>
+              <p className="fs-10 text-gray-70 py-md-10 py-8">{`共 ${selectedFilter.length} 項商品`}</p>
               <div className="row gy-10">
                 {products.map((product) => (
                   <div className="col-md-4 col-6" key={product.id}>
@@ -197,48 +213,45 @@ function ProductsPage() {
                 className="d-flex justify-content-md-center justify-content-center mt-16"
               >
                 <ul className="pagination m-0 d-flex align-items-center justify-content-center">
-                  <li className={`page-item  ${!pageInfo.has_pre && "disabled"}`}>
-                    <Link
+                  <li className={`page-item  ${pageInfo === 1 && "disabled"}`}>
+                    <div
                     className="page-link border-0 text-gray-80"
-                    to={`/products`}
-                    onClick={() => handelPageChange(`${pageInfo.current_page - 1}`)}
+                    onClick={() => handlePageChange(pageInfo - 1)}
                     >
                       <span className="material-symbols-outlined  d-flex align-items-center">
                         chevron_left
                       </span>
-                    </Link>
+                    </div>
                   </li>
                 {
-                  Array.from({ length: pageInfo.total_pages}).map((item, index) => (
+                  Array.from({ length: selectedFilter.length > 0 ? filterPage : allPage }).map((item, index) => (
                     <li className="page-item" key={index}>
-                      <Link
-                        className={`page-link border-0 text-gray-70 fs-md-9 fs-10 ${pageInfo.current_page === index + 1 && "active"}`}
-                        to={`/products`}
-                        onClick={() => handelPageChange(index + 1)}
+                      <div
+                        className={`page-link border-0 text-gray-70 fs-md-9 fs-10 ${pageInfo === index + 1 && "active"}`}
+                        onClick={() => handlePageChange(index + 1)}
                       >
                         {index + 1}
-                      </Link>
+                      </div>
                     </li>
                   ))
                 }
-                  <li className={`page-item ${!pageInfo.has_next && "disabled"}`}>
-                    <Link
+                  <li className={`page-item ${pageInfo === (selectedFilter.length > 0 ? filterPage : allPage) && "disabled"}`}>
+                    <div
                       className="page-link border-0 text-gray-70 fs-md-9 fs-10"
-                      to={`/products`}
-                      onClick={() => handelPageChange(`${pageInfo.current_page + 1}`)}
+                      onClick={() => handlePageChange(pageInfo + 1)}
                     >
                       <span className="material-symbols-outlined  d-flex align-items-center">
                         chevron_right
                       </span>
-                    </Link>
+                    </div>
                   </li>
                 </ul>
               </nav>
             </div>
           </div>
-        </div>
+        </main>
         < ScreenLoading isLoading={isScreenLoading} />
-      </main>
+      </div>
     </>
   );
 }

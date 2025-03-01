@@ -8,6 +8,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function CartPage() {
   const [cart, setCart] = useState({});
+  const [qtySelect, setQtySelect] = useState();
 
   const [isScreenLoading, setIsScreenLoading] = useState(false);
 
@@ -17,6 +18,7 @@ export default function CartPage() {
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
 console.log(res.data.data)
       setCart(res.data.data);
+      setQtySelect
     } catch (error) {
       alert("取得購物車失敗");
     } finally {
@@ -106,6 +108,10 @@ console.log(res.data.data)
 
   }
 
+  const qtyChange = (e) => {
+    setQtySelect(e.target.value)
+  }
+
   return (
     <>
         <article className="container-index">
@@ -133,18 +139,28 @@ console.log(res.data.data)
                           <img src={cartItem.product.imageUrl} alt={cartItem.product.title} />
                       </div>
                       <div className="p-0 col-7">
-                          <p className="fs-9 fs-md-8 pb-2 fw-bold">{cartItem.product.title}</p>
-                          <p className="fs-9 fs-md-10 text-decoration-line-through text-gray-70">{`$${cartItem.product.origin_price}`}</p>
-                          <p className="fs-8 fs-md-9 fw-bold pb-5 text-primary">{`$${cartItem.product.price}`}</p>
-                          <div className="d-flex align-items-center mt-2 input-group w-100">
-                            <i className="bi bi-dash-square-fill fs-6 me-2 text-primary"></i>
-                            <input type="number" className="form-control p-0 mt-1" />
-                            <i className="bi bi-plus-square-fill fs-6 ms-2 text-primary"></i>
-                          </div>
+                        <p className="fs-9 fs-md-8 pb-2 fw-bold">{cartItem.product.title}</p>
+                        <p className="fs-9 fs-md-10 text-decoration-line-through text-gray-70">{`$${cartItem.product.origin_price}`}</p>
+                        <p className="fs-8 fs-md-9 fw-bold pb-5 text-primary">{`$${cartItem.product.price}`}</p>
+                        <div className="d-flex align-items-center mt-2 input-group w-100">
+                          <i
+                          onClick={() => updataCartItem(cartItem.id, cartItem.product.id, cartItem.qty - 1)}
+                          className="bi bi-dash-square-fill fs-6 me-2 text-primary"></i>
+                          <input
+                          onChange={(e) => qtyChange(e)}
+                          value={cartItem.qty}
+                          type="text"
+                          className="form-control p-0 mt-1 text-center" />
+                          <i
+                          onClick={() => updataCartItem(cartItem.id, cartItem.product.id, cartItem.qty + 1)}
+                          className="bi bi-plus-square-fill fs-6 ms-2 text-primary"></i>
+                        </div>
                       </div>
                     </div>
                   </div>
                   ))}
+
+                  
                   <div className="text-end py-3">
                     <button
                       onClick={removeCart}
@@ -158,6 +174,41 @@ console.log(res.data.data)
                 </div>
                 
                 <div className="col-md-5 mb-6 mb-md-0 text-center">
+                  <div className="border p-4 mb-4">
+                    <h4 className="fw-bold mb-4">Order Detail</h4>
+                    <table className="table text-muted border-bottom">
+                      <tbody>
+                        <tr>
+                          <th
+                            scope="row"
+                            className="border-0 px-0 pt-4 font-weight-normal"
+                          >
+                            Subtotal
+                          </th>
+                          <td className="text-end border-0 px-0 pt-4">NT$${cart.final_total}</td>
+                        </tr>
+                        <tr>
+                          <th
+                            scope="row"
+                            className="border-0 px-0 pt-0 pb-4 font-weight-normal"
+                          >
+                            Payment
+                          </th>
+                          <td className="text-end border-0 px-0 pt-0 pb-4">
+                            ApplePay
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="d-flex justify-content-between mt-4">
+                      <p className="mb-0 h4 fw-bold">Total</p>
+                      <p className="mb-0 h4 fw-bold">NT$${cart.final_total}</p>
+                    </div>
+                    <div className="btn btn-dark w-100 mt-4">
+                      結帳
+                    </div>
+                  </div>
+
                   <div className="border border-primary-1 h-100 rounded">                    
                     <div className="my-5 justify-content-center p-8">
                       <form onSubmit={onSubmit} className="">

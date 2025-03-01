@@ -21,7 +21,9 @@ export default function ProductNav( {id, product} ) {
                     首頁
                 </Link>
                 </li>
-                <li className="breadcrumb-item" aria-current="page">
+                <li
+                className={`breadcrumb-item`}
+                aria-current="page">
                 <Link
                 to={`/products`}
                 >
@@ -29,8 +31,7 @@ export default function ProductNav( {id, product} ) {
                 </Link>
                 </li>
                 {location.pathname !== "/products" && product?.title && (
-
-                <li className="breadcrumb-item" aria-current="page">
+                <li className="breadcrumb-item active" aria-current="page">
                 <Link
                 to={`/products/${id}`}
                 >
