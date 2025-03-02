@@ -14,8 +14,8 @@ export default function ScreenLoading ( {isLoading} ) {
         }}
         >
         <ReactLoading
-            type="spin"
-            color="black"
+            type="spokes"
+            color="#638C6D"
             width="4rem"
             height="4rem"
         />

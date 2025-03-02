@@ -189,7 +189,7 @@ function ProductsPage() {
             {/* 右側產品列表 */}
             <div className="col">
               
-              < ProductNav  id={null} product={null} />
+              < ProductNav product={null} />
 
               <section className="pb-md-10 pb-8 border-bottom">
                 <h5 className="mb-4 fs-md-5 fs-7">
@@ -212,38 +212,37 @@ function ProductsPage() {
                 aria-label="..."
                 className="d-flex justify-content-md-center justify-content-center mt-16"
               >
-                <ul className="pagination m-0 d-flex align-items-center justify-content-center">
-                  <li className={`page-item  ${pageInfo === 1 && "disabled"}`}>
-                    <div
-                    className="page-link border-0 text-gray-80"
+                <ul className="pagination m-0 d-flex align-items-center justify-content-center text-gray-70">
+                  <li className="page-item">
+                    <button
+                    type="button"
+                    className={`btn border-0 fs-md-9 fs-10 page-hover py-8 ${pageInfo === 1 ? "page-disabled" : " fw-normal text-gray-70" }`}
                     onClick={() => handlePageChange(pageInfo - 1)}
                     >
-                      <span className="material-symbols-outlined  d-flex align-items-center">
-                        chevron_left
-                      </span>
-                    </div>
+                      <i className="bi bi-arrow-left d-flex align-items-center"></i>
+                    </button>
                   </li>
                 {
                   Array.from({ length: selectedFilter.length > 0 ? filterPage : allPage }).map((item, index) => (
                     <li className="page-item" key={index}>
-                      <div
-                        className={`page-link border-0 text-gray-70 fs-md-9 fs-10 ${pageInfo === index + 1 && "active"}`}
+                      <button
+                        type="button"
+                        className={`btn border-0 fs-md-9 fs-10 py-8 page-hover ${pageInfo === index + 1 ? "page-active" : "fw-normal text-gray-70"}`}
                         onClick={() => handlePageChange(index + 1)}
                       >
                         {index + 1}
-                      </div>
+                      </button>
                     </li>
                   ))
                 }
-                  <li className={`page-item ${pageInfo === (selectedFilter.length > 0 ? filterPage : allPage) && "disabled"}`}>
-                    <div
-                      className="page-link border-0 text-gray-70 fs-md-9 fs-10"
+                  <li className={`page-item`}>
+                    <button
+                    type="button"
+                      className={`btn border-0 fs-md-9 fs-10 page-hover py-8 ${pageInfo === (selectedFilter.length > 0 ? filterPage : allPage) ? "page-disabled": "fw-normal text-gray-70"}`}
                       onClick={() => handlePageChange(pageInfo + 1)}
                     >
-                      <span className="material-symbols-outlined  d-flex align-items-center">
-                        chevron_right
-                      </span>
-                    </div>
+                      <i className="bi bi-arrow-right d-flex align-items-center"></i>
+                    </button>
                   </li>
                 </ul>
               </nav>

@@ -10,12 +10,12 @@
 .card-padding{
 padding-left: 24px;
 padding-right: 24px;
-padding-top: 56px;
+padding-top: 48px;
 padding-bottom: 32px;
 @include mobile-larger{
   padding-left: 12px;
   padding-right: 12px;
-  padding-top: 42px;
+  padding-top: 32px;
   padding-bottom: 16px;
 }
 }
@@ -46,28 +46,52 @@ width: 306px;
     color: $neutral-120!important;
   }
 }
+///product
+.btn-product-hover{
+  &:hover {
+    background-color: $neutral-60!important;;
+  }
+}
 
 ///_ProductsPage
 .add-icon{
-  padding: 16px, 0;
+  padding: 16px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+  cursor: pointer;
   &::after {
     content: "\f3dd";
     font-family: "Material Symbols Outlined";
     font-size: 24px;
-    color: $gray-600;
+    color: $neutral-90;
+  }
+  &[aria-expanded="true"]::after {/* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
+    content: "\e15b"; /* 這是 Material Symbols Outlined 的收合箭頭 (⬆) */
+  }
+  &:hover::after {
+    color: $neutral-130; // Hover 時變色，提高互動體驗
   }
 }
 
-/* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
-.add-icon[aria-expanded="true"]::after {
-  content: "\e15b"; /* 這是 Material Symbols Outlined 的收合箭頭 (⬆) */
+.page-disabled{
+  color: $neutral-70;
+  background-color: none;
+  border: none;
+  pointer-events: none;
 }
 
-
+.page-active{
+  color: $neutral-120;
+  font-weight: bold;
+  border: none;
+  pointer-events: none;
+}
+.page-hover{
+  &:hover {
+    opacity: 0.7;
+  }
+}
 
 .btn-nav{
   border: none;
@@ -78,3 +102,49 @@ width: 306px;
     color: $neutral-120!important;
   }
 }
+
+///Detail
+.btn-detail{
+  &.active {
+    border-color: $primary-100!important;
+    color: $primary-100!important;
+    background-color: transparent!important;
+  }
+  &:hover {
+    border-color: $primary-100!important;
+    color: $primary-100!important;
+    background-color: transparent!important;
+  }
+}
+
+.btn-qty{
+  border: none;
+  &:hover {
+    border: none;
+    color: $neutral-90!important;
+    background-color: transparent!important;
+  }
+  &:disabled {
+    border: none;
+  }
+}
+
+.btn-wish{
+  &:hover {
+    color: $primary-30!important;
+    background-color: transparent!important;
+    border-color: $primary-30!important;
+  }
+}
+
+.btn-addCart{
+  &:hover {
+    color: white!important;
+  }
+}
+
+///productLmg
+.productLmgHover{  
+  &:hover {
+  background-color: $neutral-60!important;
+}}
