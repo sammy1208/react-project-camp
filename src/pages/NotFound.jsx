@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
 
 export default function NotFound() {
   return (
@@ -6,7 +7,7 @@ export default function NotFound() {
       <div className="container-index">
         <div className="container">
           <div className="text-center">
-            <img src="/青松露營w.svg" alt="logo" style={{ height: "200px" }} />
+            <img src={`${PUBLIC_URL}/青松露營w.svg`} alt="logo" style={{ height: "200px" }} />
             <h1 className="d-flex justify-content-center py-12 text-gray-80">
               {`頁面不存在喔  >~<`}
             </h1>

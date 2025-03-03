@@ -43,7 +43,7 @@
 .text-overflow {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* 顯示最多 3 行文字，根據需求調整數字 */
+  // -webkit-line-clamp: 2; /* 顯示最多 3 行文字，根據需求調整數字 */
   overflow: hidden;
   text-overflow: ellipsis; /* 文字溢出時顯示省略號 */
 }
