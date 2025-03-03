@@ -1,60 +1,75 @@
-.container-index{
+.container-index {
   padding-top: 120px;
   padding-bottom: 160px;
-  @include mobile-larger{
+  @include mobile-larger {
     padding-top: 48px;
     padding-bottom: 56px;
   }
 }
 
-.card-padding{
-padding-left: 24px;
-padding-right: 24px;
-padding-top: 48px;
-padding-bottom: 32px;
-@include mobile-larger{
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 32px;
-  padding-bottom: 16px;
-}
+.card-padding {
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 48px;
+  padding-bottom: 32px;
+  @include mobile-larger {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 32px;
+    padding-bottom: 16px;
+  }
 }
 
-.designer-img{
+.designer-img {
   border-radius: 12px;
   height: 200px;
   object-fit: cover;
   max-width: 100%;
-  @include mobile-larger{
+  @include mobile-larger {
     height: 123px;
   }
 }
 
-.tips-img{
-height: 306px;
-width: 306px;
-@include mobile-larger{
-  height: 90px;
-  width: 120px;
+.tips-img {
+  height: 306px;
+  width: 306px;
+  object-fit: cover; /* 讓圖片填滿但不變形 */
+  @include mobile-larger {
+    height: 90px;
+    width: 120px;
+  }
 }
+
+.text-overflow {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 顯示最多 3 行文字，根據需求調整數字 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 文字溢出時顯示省略號 */
 }
 
 ///ProductNav
-.breadcrumb-item{
+.breadcrumb-item {
   color: $gray-600;
   &.active {
-    color: $neutral-120!important;
+    color: $neutral-120 !important;
   }
 }
 ///product
-.btn-product-hover{
+.btn-product-hover {
   &:hover {
-    background-color: $neutral-60!important;;
+    background-color: $neutral-60 !important;
   }
 }
 
+.btn-product-wish {
+  border: none !important;
+  i:hover {
+    color: $primary-30 !important;
+  }
+}
 ///_ProductsPage
-.add-icon{
+.add-icon {
   padding: 16px 0;
   display: flex;
   justify-content: space-between;
@@ -66,7 +81,8 @@ width: 306px;
     font-size: 24px;
     color: $neutral-90;
   }
-  &[aria-expanded="true"]::after {/* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
+  &[aria-expanded="true"]::after {
+    /* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
     content: "\e15b"; /* 這是 Material Symbols Outlined 的收合箭頭 (⬆) */
   }
   &:hover::after {
@@ -74,77 +90,130 @@ width: 306px;
   }
 }
 
-.page-disabled{
+.page-disabled {
   color: $neutral-70;
   background-color: none;
   border: none;
   pointer-events: none;
 }
 
-.page-active{
+.page-active {
   color: $neutral-120;
   font-weight: bold;
   border: none;
   pointer-events: none;
 }
-.page-hover{
+.page-hover {
   &:hover {
     opacity: 0.7;
   }
 }
 
-.btn-nav{
+.btn-nav {
   border: none;
   &.active {
-    color: $neutral-120!important;
+    color: $neutral-120 !important;
   }
   &:hover {
-    color: $neutral-120!important;
+    color: $neutral-120 !important;
   }
 }
 
 ///Detail
-.btn-detail{
+.btn-detail {
   &.active {
-    border-color: $primary-100!important;
-    color: $primary-100!important;
-    background-color: transparent!important;
+    border-color: $primary-100 !important;
+    color: $primary-100 !important;
+    background-color: transparent !important;
   }
   &:hover {
-    border-color: $primary-100!important;
-    color: $primary-100!important;
-    background-color: transparent!important;
+    border-color: $primary-100 !important;
+    color: $primary-100 !important;
+    background-color: transparent !important;
   }
 }
 
-.btn-qty{
+.btn-qty {
   border: none;
   &:hover {
     border: none;
-    color: $neutral-90!important;
-    background-color: transparent!important;
+    color: $neutral-90 !important;
+    background-color: transparent !important;
   }
   &:disabled {
     border: none;
   }
 }
 
-.btn-wish{
+.btn-wish {
   &:hover {
-    color: $primary-30!important;
-    background-color: transparent!important;
-    border-color: $primary-30!important;
+    color: $primary-30 !important;
+    background-color: transparent !important;
+    border-color: $primary-30 !important;
   }
 }
 
-.btn-addCart{
+.btn-addCart {
   &:hover {
-    color: white!important;
+    color: white !important;
   }
 }
 
 ///productLmg
-.productLmgHover{  
+.productLmgHover {
   &:hover {
-  background-color: $neutral-60!important;
-}}
+    background-color: $neutral-60 !important;
+  }
+}
+
+.notFound {
+  &:hover {
+    color: $primary-100;
+  }
+}
+
+///k
+.title-lg {
+  font-weight: 700;
+  font-size: 24px;
+  padding-bottom: 8px;
+  @include mobile-larger {
+    font-size: 22px;
+    padding-bottom: 4px;
+  }
+}
+.content {
+  font-size: 16px;
+  padding-bottom: 8px;
+  @include mobile-larger {
+    font-size: 14px;
+  }
+}
+.title-md {
+  font-weight: 700;
+  font-size: 22px;
+  padding-bottom: 8px;
+  @include mobile-larger {
+    font-size: 20px;
+    padding-bottom: 4px;
+  }
+}
+.title-sm {
+  font-weight: 700;
+  font-size: 18px;
+  padding-bottom: 8px;
+  @include mobile-larger {
+    font-size: 18px;
+    padding-bottom: 4px;
+  }
+}
+
+.btn-nav-know {
+  border: none;
+  &.active {
+    color: $neutral-90 !important;
+  }
+  &:hover {
+    color: $neutral-90 !important;
+  }
+}

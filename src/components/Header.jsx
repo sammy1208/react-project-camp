@@ -5,7 +5,7 @@ const routes = [
     { path: "/products", name: "產品分類" },
     { path: "/aboutUs", name: "關於青松" },
     { path: "/KnowledgePage", name: "知識專欄" },
-    { path: "/CartPage", name: "購物車" },
+    // { path: "/CartPage", name: "購物車" },
 ];
 
 const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
@@ -28,31 +28,16 @@ export default function Header() {
             </NavLink>
             <div className="ms-auto d-flex">
               <ul className="list-unstyled d-lg-flex align-items-lg-center m-0 d-none pe-4">
-                <li className="">
+                {routes.map((item) => (
+                <li className="nav-item" key={item.path}>
                   <NavLink
                   className="nav-link text-white px-4"
-                  to={`/products`}
+                  to={item.path}
                   >
-                    產品分類
+                    {item.name}
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink
-                  className="nav-link text-white px-4"
-                  to={`/aboutUs`}
-                  >
-                    關於青松
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link text-white px-4"
-                    aria-current="page"
-                    to={`/KnowledgePage`}
-                  >
-                    知識專欄
-                  </NavLink>
-                </li>
+                ))}
               </ul>
               <ul className="list-unstyled d-flex align-items-lg-center m-0">
                 <li className="nav-item d-flex align-items-center">
@@ -156,15 +141,19 @@ export default function Header() {
                     <NavLink
                       className="nav-link active text-white fw-bold fs-7 p-0"
                       aria-current="page"
-                      to={`/ProductsDetail`}
+                      to={`/aboutUs`}
                     >
                       關於青松
                     </NavLink>
                   </li>
                   <li className="nav-item mt-12">
-                    <a className="nav-link text-white fw-bold fs-7 p-0" href="#">
+                  <NavLink
+                      className="nav-link active text-white fw-bold fs-7 p-0"
+                      aria-current="page"
+                      to={`/KnowledgePage`}
+                    >
                       知識專欄
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </div>
@@ -175,17 +164,4 @@ export default function Header() {
     );
   }
   
-//   <nav className="navbar border-bottom border-body">
-//   <div className="container">
-//       <ul className="navbar-nav flex-row gap-5 fs-5">
-//       {
-//           routes.map((route) => (
-//           <li className="nav-item" key={route.path}>
-//               <NavLink className="nav-link" aria-current="page" to={route.path}>{route.name}</NavLink>
-//           </li>
-//           ))
-//       }
-//       </ul>
-//   </div>
-// </nav>
 

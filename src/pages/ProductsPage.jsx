@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ReactLoading from "react-loading";
-import { Link, useLocation } from "react-router-dom";
 import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductNav from "../components/ProductNav";
@@ -13,20 +11,22 @@ function ProductsPage() {
   const [products, setProducts] = useState([]); // 當前頁面的產品
   const [productsAll, setProductsAll] = useState([]); // 全部產品
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const [pageInfo, setPageInfo] = useState(1)// 當前頁數
-  const [selectedFilter, setSelectedFilter] = useState([])// 存儲當前篩選條件
-  const [isActive, setIsActive] = useState(null)
+  const [pageInfo, setPageInfo] = useState(1); // 當前頁數
+  const [selectedFilter, setSelectedFilter] = useState([]); // 存儲當前篩選條件
+  const [isActive, setIsActive] = useState(null);
 
-  const itemsPerPage = 6
+  const itemsPerPage = 6;
 
   const getProducts = async () => {
-      setIsScreenLoading(true);
+    setIsScreenLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products/all`);
+      const res = await axios.get(
+        `${BASE_URL}/v2/api/${API_PATH}/products/all`
+      );
       setProductsAll(res.data.products);
       // setProducts(res.data.products);//為了在初始值時有全部商品
       setSelectedFilter(res.data.products);
-      console.log(res.data.products)
+      console.log(res.data.products);
     } catch (error) {
       alert("取得產品失敗");
     } finally {
@@ -43,53 +43,65 @@ function ProductsPage() {
   // console.log(page.slice(10, 20))
 
   //篩選功能
-  const applyFilter = (filter) =>{
+  const applyFilter = (filter) => {
     let filteredProducts = [...productsAll];
 
     switch (filter) {
       case "new":
-        filteredProducts = productsAll.filter((product) => product.unit === "新");
+        filteredProducts = productsAll.filter(
+          (product) => product.unit === "新"
+        );
         break;
       case "top":
-        filteredProducts = productsAll.filter((product) => product.category === "帳篷" && product.price < 2000);
+        filteredProducts = productsAll.filter(
+          (product) => product.category === "帳篷" && product.price < 2000
+        );
         break;
       case "lowPrice":
-        filteredProducts = productsAll.filter((product) => product.price < 2000);
+        filteredProducts = productsAll.filter(
+          (product) => product.price < 2000
+        );
         break;
       case "highPrice":
-        filteredProducts = productsAll.filter((product) => product.price > 2000);
+        filteredProducts = productsAll.filter(
+          (product) => product.price > 2000
+        );
         break;
       case "tent":
-        filteredProducts = productsAll.filter((product) => product.category === "帳篷");
+        filteredProducts = productsAll.filter(
+          (product) => product.category === "帳篷"
+        );
         break;
       case "outdoor":
-        filteredProducts = productsAll.filter((product) => product.category === "露營用品");
+        filteredProducts = productsAll.filter(
+          (product) => product.category === "露營用品"
+        );
         break;
       default:
         filteredProducts = productsAll;
         break;
     }
 
-    setSelectedFilter(filteredProducts)
-    setPageInfo(1)
-  }
+    setSelectedFilter(filteredProducts);
+    setPageInfo(1);
+  };
 
   const handleFilterChange = (filter) => {
-    applyFilter(filter)
-    setIsActive(filter)
-  }
+    applyFilter(filter);
+    setIsActive(filter);
+  };
 
   //分頁功能
 
   const handlePageChange = (page) => {
-    setPageInfo(page)
-  }
+    setPageInfo(page);
+  };
 
-  useEffect (() => {
-    const startIndex = (pageInfo - 1) * itemsPerPage
-    const endIndex = (pageInfo * itemsPerPage)
-    setProducts(selectedFilter.slice(startIndex, endIndex))
-  }, [pageInfo, selectedFilter])
+  useEffect(() => {
+    const startIndex = (pageInfo - 1) * itemsPerPage;
+    const endIndex = pageInfo * itemsPerPage;
+    setProducts(selectedFilter.slice(startIndex, endIndex));
+  }, [pageInfo, selectedFilter]);
 
   const filterPage = Math.ceil(selectedFilter.length / itemsPerPage);
   const allPage = Math.ceil(productsAll.length / itemsPerPage);
@@ -105,18 +117,23 @@ function ProductsPage() {
               <ul className="list-unstyled">
                 <li className="mb-4 border-bottom">
                   <button
-                  type="button"
-                  className={`btn-nav btn py-8 px-0 w-100 border-0 fw-normal text-start ${isActive === "new" ? "active" : ""}`}
-                  onClick={() => handleFilterChange("new")}
+                    type="button"
+                    className={`btn-nav btn py-8 px-0 w-100 border-0 fw-normal text-start ${
+                      isActive === "new" ? "active" : ""
+                    }`}
+                    onClick={() => handleFilterChange("new")}
                   >
                     新品報到
                   </button>
                 </li>
                 <li className="mb-4 border-bottom ">
                   <button
-                  type="button"
-                  className={`btn-nav btn py-8 px-0 w-100 border-0 fw-normal text-start ${isActive === "top" ? "active" : ""}`}
-                  onClick={() => handleFilterChange("top")}>
+                    type="button"
+                    className={`btn-nav btn py-8 px-0 w-100 border-0 fw-normal text-start ${
+                      isActive === "top" ? "active" : ""
+                    }`}
+                    onClick={() => handleFilterChange("top")}
+                  >
                     冠軍排名
                   </button>
                 </li>
@@ -132,14 +149,18 @@ function ProductsPage() {
                   <div className="collapse" id="ProductList-1">
                     <button
                       type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "lowPrice" ? "active" : ""}`}
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
+                        isActive === "lowPrice" ? "active" : ""
+                      }`}
                       onClick={() => handleFilterChange("lowPrice")}
                     >
                       冬眠季應援團·全面 85 折
                     </button>
                     <button
                       type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "highPrice" ? "active" : ""}`}
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
+                        isActive === "highPrice" ? "active" : ""
+                      }`}
                       onClick={() => handleFilterChange("highPrice")}
                     >
                       周年慶·滿千折百
@@ -158,7 +179,9 @@ function ProductsPage() {
                   <div className="collapse" id="ProductList-2">
                     <button
                       type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "tent" ? "active" : ""}`}
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
+                        isActive === "tent" ? "active" : ""
+                      }`}
                       onClick={() => handleFilterChange("tent")}
                     >
                       帳篷系列
@@ -177,7 +200,9 @@ function ProductsPage() {
                   <div className="collapse" id="ProductList-3">
                     <button
                       type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${isActive === "outdoor" ? "active" : ""}`}
+                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
+                        isActive === "outdoor" ? "active" : ""
+                      }`}
                       onClick={() => handleFilterChange("outdoor")}
                     >
                       戶外用品
@@ -188,8 +213,7 @@ function ProductsPage() {
             </div>
             {/* 右側產品列表 */}
             <div className="col">
-              
-              < ProductNav product={null} />
+              <ProductNav product={null} />
 
               <section className="pb-md-10 pb-8 border-bottom">
                 <h5 className="mb-4 fs-md-5 fs-7">
@@ -215,30 +239,43 @@ function ProductsPage() {
                 <ul className="pagination m-0 d-flex align-items-center justify-content-center text-gray-70">
                   <li className="page-item">
                     <button
-                    type="button"
-                    className={`btn border-0 fs-md-9 fs-10 page-hover py-8 ${pageInfo === 1 ? "page-disabled" : " fw-normal text-gray-70" }`}
-                    onClick={() => handlePageChange(pageInfo - 1)}
+                      type="button"
+                      className={`btn border-0 fs-md-9 fs-10 page-hover py-8 ${
+                        pageInfo === 1
+                          ? "page-disabled"
+                          : " fw-normal text-gray-70"
+                      }`}
+                      onClick={() => handlePageChange(pageInfo - 1)}
                     >
                       <i className="bi bi-arrow-left d-flex align-items-center"></i>
                     </button>
                   </li>
-                {
-                  Array.from({ length: selectedFilter.length > 0 ? filterPage : allPage }).map((item, index) => (
+                  {Array.from({
+                    length: selectedFilter.length > 0 ? filterPage : allPage
+                  }).map((item, index) => (
                     <li className="page-item" key={index}>
                       <button
                         type="button"
-                        className={`btn border-0 fs-md-9 fs-10 py-8 page-hover ${pageInfo === index + 1 ? "page-active" : "fw-normal text-gray-70"}`}
+                        className={`btn border-0 fs-md-9 fs-10 py-8 page-hover ${
+                          pageInfo === index + 1
+                            ? "page-active"
+                            : "fw-normal text-gray-70"
+                        }`}
                         onClick={() => handlePageChange(index + 1)}
                       >
                         {index + 1}
                       </button>
                     </li>
-                  ))
-                }
+                  ))}
                   <li className={`page-item`}>
                     <button
-                    type="button"
-                      className={`btn border-0 fs-md-9 fs-10 page-hover py-8 ${pageInfo === (selectedFilter.length > 0 ? filterPage : allPage) ? "page-disabled": "fw-normal text-gray-70"}`}
+                      type="button"
+                      className={`btn border-0 fs-md-9 fs-10 page-hover py-8 ${
+                        pageInfo ===
+                        (selectedFilter.length > 0 ? filterPage : allPage)
+                          ? "page-disabled"
+                          : "fw-normal text-gray-70"
+                      }`}
                       onClick={() => handlePageChange(pageInfo + 1)}
                     >
                       <i className="bi bi-arrow-right d-flex align-items-center"></i>
@@ -249,7 +286,7 @@ function ProductsPage() {
             </div>
           </div>
         </main>
-        < ScreenLoading isLoading={isScreenLoading} />
+        <ScreenLoading isLoading={isScreenLoading} />
       </div>
     </>
   );
