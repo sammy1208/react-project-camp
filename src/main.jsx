@@ -7,11 +7,15 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 // import './index.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>,
 )

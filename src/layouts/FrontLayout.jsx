@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import Header from "../components/header";
 import Footer from "../components/Footer";
+import Toast from "../components/Toast";
 
 export default function FrontLayout() {
   const location = useLocation();
@@ -18,6 +19,7 @@ export default function FrontLayout() {
       </div>
       <Outlet />
       <Footer />
+      <Toast />
     </>
   );
 }

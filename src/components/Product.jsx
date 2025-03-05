@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function Product({ product }) {
   const [wishList, setWishList] = useState(() => {
     const initWishList = localStorage.getItem("wishList")
-      ? JSON.parse(localStorage.getItem("wishList")) : {};
+      ? JSON.parse(localStorage.getItem("wishList"))
+      : {};
 
     return initWishList;
   });
@@ -47,16 +48,23 @@ export default function Product({ product }) {
             }`}
           ></i>
         </button>
-        <img src={product.imageUrl} className="" alt={product.title} />
+        <img
+          src={product.imageUrl}
+          alt={product.title}
+          style={{ minHeight: "100px" }}
+        />
       </div>
-      <div className="card-body p-0">
+      <div
+        className="card-body p-0 d-flex flex-column"
+        // style={{ minHeight: "80px" }}
+      >
         <h5 className="card-title fs-md-8 fs-10 fw-normal text-gray-100 m-0 mb-md-2">
           {product.title}
         </h5>
         <p className="card-text fs-md-10 fs-11 text-gray-70 mb-md-4 mb-2">
           {product.description}
         </p>
-        <p className="card-text fs-md-8 fs-9 fw-bold text-gray-100">
+        <p className="card-text fs-md-8 fs-9 fw-bold text-gray-100 mt-auto">
           <small className="text-muted">{`$${product.price}`}</small>
         </p>
       </div>

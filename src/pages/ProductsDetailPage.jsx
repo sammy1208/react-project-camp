@@ -5,6 +5,10 @@ import ProductLmg from "../components/ProductLmg";
 import ProductNav from "../components/ProductNav";
 import ScreenLoading from "../components/ScreenLoading";
 import Product from "../components/Product";
+import { useDispatch, useSelector } from "react-redux";
+import { PushMessage } from "../redux/slices/toastSlice";
+import { updateCartNum } from "../redux/slices/cartSlice";
+import { PushSelectedProduct } from "../redux/slices/productSlice"; 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -15,10 +19,20 @@ export default function ProductsDetailPage() {
   const [isColorActive, setIsColorActive] = useState(null);
   const [isSpecsActive, setIsSpecsActive] = useState(null);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const { id: product_id } = useParams(); //因為有重新命名
 
   const Navigate = useNavigate();
+
+  const currentSelection = useSelector(state => state.product.selectedProduct)
+
+    // useEffect(() => {
+    //   currentSelection.map((selected) => {
+    //         const selectedColor = selected.color
+    //         return selectedColor
+    //     })
+    // }, [isSpecsActive, isColorActive])
 
   useEffect(() => {
     const getProduct = async () => {
@@ -36,7 +50,17 @@ export default function ProductsDetailPage() {
       }
     };
     getProduct();
+    getCart();
   }, []);
+
+  const getCart = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
+      dispatch(updateCartNum(res.data.data))
+    } catch (error) {
+      alert(error)
+    }
+  };
 
   const updataCartItem = async (product_id, qty) => {
     setIsScreenLoading(true);
@@ -47,7 +71,11 @@ export default function ProductsDetailPage() {
           qty: Number(qty)
         }
       });
-      alert(`加入購物車`);
+      dispatch(PushMessage({
+        text: "加入購物車",
+        status: "success"
+      }))
+      getCart();
     } catch (error) {
       alert(error);
     } finally {
@@ -62,14 +90,27 @@ export default function ProductsDetailPage() {
   const addCart = () => {
     if (isColorActive && isSpecsActive) {
       updataCartItem(product_id, qtySelect);
+      dispatch(PushSelectedProduct({
+        id: product_id,
+        color: isColorActive,
+        specs: isSpecsActive
+      }))
     } else {
-      alert(`請選擇顏色和規格`);
+      dispatch(PushMessage({
+        text: "請選擇顏色和規格",
+        status: "failed"
+      }))
     }
   };
 
   const goCart = async () => {
     if (isColorActive && isSpecsActive) {
       await updataCartItem(product_id, qtySelect);
+      dispatch(PushSelectedProduct({
+        id: product_id,
+        color: isColorActive,
+        specs: isSpecsActive
+      }))
       Navigate("/CartPage");
     } else {
       alert(`請選擇顏色和規格`);

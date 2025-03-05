@@ -3,6 +3,9 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
+import { useDispatch, useSelector } from "react-redux";
+import { PushMessage } from "../redux/slices/toastSlice";
+import { updateCartNum, clearCartNum } from "../redux/slices/cartSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -10,6 +13,10 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 export default function CartPage() {
   const [cart, setCart] = useState({});
   const [isScreenLoading, setIsScreenLoading] = useState(false);
+  const dispatch = useDispatch();
+  const currentSelection = useSelector(state => state.product.selectedProduct)
+  const [selectProduct, setSelectProduct] = useState({});
+
 
   const getCart = async () => {
     setIsScreenLoading(true);
@@ -17,8 +24,12 @@ export default function CartPage() {
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
       console.log(res.data.data);
       setCart(res.data.data);
+      dispatch(updateCartNum(res.data.data))
     } catch (error) {
-      alert("取得購物車失敗");
+      dispatch(PushMessage({
+        text: "取得購物車失敗",
+        status: "failed"
+      }))
     } finally {
       setIsScreenLoading(false);
     }
@@ -34,7 +45,10 @@ export default function CartPage() {
 
       getCart();
     } catch (error) {
-      alert(`刪除購物車失敗`);
+      dispatch(PushMessage({
+        text: "刪除購物車失敗",
+        status: "failed"
+      }))
     } finally {
       setIsScreenLoading(false);
     }
@@ -46,6 +60,7 @@ export default function CartPage() {
       await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`);
 
       getCart();
+      dispatch(clearCartNum())
     } catch (error) {
       alert(`刪除購物車品項失敗`);
     } finally {
@@ -104,6 +119,15 @@ export default function CartPage() {
     }
   };
 
+  function getSelectedProduct() {
+    cart.carts?.forEach((cartItem) => {
+      const matchedSelection = Array.isArray(currentSelection)
+      ? currentSelection.find(selected => selected.id === cartItem.product_id)
+      : null;
+      setSelectProduct(matchedSelection)
+    })
+  }
+
   return (
     <>
       <article className="container-index">
@@ -136,6 +160,11 @@ export default function CartPage() {
                           <p className="fs-9 fs-md-8 pb-2 fw-bold">
                             {cartItem.product.title}
                           </p>
+                          {selectProduct && (
+                              <p className="fs-11 fs-md-10 text-gray-70 pb-3">
+                                {`${selectProduct.color} / ${selectProduct.specs}`}
+                              </p>
+                          )}
                           <div className="d-flex align-items-center pb-5 ">
                             <p className="fs-9 fs-md-8 text-decoration-line-through text-gray-70 pe-4">{`$${cartItem.product.origin_price}`}</p>
                             <p className="fs-9 fs-md-8 fw-bold text-primary">{`$${cartItem.product.price}`}</p>

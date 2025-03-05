@@ -89,17 +89,17 @@ const Knowledge = [
       "https://plus.unsplash.com/premium_photo-1680788452823-49bb63651490?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    path: "/KnowledgePage/outdoor",
-    name: "永續戶外",
+    path: "/KnowledgePage/cookware",
+    name: "環保炊具",
     title: "環保炊具：露營料理的新選擇",
     content:
       "露營時，享受美食是不可或缺的一部分。然而，傳統的炊具與料理方式往往會對環境造成影響，例如一次性燃料罐的浪費、過度使用木材生火、以及難以回收的鋁箔包裝等。因此，選擇環保炊具成為現代露營者的新趨勢。透過使用節能爐具、可重複使用的餐具，以及環保燃料，我們可以在享受美味料理的同時，也為地球盡一份心力。",
     imageUrl:
-      "https://images.unsplash.com/photo-1556910096-6f5e72db6803?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      "https://images.unsplash.com/photo-1556909211-36987daf7b4d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
-    path: "/KnowledgePage/cookware",
-    name: "環保炊具",
+    path: "/KnowledgePage/outdoor",
+    name: "永續戶外",
     title: "永續戶外：享受自然，同時保護地球",
     content:
       "戶外活動，如登山、露營、健行和攀岩，讓人們親近自然，享受戶外生活的美好。然而，隨著戶外活動的普及，環境問題也隨之而來，如垃圾污染、自然棲地破壞與碳排放增加。",
@@ -353,10 +353,10 @@ export default function HomePage() {
                 className="card mb-3 border-0 h-100 flex-row flex-md-column justify-content-between"
                 key={know.title}
               >
-                <div className="mb-md-8 mb-0 me-6 me-md-0">
+                <div className="tips-img mb-md-8 mb-0 me-6 me-md-0">
                   <img
                     src={know.imageUrl}
-                    className="tips-img rounded-4"
+                    className="rounded-4 h-100"
                     alt="..."
                   />
                 </div>
@@ -365,8 +365,9 @@ export default function HomePage() {
                   <p className="fs-9 fs-md-8 fw-bold pb-md-6 pb-5">
                     {know.title}
                   </p>
-                  <div className="text-overflow">
-                    <p className="d-none d-md-block">{know.content}</p>
+                  <div
+                  className="d-none d-md-block">
+                    <p className="text-overflow">{know.content}</p>
                   </div>
                   <div className="mt-auto">
                     <Link
