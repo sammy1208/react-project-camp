@@ -4,6 +4,10 @@ import Product from "../components/Product";
 import ProductLmg from "../components/ProductLmg";
 import { Link } from "react-router-dom";
 import ScreenLoading from "../components/ScreenLoading";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css/navigation';
+import "swiper/css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -117,13 +121,31 @@ const Knowledge = [
   }
 ];
 
+
 export default function HomePage() {
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-
+  
   const [products, setProducts] = useState([]);
-
+  
   const [products1, setProducts1] = useState([]);
   const [products6, setProducts6] = useState([]);
+  const [carouselData, setCarouselData] = useState([
+    {
+     id: 1,
+       image: "https://s3-alpha-sig.figma.com/img/8835/5c8c/752ea4219d9204491205321901ad1dfc?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=BZTGzuHW25OwlkJDw7hDod7k4~NizHb~Sl~GXGFYB9gvDyXoK4z1yCuFzfD65~WhKGOyxmujCvPFJy9eg4VpR2A6y4qjsijNzQhCikkNTEf9dsFPnfwbAiMGs7E4apMwRNWlbDiuzAh8BvwwyPfx2gPRququf29aLVbDIwTi8zqW9hgtc~KbYCxzRC3X9Le6~Xz5CDY~piICinx4r3MpiygdPqokf1ZFLEGpoiAdjIKh8kiZJ4RVjfI2xheafKyrF2RG1I-iX1K1Gt7mKC1WJWo-yNPCm~H7I3POO9JapiOYIoJE~NAfYdsfH~kpivNOl8o5skGAOhMx9cVdU4ylyA__",
+     description: "在金黃的麥田中，微風輕拂，她的笑容如陽光般溫暖，眼神裡藏著自由的詩篇",
+    },
+    {
+     id: 2,
+       image: "https://s3-alpha-sig.figma.com/img/aa15/6217/fd9acf662d45ea43cedd23360970669c?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oil7rBvGmy~3p4DK9~fAOHBajhZvz8NZqms9BmNE6qH4MCymRpRymlYzbockag2jidbjxzLUN4h5arkkfRiXU2o3nqE99yC5Hl9EeFOgydRSBLEjyU2jZyJPdvkgUI8rg1FirFUdEMmWunW8IAOpFrYhIgdjE~5SYUE1r1WqjeQsIkvanXhKCdQyMAdvGHs7X~KeoTTpw4SwLW~B4y8nJvVPFn-P~NcK9KNFsbyDZl9eSb6xsqTXS9Ike9Yp5hKZb1Ie9YlWsJCDxqckI4nvAanmcd-GKrz9O4JoC-E7tKBlks7AfoO0W8J4t6gP-XNraYuBEhLeHSn0BP8sdwVV4w__",
+     description: "披著厚重的毛大衣，她的冷靜目光如冬夜星辰般深邃，隱約透著堅毅的溫柔",
+    },
+    {
+     id: 3,
+       image: "https://s3-alpha-sig.figma.com/img/a308/edc3/e1dba6ebc7129d5878b2a9a3721b0dee?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Ah71e8v0SQZv9mA3BMH1N4Qp8BMYIP8sAEkpP9rZdyjyovBPU4IsI8tz4Y-Pqtyfe0qK~snIoHa5ypNTPUFN2MVXDGnW20TeL5rosW6nbHVElZP~3qHF9oJ1UmDDemnYO2nMS3VeSI5n2qn2HsbNSErK6xn9JHSsTMvGEdZNXGFoKpkFh0IaEAcPdCR0wT2VqHJ7nL8Pg0rMuuiScPwFvhL8pADIRhu1E-O6Hy7GijySlCDlIEsAGlDsd~gqITqZDTzz4FFED8DRowWHBH-lRGaTutIr~jsJOP-ozSIT3iFhF5Z0Fyrzc9b10WbkM8qpuv5f9HRAnyteNUcebni2FA__",
+     description: "粉紅色的夢境中，她靜靜傾聽音樂的旋律，彷彿置身於一場溫暖的靈魂漫遊",
+    },
+   ])
 
   const getProduct = async () => {
     setIsScreenLoading(true);
@@ -147,6 +169,28 @@ export default function HomePage() {
 
   return (
     <>
+      <Swiper
+        modules={[Navigation]}
+        navigation
+        
+      >
+        {carouselData.map((item) => (
+          <SwiperSlide key={item.id}>
+            <div className="banner" style={{backgroundImage:`url(${item.image})`}}>
+              <div className="d-flex flex-column h-100 justify-content-center">
+                <div className="container text-white text-center">
+                  <h1 className="fw-bold fs-1 mb-md-13">單人露營組<br/>一人成家</h1>
+                  <a className="btn btn-primary text-white fw-bold py-md-8 px-md-18" href="#" role="button">立即選購</a>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+
+
+
       <section className="container container-index">
         <p className="text-primary text-center pb-md-2 fs-md-9 fs-10">
           Winter Series

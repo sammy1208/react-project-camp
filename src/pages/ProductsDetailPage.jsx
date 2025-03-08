@@ -9,12 +9,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { PushMessage } from "../redux/slices/toastSlice";
 import { updateCartNum } from "../redux/slices/cartSlice";
 import { PushSelectedProduct } from "../redux/slices/productSlice"; 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css/navigation';
+import "swiper/css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function ProductsDetailPage() {
   const [product, setProduct] = useState({});
+  const [allProduct, setAllProduct] = useState([]);
   const [qtySelect, setQtySelect] = useState(1);
   const [isColorActive, setIsColorActive] = useState(null);
   const [isSpecsActive, setIsSpecsActive] = useState(null);
@@ -50,8 +55,21 @@ export default function ProductsDetailPage() {
       }
     };
     getProduct();
+    getAllProducts();
     getCart();
   }, []);
+
+  const getAllProducts = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/v2/api/${API_PATH}/products/all`
+      );
+      setAllProduct(res.data.products);
+      console.log("setAllProduct" , allProduct)
+    } catch (error) {
+      alert("取得產品失敗");
+    }
+  };
 
   const getCart = async () => {
     try {
@@ -342,20 +360,19 @@ export default function ProductsDetailPage() {
         <section className="d-none d-md-block">
           <p className="text-primary text-center pb-md-2">Camping Tips</p>
           <h2 className="text-center pb-md-17">露營知識，不可不知</h2>
-          <div className="row justify-content-center">
-            <div className="col">
-              <Product product={product} />
-            </div>
-            <div className="col">
-              <Product product={product} />
-            </div>
-            <div className="col">
-              <Product product={product} />
-            </div>
-            <div className="col">
-              <Product product={product} />
-            </div>
-          </div>
+          <Swiper
+            modules={[Navigation]}
+            navigation
+            slidesPerView={4}
+            spaceBetween={24}
+            initialSlide={1}
+          >
+            {allProduct.map((product) => (
+              <SwiperSlide key={product.id}>
+                <Product product={product} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </section>
       </main>
       <ScreenLoading isLoading={isScreenLoading} />

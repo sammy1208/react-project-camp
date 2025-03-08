@@ -7,6 +7,13 @@
   }
 }
 
+.banner{
+  height: calc(100vh - 108px);
+  background-size: cover;
+  background-position: center; /* 縮放時保持中心點 */
+  background-repeat: no-repeat; /* 避免重複 */
+}
+
 
 // .card-padding {
 //   position: relative;

@@ -5,87 +5,151 @@ import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
 import { useDispatch, useSelector } from "react-redux";
 import { PushMessage } from "../redux/slices/toastSlice";
-import { updateCartNum, clearCartNum } from "../redux/slices/cartSlice";
+import { getCart, removeCart, removeCartItem, updataCartItem, updateCartNum, clearCartNum } from "../redux/slices/cartSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const [cart, setCart] = useState({});
+  // const [cart, setCart] = useState({});
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [selectProduct, setSelectProduct] = useState({});
   const currentSelection = useSelector(state => state.product.selectedProduct)
-  // const { carts } = useSelector(state => state.cart)
+  const { carts } = useSelector(state => state.cart)
 
   useEffect(() => {
-    getCart()
+    dispatch(getCart());
   }, []);
 
-  const getCart = async () => {
-    setIsScreenLoading(true);
+  // const getCart = async () => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
+  //     console.log(res.data.data);
+  //     setCart(res.data.data);
+  //     dispatch(updateCartNum(res.data.data))
+  //   } catch (error) {
+  //     dispatch(PushMessage({
+  //       text: "取得購物車失敗",
+  //       status: "failed"
+  //     }))
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
+
+  // const removeCart = async () => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
+
+  //     getCart();
+  //   } catch (error) {
+  //     dispatch(PushMessage({
+  //       text: "刪除購物車失敗",
+  //       status: "failed"
+  //     }))
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
+
+  // const removeCartItem = async (cartItem_id) => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`);
+
+  //     getCart();
+  //     dispatch(clearCartNum())
+  //   } catch (error) {
+  //     alert(`刪除購物車品項失敗`);
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
+
+  // const updataCartItem = async (cartItem_id, product_id, qty) => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     await axios.put(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`, {
+  //       data: {
+  //         product_id,
+  //         qty: Number(qty)
+  //       }
+  //     });
+
+  //     getCart();
+  //   } catch (error) {
+  //     alert(`更新購物車品項失敗`);
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
+
+  const handleUpdataCartItem = (cartItem_id, product_id, qty) => {
+    // setIsScreenLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      console.log(res.data.data);
-      setCart(res.data.data);
-      dispatch(updateCartNum(res.data.data))
-    } catch (error) {
-      dispatch(PushMessage({
-        text: "取得購物車失敗",
-        status: "failed"
-      }))
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
-
-  const removeCart = async () => {
-    setIsScreenLoading(true);
-    try {
-      await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
-
-      getCart();
-    } catch (error) {
-      dispatch(PushMessage({
-        text: "刪除購物車失敗",
-        status: "failed"
-      }))
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
-
-  const removeCartItem = async (cartItem_id) => {
-    setIsScreenLoading(true);
-    try {
-      await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`);
-
-      getCart();
-      dispatch(clearCartNum())
-    } catch (error) {
-      alert(`刪除購物車品項失敗`);
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
-
-  const updataCartItem = async (cartItem_id, product_id, qty) => {
-    setIsScreenLoading(true);
-    try {
-      await axios.put(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`, {
-        data: {
-          product_id,
-          qty: Number(qty)
-        }
-      });
-
-      getCart();
+      const data = {
+        cartItem_id,
+        product_id,
+        qty
+      }
+        dispatch(updataCartItem(data));
+        dispatch(getCart())
     } catch (error) {
       alert(`更新購物車品項失敗`);
+    }  
+    
+  }
+
+  const handleRemoveCartItem = (cartItem_id) => {
+    // dispatch(removeCartItem(cartItem_id));
+    // dispatch(clearCartNum())
+  }
+
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    const { message, ...user } = data;
+
+    const userInfo = {
+      data: {
+        user,
+        message
+      }
+    };
+    checkout(userInfo);
+    alert(`送出訂單成功`);
+  });
+
+  const checkout = async (data) => {
+    setIsScreenLoading(true);
+    try {
+      await axios.post(`${BASE_URL}/v2/api/${API_PATH}/order`, data);
+      reset();
+      getCart();
+    } catch (error) {
+      alert("結帳失敗");
     } finally {
       setIsScreenLoading(false);
     }
   };
+
+  function getSelectedProduct() {
+    cart.carts?.forEach((cartItem) => {
+      const matchedSelection = Array.isArray(currentSelection)
+      ? currentSelection.find(selected => selected.id === cartItem.product_id)
+      : null;
+      setSelectProduct(matchedSelection)
+    })
+  }
 
   return (
     <>
@@ -93,16 +157,16 @@ export default function CartPage() {
         <div className="container">
           <p className="text-center pb-md-2">CampEase design</p>
           <h2 className="text-center pb-md-17 pb-12">購物車</h2>
-          {cart.carts?.length > 0 ? (
+          {carts.carts?.length > 0 ? (
             <div>
               <div className="row justify-content-center">
                 <div className="col-md-8">
-                  {cart.carts?.map((cartItem) => (
+                  {carts.carts?.map((cartItem) => (
                     <div className="mb-3 p-6" key={cartItem.id}>
                       <div className="row p-6">
                         <div className="position-relative">
                           <button
-                            onClick={() => removeCartItem(cartItem.id)}
+                            onClick={() => handleRemoveCartItem(cartItem.id)}
                             type="button"
                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill p-0 cursor-pointer border-0 bg-transparent pt-7 pe-7"
                           >
@@ -134,7 +198,7 @@ export default function CartPage() {
                               type="button"
                               className="btn border-0"
                               onClick={() =>
-                                updataCartItem(
+                                handleUpdataCartItem(
                                   cartItem.id,
                                   cartItem.product.id,
                                   cartItem.qty - 1
@@ -151,7 +215,7 @@ export default function CartPage() {
                               type="button"
                               className="btn border-0"
                               onClick={() =>
-                                updataCartItem(
+                                handleUpdataCartItem(
                                   cartItem.id,
                                   cartItem.product.id,
                                   cartItem.qty + 1
