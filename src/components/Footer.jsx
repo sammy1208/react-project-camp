@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="container-fluid">
         <div className="d-md-flex justify-content-md-between align-items-md-center pb-9">
           <div className="pb-6 pb-md-0">
-            <Link className="navbar-brand me-7" to={"/"}>
+            <Link className="navbar-brand me-7 logo-hover" to={"/"}>
               <img
                 src={`${PUBLIC_URL}/images/icons/Logo.png`}
                 alt="logo"

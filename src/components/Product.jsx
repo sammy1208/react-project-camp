@@ -31,7 +31,7 @@ export default function Product({ product }) {
   return (
     <div
       onClick={() => handleProduct()}
-      className="card mb-3 border-0 h-100 position-relative"
+      className="card mb-3 border-0 h-100 position-relative d-flex"
       style={{ cursor: "pointer" }}
     >
       <div className="mb-md-6 mb-2 bg-gray-30 rounded-3 card-padding h-100 btn-product-hover">
@@ -55,15 +55,16 @@ export default function Product({ product }) {
         />
       </div>
       <div
-        className="card-body p-0 d-flex flex-column"
-        // style={{ minHeight: "80px" }}
+        className="card-body body p-0 d-flex flex-column"
       >
+        <div>
         <h5 className="card-title fs-md-8 fs-10 fw-normal text-gray-100 m-0 mb-md-2">
           {product.title}
         </h5>
         <p className="card-text fs-md-10 fs-11 text-gray-70 mb-md-4 mb-2">
           {product.description}
         </p>
+        </div>
         <p className="card-text fs-md-8 fs-9 fw-bold text-gray-100 mt-auto">
           <small className="text-muted">{`$${product.price}`}</small>
         </p>

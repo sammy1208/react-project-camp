@@ -43,7 +43,6 @@ const routes = [
 
 export default function KnowledgePage() {
   const location = useLocation();
-  console.log(location.pathname);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
 
   return (

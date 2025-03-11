@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductNav from "../components/ProductNav";
+import { Collapse } from "bootstrap";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -37,10 +38,6 @@ function ProductsPage() {
   useEffect(() => {
     getProducts();
   }, []);
-
-  // const page = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ,21]
-  // console.log(page.slice(0, 10))
-  // console.log(page.slice(10, 20))
 
   //篩選功能
   const applyFilter = (filter) => {
@@ -106,6 +103,27 @@ function ProductsPage() {
   const filterPage = Math.ceil(selectedFilter.length / itemsPerPage);
   const allPage = Math.ceil(productsAll.length / itemsPerPage);
 
+    //側邊功能
+    const navRef01 = useRef(null)
+    const navRef02 = useRef(null)
+    const navRef03 = useRef(null)
+    const [isCollapseOpen, setIsCollapseOpen] = useState({
+      nav01 : false,
+      nav02 : false,
+      nav03 : false,
+    })
+
+    const toggleCollapse = (key, ref) => {
+      if (ref.current) {
+        const bsCollapse = new Collapse(ref.current);
+        bsCollapse.toggle();
+        setIsCollapseOpen((prev) => ({
+          ...prev,
+          [key]: !prev[key]
+        }))
+      }
+    }
+
   return (
     <>
       <div className="container-lg">
@@ -139,14 +157,17 @@ function ProductsPage() {
                 </li>
                 <li className="mb-4 border-bottom">
                   <div
+                    onClick={() => toggleCollapse("nav01", navRef01)}
                     className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#ProductList-1"
-                    aria-expanded="false"
+                    // data-bs-toggle="collapse"
+                    // data-bs-target="#ProductList-1"
+                    aria-expanded={isCollapseOpen.nav01}
                   >
                     限時搶購
                   </div>
-                  <div className="collapse" id="ProductList-1">
+                  <div
+                  ref={navRef01}
+                  className="collapse" id="nav01">
                     <button
                       type="button"
                       className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
@@ -169,14 +190,17 @@ function ProductsPage() {
                 </li>
                 <li className="mb-4 border-bottom">
                   <div
+                    onClick={() => toggleCollapse("nav02", navRef02)}
                     className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#ProductList-2"
-                    aria-expanded="false"
+                    // data-bs-toggle="collapse"
+                    // data-bs-target="#ProductList-2"
+                    aria-expanded={isCollapseOpen.nav02}
                   >
                     青松｜帳篷系列
                   </div>
-                  <div className="collapse" id="ProductList-2">
+                  <div
+                  ref={navRef02}
+                  className="collapse" id="nav02">
                     <button
                       type="button"
                       className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
@@ -190,14 +214,17 @@ function ProductsPage() {
                 </li>
                 <li className="mb-4 border-bottom">
                   <div
+                    onClick={() => toggleCollapse("nav03", navRef03)}
                     className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#ProductList-3"
-                    aria-expanded="false"
+                    // data-bs-toggle="collapse"
+                    // data-bs-target="#ProductList-3"
+                    aria-expanded={isCollapseOpen.nav03}
                   >
                     青松｜環保系列
                   </div>
-                  <div className="collapse" id="ProductList-3">
+                  <div
+                  ref={navRef03}
+                  className="collapse" id="nav03">
                     <button
                       type="button"
                       className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
@@ -224,7 +251,7 @@ function ProductsPage() {
                 </p>
               </section>
               <p className="fs-10 text-gray-70 py-md-10 py-8">{`共 ${selectedFilter.length} 項商品`}</p>
-              <div className="row gy-10">
+              <div className="row gy-10" style={{alignItems : "stretch" }}>
                 {products.map((product) => (
                   <div className="col-md-4 col-6" key={product.id}>
                     <Product product={product} />

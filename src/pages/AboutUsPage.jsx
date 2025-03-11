@@ -1,3 +1,5 @@
+import Header from "../components/header";
+
 const brandTimeline = [
   {
     time: "2004",

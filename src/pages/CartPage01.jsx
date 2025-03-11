@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
 import { useDispatch, useSelector } from "react-redux";
@@ -88,7 +87,6 @@ export default function CartPage() {
   // };
 
   const handleUpdataCartItem = (cartItem_id, product_id, qty) => {
-    // setIsScreenLoading(true);
     try {
       const data = {
         cartItem_id,
@@ -106,49 +104,6 @@ export default function CartPage() {
   const handleRemoveCartItem = (cartItem_id) => {
     // dispatch(removeCartItem(cartItem_id));
     // dispatch(clearCartNum())
-  }
-
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm();
-
-  const onSubmit = handleSubmit((data) => {
-    const { message, ...user } = data;
-
-    const userInfo = {
-      data: {
-        user,
-        message
-      }
-    };
-    checkout(userInfo);
-    alert(`送出訂單成功`);
-  });
-
-  const checkout = async (data) => {
-    setIsScreenLoading(true);
-    try {
-      await axios.post(`${BASE_URL}/v2/api/${API_PATH}/order`, data);
-      reset();
-      getCart();
-    } catch (error) {
-      alert("結帳失敗");
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
-
-  function getSelectedProduct() {
-    cart.carts?.forEach((cartItem) => {
-      const matchedSelection = Array.isArray(currentSelection)
-      ? currentSelection.find(selected => selected.id === cartItem.product_id)
-      : null;
-      setSelectProduct(matchedSelection)
-    })
   }
 
   return (

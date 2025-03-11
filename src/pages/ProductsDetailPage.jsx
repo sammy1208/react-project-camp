@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductLmg from "../components/ProductLmg";
@@ -8,11 +8,12 @@ import Product from "../components/Product";
 import { useDispatch, useSelector } from "react-redux";
 import { PushMessage } from "../redux/slices/toastSlice";
 import { updateCartNum } from "../redux/slices/cartSlice";
-import { PushSelectedProduct } from "../redux/slices/productSlice"; 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css/navigation';
+import { PushSelectedProduct } from "../redux/slices/productSlice";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css/navigation";
 import "swiper/css";
+import { Collapse } from "bootstrap";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -30,14 +31,9 @@ export default function ProductsDetailPage() {
 
   const Navigate = useNavigate();
 
-  const currentSelection = useSelector(state => state.product.selectedProduct)
-
-    // useEffect(() => {
-    //   currentSelection.map((selected) => {
-    //         const selectedColor = selected.color
-    //         return selectedColor
-    //     })
-    // }, [isSpecsActive, isColorActive])
+  const currentSelection = useSelector(
+    (state) => state.product.selectedProduct
+  );
 
   useEffect(() => {
     const getProduct = async () => {
@@ -65,7 +61,7 @@ export default function ProductsDetailPage() {
         `${BASE_URL}/v2/api/${API_PATH}/products/all`
       );
       setAllProduct(res.data.products);
-      console.log("setAllProduct" , allProduct)
+      console.log("setAllProduct", allProduct);
     } catch (error) {
       alert("取得產品失敗");
     }
@@ -74,9 +70,9 @@ export default function ProductsDetailPage() {
   const getCart = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      dispatch(updateCartNum(res.data.data))
+      dispatch(updateCartNum(res.data.data));
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   };
 
@@ -89,10 +85,12 @@ export default function ProductsDetailPage() {
           qty: Number(qty)
         }
       });
-      dispatch(PushMessage({
-        text: "加入購物車",
-        status: "success"
-      }))
+      dispatch(
+        PushMessage({
+          text: "加入購物車",
+          status: "success"
+        })
+      );
       getCart();
     } catch (error) {
       alert(error);
@@ -108,27 +106,33 @@ export default function ProductsDetailPage() {
   const addCart = () => {
     if (isColorActive && isSpecsActive) {
       updataCartItem(product_id, qtySelect);
-      dispatch(PushSelectedProduct({
-        id: product_id,
-        color: isColorActive,
-        specs: isSpecsActive
-      }))
+      dispatch(
+        PushSelectedProduct({
+          id: product_id,
+          color: isColorActive,
+          specs: isSpecsActive
+        })
+      );
     } else {
-      dispatch(PushMessage({
-        text: "請選擇顏色和規格",
-        status: "failed"
-      }))
+      dispatch(
+        PushMessage({
+          text: "請選擇顏色和規格",
+          status: "failed"
+        })
+      );
     }
   };
 
   const goCart = async () => {
     if (isColorActive && isSpecsActive) {
       await updataCartItem(product_id, qtySelect);
-      dispatch(PushSelectedProduct({
-        id: product_id,
-        color: isColorActive,
-        specs: isSpecsActive
-      }))
+      dispatch(
+        PushSelectedProduct({
+          id: product_id,
+          color: isColorActive,
+          specs: isSpecsActive
+        })
+      );
       Navigate("/CartPage");
     } else {
       alert(`請選擇顏色和規格`);
@@ -145,14 +149,14 @@ export default function ProductsDetailPage() {
 
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
-    const newWishList = {
-      ...wishList,
-      [product_id]: !wishList[product_id]
-    };
-
-    localStorage.setItem("wishList", JSON.stringify(newWishList));
-
-    setWishList(newWishList);
+    setWishList((prev) => {
+      const newWishList = {
+        ...prev,
+        [product_id]: !wishList[product_id]
+      };
+      localStorage.setItem("wishList", JSON.stringify(newWishList));
+      return newWishList;
+    });
   };
 
   const btnColorActive = (item) => {
@@ -161,6 +165,26 @@ export default function ProductsDetailPage() {
 
   const btnSpecsActive = (item) => {
     setIsSpecsActive(item);
+  };
+
+  const descriptionRef = useRef(null);
+  const cautionRef = useRef(null);
+  const specsRef = useRef(null);
+  const [isCollapseOpen, setIsCollapseOpen] = useState({
+    description: false,
+    caution: false,
+    specs: false
+  });
+
+  const toggleCollapse = (key, ref) => {
+    if (ref.current) {
+      const bsCollapse = new Collapse(ref.current);
+      bsCollapse.toggle();
+      setIsCollapseOpen((prev) => ({
+        ...prev,
+        [key]: !prev[key]
+      }));
+    }
   };
 
   return (
@@ -291,18 +315,25 @@ export default function ProductsDetailPage() {
             <div className="mb-md-12 mb-8">
               <p className="d-flex pb-md-6 pb-2">
                 <button
+                  onClick={() => toggleCollapse("description", descriptionRef)}
+                  aria-expanded={isCollapseOpen.description}
+                  // data-icon={isCollapseOpen.description ? "\e15b" : "\f3dd"}
                   type="button"
                   className="btn border-0 w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon"
-                  data-bs-toggle="collapse"
-                  href="#ProductDataPage-1"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseExample"
+                  // data-bs-toggle="collapse"
+                  // href="#ProductDataPage-1"
+                  // role="button"
+                  // aria-expanded="false"
+                  // aria-controls="collapseExample"
                 >
                   產品說明
                 </button>
               </p>
-              <div className="collapse" id="ProductDataPage-1">
+              <div
+                ref={descriptionRef}
+                className="collapse"
+                id="ProductDataPage-1"
+              >
                 <div className="pb-8 border-bottom">
                   {product.introduce?.map((item, index) => (
                     <p key={index}>{`·${item}`}</p>
@@ -313,18 +344,21 @@ export default function ProductsDetailPage() {
             <div className="mb-md-12 mb-8">
               <p className="d-flex pb-md-6 pb-2">
                 <button
+                  onClick={() => toggleCollapse("caution", cautionRef)}
+                  aria-expanded={isCollapseOpen.caution}
+                  // data-icon={isCollapseOpen.description ? "\e15b" : "\f3dd"}
                   type="button"
                   className="btn border-0 w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon"
-                  data-bs-toggle="collapse"
-                  href="#ProductDataPage-2"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseExample"
+                  // data-bs-toggle="collapse"
+                  // href="#ProductDataPage-2"
+                  // role="button"
+                  // aria-expanded="false"
+                  // aria-controls="collapseExample"
                 >
                   注意事項
                 </button>
               </p>
-              <div className="collapse" id="ProductDataPage-2">
+              <div ref={cautionRef} className="collapse" id="ProductDataPage-2">
                 <div className="pb-8 border-bottom">
                   {product.caution?.map((item, index) => (
                     <p key={index}>{`·${item}`}</p>
@@ -335,18 +369,20 @@ export default function ProductsDetailPage() {
             <div className="mb-md-12 mb-8">
               <p className="d-flex pb-md-6 pb-2">
                 <button
+                  onClick={() => toggleCollapse("specs", specsRef)}
+                  aria-expanded={isCollapseOpen.specs}
                   type="button"
                   className="btn border-0 w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon"
-                  data-bs-toggle="collapse"
-                  href="#ProductDataPage-3"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseExample"
+                  // data-bs-toggle="collapse"
+                  // href="#ProductDataPage-3"
+                  // role="button"
+                  // aria-expanded="false"
+                  // aria-controls="collapseExample"
                 >
                   產品規格
                 </button>
               </p>
-              <div className="collapse" id="ProductDataPage-3">
+              <div ref={specsRef} className="collapse" id="ProductDataPage-3">
                 <div className="pb-8 border-bottom">
                   {product.specification?.map((item, index) => (
                     <p key={index}>{`·${item}`}</p>

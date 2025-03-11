@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Product from "../components/Product";
 import ProductLmg from "../components/ProductLmg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ScreenLoading from "../components/ScreenLoading";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css/navigation';
 import "swiper/css";
+import Header from "../components/header";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -20,8 +21,8 @@ const designerList = [
     type: "戶外產品設計師",
     description:
       "專注於戶外用品設計，將功能性與美感結合，作品以高效實用的特質廣受讚譽。她的設計靈感來自自然環境，致力於提升露營體驗。",
-    image_pc: "/images/designer/Designer-01.png",
-    image_mobile: "/images/designer/Designer-H501.png"
+    image_pc: "./images/designer/Designer-01.png",
+    image_mobile: "./images/designer/Designer-H501.png"
   },
   {
     title: "帳篷界的魔術師",
@@ -29,8 +30,8 @@ const designerList = [
     type: "戶外裝備設計師",
     description:
       "擅長設計創新的帳篷結構，曾獲多項專利。他的作品兼具輕量化與穩固性，適合各種極端環境，深受戶外探險家的喜愛。",
-    image_pc: "/images/designer/Designer-02.png",
-    image_mobile: "/images/designer/Designer-H502.png"
+    image_pc: "./images/designer/Designer-02.png",
+    image_mobile: "./images/designer/Designer-H502.png"
   },
   {
     title: "紅點設計大獎得主",
@@ -38,8 +39,8 @@ const designerList = [
     type: "工業設計師",
     description:
       "擁有十多年工業設計經驗，以優雅簡約的線條聞名。她的戶外炊具設計以人體工學為核心，為露營者帶來美感與實用兼備的產品。",
-    image_pc: "/images/designer/Designer-03.png",
-    image_mobile: "/images/designer/Designer-H503.png"
+    image_pc: "./images/designer/Designer-03.png",
+    image_mobile: "./images/designer/Designer-H503.png"
   },
   {
     title: "戶外收納達人",
@@ -47,8 +48,8 @@ const designerList = [
     type: "戶外收納達人",
     description:
       "專注於露營收納產品設計，解決行李空間問題。他設計的多功能收納袋獲得業界高度評價，將收納效率提升至新高度。",
-    image_pc: "/images/designer/Designer-04.png",
-    image_mobile: "/images/designer/Designer-H504.png"
+    image_pc: "./images/designer/Designer-04.png",
+    image_mobile: "./images/designer/Designer-H504.png"
   },
   {
     title: "綠色設計獎得主",
@@ -56,8 +57,8 @@ const designerList = [
     type: "永續設計師",
     description:
       "專注於環保材質的應用，倡導「愛自然，愛旅行」理念。她的產品強調可回收、可重複使用，深受重視環保的露營族群喜愛。",
-    image_pc: "/images/designer/Designer-05.png",
-    image_mobile: "/images/designer/Designer-05.png"
+    image_pc: "./images/designer/Designer-05.png",
+    image_mobile: "./images/designer/Designer-05.png"
   }
 ];
 
@@ -126,24 +127,27 @@ export default function HomePage() {
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   
   const [products, setProducts] = useState([]);
-  
+
   const [products1, setProducts1] = useState([]);
   const [products6, setProducts6] = useState([]);
   const [carouselData, setCarouselData] = useState([
     {
      id: 1,
-       image: "https://s3-alpha-sig.figma.com/img/8835/5c8c/752ea4219d9204491205321901ad1dfc?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=BZTGzuHW25OwlkJDw7hDod7k4~NizHb~Sl~GXGFYB9gvDyXoK4z1yCuFzfD65~WhKGOyxmujCvPFJy9eg4VpR2A6y4qjsijNzQhCikkNTEf9dsFPnfwbAiMGs7E4apMwRNWlbDiuzAh8BvwwyPfx2gPRququf29aLVbDIwTi8zqW9hgtc~KbYCxzRC3X9Le6~Xz5CDY~piICinx4r3MpiygdPqokf1ZFLEGpoiAdjIKh8kiZJ4RVjfI2xheafKyrF2RG1I-iX1K1Gt7mKC1WJWo-yNPCm~H7I3POO9JapiOYIoJE~NAfYdsfH~kpivNOl8o5skGAOhMx9cVdU4ylyA__",
-     description: "在金黃的麥田中，微風輕拂，她的笑容如陽光般溫暖，眼神裡藏著自由的詩篇",
+     image: "https://s3-alpha-sig.figma.com/img/8835/5c8c/752ea4219d9204491205321901ad1dfc?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=BZTGzuHW25OwlkJDw7hDod7k4~NizHb~Sl~GXGFYB9gvDyXoK4z1yCuFzfD65~WhKGOyxmujCvPFJy9eg4VpR2A6y4qjsijNzQhCikkNTEf9dsFPnfwbAiMGs7E4apMwRNWlbDiuzAh8BvwwyPfx2gPRququf29aLVbDIwTi8zqW9hgtc~KbYCxzRC3X9Le6~Xz5CDY~piICinx4r3MpiygdPqokf1ZFLEGpoiAdjIKh8kiZJ4RVjfI2xheafKyrF2RG1I-iX1K1Gt7mKC1WJWo-yNPCm~H7I3POO9JapiOYIoJE~NAfYdsfH~kpivNOl8o5skGAOhMx9cVdU4ylyA__",
+     title:"單人露營組",
+     description: "一人成家",
     },
     {
      id: 2,
-       image: "https://s3-alpha-sig.figma.com/img/aa15/6217/fd9acf662d45ea43cedd23360970669c?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oil7rBvGmy~3p4DK9~fAOHBajhZvz8NZqms9BmNE6qH4MCymRpRymlYzbockag2jidbjxzLUN4h5arkkfRiXU2o3nqE99yC5Hl9EeFOgydRSBLEjyU2jZyJPdvkgUI8rg1FirFUdEMmWunW8IAOpFrYhIgdjE~5SYUE1r1WqjeQsIkvanXhKCdQyMAdvGHs7X~KeoTTpw4SwLW~B4y8nJvVPFn-P~NcK9KNFsbyDZl9eSb6xsqTXS9Ike9Yp5hKZb1Ie9YlWsJCDxqckI4nvAanmcd-GKrz9O4JoC-E7tKBlks7AfoO0W8J4t6gP-XNraYuBEhLeHSn0BP8sdwVV4w__",
-     description: "披著厚重的毛大衣，她的冷靜目光如冬夜星辰般深邃，隱約透著堅毅的溫柔",
+     image: "https://s3-alpha-sig.figma.com/img/aa15/6217/fd9acf662d45ea43cedd23360970669c?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oil7rBvGmy~3p4DK9~fAOHBajhZvz8NZqms9BmNE6qH4MCymRpRymlYzbockag2jidbjxzLUN4h5arkkfRiXU2o3nqE99yC5Hl9EeFOgydRSBLEjyU2jZyJPdvkgUI8rg1FirFUdEMmWunW8IAOpFrYhIgdjE~5SYUE1r1WqjeQsIkvanXhKCdQyMAdvGHs7X~KeoTTpw4SwLW~B4y8nJvVPFn-P~NcK9KNFsbyDZl9eSb6xsqTXS9Ike9Yp5hKZb1Ie9YlWsJCDxqckI4nvAanmcd-GKrz9O4JoC-E7tKBlks7AfoO0W8J4t6gP-XNraYuBEhLeHSn0BP8sdwVV4w__",
+     title:"野炊鍋具組",
+     description: "食盡山水",
     },
     {
      id: 3,
-       image: "https://s3-alpha-sig.figma.com/img/a308/edc3/e1dba6ebc7129d5878b2a9a3721b0dee?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Ah71e8v0SQZv9mA3BMH1N4Qp8BMYIP8sAEkpP9rZdyjyovBPU4IsI8tz4Y-Pqtyfe0qK~snIoHa5ypNTPUFN2MVXDGnW20TeL5rosW6nbHVElZP~3qHF9oJ1UmDDemnYO2nMS3VeSI5n2qn2HsbNSErK6xn9JHSsTMvGEdZNXGFoKpkFh0IaEAcPdCR0wT2VqHJ7nL8Pg0rMuuiScPwFvhL8pADIRhu1E-O6Hy7GijySlCDlIEsAGlDsd~gqITqZDTzz4FFED8DRowWHBH-lRGaTutIr~jsJOP-ozSIT3iFhF5Z0Fyrzc9b10WbkM8qpuv5f9HRAnyteNUcebni2FA__",
-     description: "粉紅色的夢境中，她靜靜傾聽音樂的旋律，彷彿置身於一場溫暖的靈魂漫遊",
+     image: "https://s3-alpha-sig.figma.com/img/a308/edc3/e1dba6ebc7129d5878b2a9a3721b0dee?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Ah71e8v0SQZv9mA3BMH1N4Qp8BMYIP8sAEkpP9rZdyjyovBPU4IsI8tz4Y-Pqtyfe0qK~snIoHa5ypNTPUFN2MVXDGnW20TeL5rosW6nbHVElZP~3qHF9oJ1UmDDemnYO2nMS3VeSI5n2qn2HsbNSErK6xn9JHSsTMvGEdZNXGFoKpkFh0IaEAcPdCR0wT2VqHJ7nL8Pg0rMuuiScPwFvhL8pADIRhu1E-O6Hy7GijySlCDlIEsAGlDsd~gqITqZDTzz4FFED8DRowWHBH-lRGaTutIr~jsJOP-ozSIT3iFhF5Z0Fyrzc9b10WbkM8qpuv5f9HRAnyteNUcebni2FA__",
+     title:"質感手提燈",
+     description: "引領夜空",
     },
    ])
 
@@ -169,24 +173,24 @@ export default function HomePage() {
 
   return (
     <>
-      <Swiper
+      {/* <Swiper
         modules={[Navigation]}
-        navigation
-        
+        navigation       
       >
         {carouselData.map((item) => (
           <SwiperSlide key={item.id}>
             <div className="banner" style={{backgroundImage:`url(${item.image})`}}>
+            < Header />
               <div className="d-flex flex-column h-100 justify-content-center">
                 <div className="container text-white text-center">
-                  <h1 className="fw-bold fs-1 mb-md-13">單人露營組<br/>一人成家</h1>
+                  <h1 className="fw-bold fs-1 mb-md-13">{item.title}<br/>{item.description}</h1>
                   <a className="btn btn-primary text-white fw-bold py-md-8 px-md-18" href="#" role="button">立即選購</a>
                 </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
 
 
 
@@ -370,7 +374,7 @@ export default function HomePage() {
                   <div className="col-md-5 mb-6 mb-md-0 text-center">
                     <picture>
                       <source
-                        srcSet={`${PUBLIC_URL}${designer.image_mobile}`}
+                        srcSet={designer.image_mobile}
                         media="(max-width:767px)"
                       />
                       <img
