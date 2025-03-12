@@ -27,7 +27,6 @@ function ProductsPage() {
       setProductsAll(res.data.products);
       // setProducts(res.data.products);//為了在初始值時有全部商品
       setSelectedFilter(res.data.products);
-      console.log(res.data.products);
     } catch (error) {
       alert("取得產品失敗");
     } finally {
@@ -103,26 +102,26 @@ function ProductsPage() {
   const filterPage = Math.ceil(selectedFilter.length / itemsPerPage);
   const allPage = Math.ceil(productsAll.length / itemsPerPage);
 
-    //側邊功能
-    const navRef01 = useRef(null)
-    const navRef02 = useRef(null)
-    const navRef03 = useRef(null)
-    const [isCollapseOpen, setIsCollapseOpen] = useState({
-      nav01 : false,
-      nav02 : false,
-      nav03 : false,
-    })
+  //側邊功能
+  const navRef01 = useRef(null);
+  const navRef02 = useRef(null);
+  const navRef03 = useRef(null);
+  const [isCollapseOpen, setIsCollapseOpen] = useState({
+    nav01: false,
+    nav02: false,
+    nav03: false
+  });
 
-    const toggleCollapse = (key, ref) => {
-      if (ref.current) {
-        const bsCollapse = new Collapse(ref.current);
-        bsCollapse.toggle();
-        setIsCollapseOpen((prev) => ({
-          ...prev,
-          [key]: !prev[key]
-        }))
-      }
+  const toggleCollapse = (key, ref) => {
+    if (ref.current) {
+      const bsCollapse = new Collapse(ref.current);
+      bsCollapse.toggle();
+      setIsCollapseOpen((prev) => ({
+        ...prev,
+        [key]: !prev[key]
+      }));
     }
+  };
 
   return (
     <>
@@ -165,9 +164,7 @@ function ProductsPage() {
                   >
                     限時搶購
                   </div>
-                  <div
-                  ref={navRef01}
-                  className="collapse" id="nav01">
+                  <div ref={navRef01} className="collapse" id="nav01">
                     <button
                       type="button"
                       className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
@@ -198,9 +195,7 @@ function ProductsPage() {
                   >
                     青松｜帳篷系列
                   </div>
-                  <div
-                  ref={navRef02}
-                  className="collapse" id="nav02">
+                  <div ref={navRef02} className="collapse" id="nav02">
                     <button
                       type="button"
                       className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
@@ -222,9 +217,7 @@ function ProductsPage() {
                   >
                     青松｜環保系列
                   </div>
-                  <div
-                  ref={navRef03}
-                  className="collapse" id="nav03">
+                  <div ref={navRef03} className="collapse" id="nav03">
                     <button
                       type="button"
                       className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
@@ -251,9 +244,12 @@ function ProductsPage() {
                 </p>
               </section>
               <p className="fs-10 text-gray-70 py-md-10 py-8">{`共 ${selectedFilter.length} 項商品`}</p>
-              <div className="row gy-10" style={{alignItems : "stretch" }}>
+              <div className="row gy-10" style={{ alignItems: "stretch" }}>
                 {products.map((product) => (
-                  <div className="col-md-4 col-6" key={product.id}>
+                  <div
+                    className="col-md-4 col-6 d-flex flex-column"
+                    key={product.id}
+                  >
                     <Product product={product} />
                   </div>
                 ))}

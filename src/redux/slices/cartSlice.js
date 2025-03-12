@@ -54,7 +54,7 @@ export const getCart = createAsyncThunk(
         dispatch(setLoading(true))
         try {
             const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-            // dispatch(updateCartData(res.data.data));
+            dispatch(updateCartData(res.data.data));
             // dispatch(updateCartNum(res.data.data));
         } catch (error) {
             dispatch(setError(error))
@@ -99,7 +99,7 @@ export const updataCartItem = createAsyncThunk(
                 }
             });
             console.log(cartItem_id, product_id, qty);
-            // dispatch(getCart()); // 重新獲取購物車數據
+            dispatch(getCart()); // 重新獲取購物車數據
         } catch (error) {
             alert(error);
         }

@@ -43,7 +43,6 @@ export default function ProductsDetailPage() {
           `${BASE_URL}/v2/api/${API_PATH}/product/${product_id}`
         );
         setProduct(res.data.product);
-        console.log(res.data.product);
       } catch (error) {
         alert("取得產品失敗");
       } finally {
@@ -61,7 +60,6 @@ export default function ProductsDetailPage() {
         `${BASE_URL}/v2/api/${API_PATH}/products/all`
       );
       setAllProduct(res.data.products);
-      console.log("setAllProduct", allProduct);
     } catch (error) {
       alert("取得產品失敗");
     }
@@ -402,10 +400,18 @@ export default function ProductsDetailPage() {
             slidesPerView={4}
             spaceBetween={24}
             initialSlide={1}
+            style={{ alignItems: "stretch" }}
+            className="row gy-10"
           >
             {allProduct.map((product) => (
               <SwiperSlide key={product.id}>
-                <Product product={product} />
+                <div
+                  className="col d-flex flex-column"
+                  key={product.id}
+                  style={{ alignItems: "stretch", height: "100%" }}
+                >
+                  <Product product={product} />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>

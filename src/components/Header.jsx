@@ -28,9 +28,9 @@ export default function Header({ className }) {
   const [isCollapseOpen, setIsCollapseOpen] = useState({
     productList: false,
     navbar: false,
-    nav01 : false,
-    nav02 : false,
-    nav03 : false,
+    nav01: false,
+    nav02: false,
+    nav03: false
   });
 
   const getCart = async () => {

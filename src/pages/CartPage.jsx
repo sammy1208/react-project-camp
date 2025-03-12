@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +25,6 @@ export default function CartPage() {
     setIsScreenLoading(true);
     try {
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      console.log(res.data.data);
       setCart(res.data.data);
       dispatch(updateCartNum(res.data.data))
     } catch (error) {

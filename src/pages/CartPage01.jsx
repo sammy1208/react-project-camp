@@ -19,6 +19,7 @@ export default function CartPage() {
 
   useEffect(() => {
     dispatch(getCart());
+    console.log(carts)
   }, []);
 
   // const getCart = async () => {
@@ -116,7 +117,7 @@ export default function CartPage() {
             <div>
               <div className="row justify-content-center">
                 <div className="col-md-8">
-                  {carts.carts?.map((cartItem) => (
+                  {carts.map((cartItem) => (
                     <div className="mb-3 p-6" key={cartItem.id}>
                       <div className="row p-6">
                         <div className="position-relative">

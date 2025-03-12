@@ -13,17 +13,17 @@ export default function ProductNav({ product }) {
         </li>
         <li
           className={`breadcrumb-item ${
-            location.pathname === "/products" ? "active" : ""
+            location.pathname === "/Products" ? "active" : ""
           }`}
-          aria-current={location.pathname === "/products" ? "page" : undefined}
+          aria-current={location.pathname === "/Products" ? "page" : undefined}
         >
-          {location.pathname === "/products" ? (
+          {location.pathname === "/Products" ? (
             "產品分類"
           ) : (
-            <Link to={`/products`}>產品分類</Link>
+            <Link to={`/Products`}>產品分類</Link>
           )}
         </li>
-        {location.pathname !== "/products" && product?.title && (
+        {location.pathname !== "/Products" && product?.title && (
           <li className="breadcrumb-item active" aria-current="page">
             {product?.title}
           </li>
