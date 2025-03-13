@@ -14,13 +14,14 @@ import { Navigation } from "swiper/modules";
 import "swiper/css/navigation";
 import "swiper/css";
 import { Collapse } from "bootstrap";
+import { getAllProduct, getProductDetail, getCart, updataCart } from "../redux/slices/apiSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function ProductsDetailPage() {
-  const [product, setProduct] = useState({});
-  const [allProduct, setAllProduct] = useState([]);
+  // const [product, setProduct] = useState({});
+  // const [allProduct, setAllProduct] = useState([]);
   const [qtySelect, setQtySelect] = useState(1);
   const [isColorActive, setIsColorActive] = useState(null);
   const [isSpecsActive, setIsSpecsActive] = useState(null);
@@ -31,71 +32,85 @@ export default function ProductsDetailPage() {
 
   const Navigate = useNavigate();
 
+  const { productsAll, productsDetail } = useSelector((state) => state.api) // 全部產品
+
   const currentSelection = useSelector(
     (state) => state.product.selectedProduct
   );
 
   useEffect(() => {
-    const getProduct = async () => {
-      setIsScreenLoading(true);
-      try {
-        const res = await axios.get(
-          `${BASE_URL}/v2/api/${API_PATH}/product/${product_id}`
-        );
-        setProduct(res.data.product);
-      } catch (error) {
-        alert("取得產品失敗");
-      } finally {
-        setIsScreenLoading(false);
-      }
-    };
-    getProduct();
-    getAllProducts();
-    getCart();
+    // const getProduct = async () => {
+    //   setIsScreenLoading(true);
+    //   try {
+    //     const res = await axios.get(
+    //       `${BASE_URL}/v2/api/${API_PATH}/product/${product_id}`
+    //     );
+    //     setProduct(res.data.product);
+    //   } catch (error) {
+    //     alert("取得產品失敗");
+    //   } finally {
+    //     setIsScreenLoading(false);
+    //   }
+    // };
+    // getProduct();
+    // getAllProducts();
+    dispatch(getProductDetail(product_id))
+    dispatch(getAllProduct())
+    // getCart();
+    dispatch(getCart())
   }, []);
 
-  const getAllProducts = async () => {
-    try {
-      const res = await axios.get(
-        `${BASE_URL}/v2/api/${API_PATH}/products/all`
-      );
-      setAllProduct(res.data.products);
-    } catch (error) {
-      alert("取得產品失敗");
-    }
-  };
+  // const getAllProducts = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       `${BASE_URL}/v2/api/${API_PATH}/products/all`
+  //     );
+  //     setAllProduct(res.data.products);
+  //   } catch (error) {
+  //     alert("取得產品失敗");
+  //   }
+  // };
 
-  const getCart = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      dispatch(updateCartNum(res.data.data));
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const getCart = async () => {
+  //   try {
+  //     const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
+  //     dispatch(updateCartNum(res.data.data));
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
-  const updataCartItem = async (product_id, qty) => {
-    setIsScreenLoading(true);
-    try {
-      await axios.post(`${BASE_URL}/v2/api/${API_PATH}/cart`, {
-        data: {
-          product_id,
-          qty: Number(qty)
-        }
-      });
-      dispatch(
-        PushMessage({
-          text: "加入購物車",
-          status: "success"
-        })
-      );
-      getCart();
-    } catch (error) {
-      alert(error);
-    } finally {
-      setIsScreenLoading(false);
+  // const updataCartItem = async (product_id, qty) => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     await axios.post(`${BASE_URL}/v2/api/${API_PATH}/cart`, {
+  //       data: {
+  //         product_id,
+  //         qty: Number(qty)
+  //       }
+  //     });
+  //     dispatch(
+  //       PushMessage({
+  //         text: "加入購物車",
+  //         status: "success"
+  //       })
+  //     );
+  //     // getCart();
+  //     dispatch(getCart())
+  //   } catch (error) {
+  //     alert(error);
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
+
+  const updataCartItem = (product_id, qty) => {
+    const CartData = {
+      product_id,
+      qty
     }
-  };
+    return dispatch(updataCart(CartData))
+  }
 
   const handleQty = (qty) => {
     setQtySelect(qty);
@@ -104,13 +119,13 @@ export default function ProductsDetailPage() {
   const addCart = () => {
     if (isColorActive && isSpecsActive) {
       updataCartItem(product_id, qtySelect);
-      dispatch(
-        PushSelectedProduct({
-          id: product_id,
-          color: isColorActive,
-          specs: isSpecsActive
-        })
-      );
+      // dispatch(
+      //   PushSelectedProduct({
+      //     id: product_id,
+      //     color: isColorActive,
+      //     specs: isSpecsActive
+      //   })
+      // );
     } else {
       dispatch(
         PushMessage({
@@ -121,19 +136,24 @@ export default function ProductsDetailPage() {
     }
   };
 
-  const goCart = async () => {
+  const goCart = () => {
     if (isColorActive && isSpecsActive) {
-      await updataCartItem(product_id, qtySelect);
-      dispatch(
-        PushSelectedProduct({
-          id: product_id,
-          color: isColorActive,
-          specs: isSpecsActive
-        })
-      );
+      updataCartItem(product_id, qtySelect);
+      // dispatch(
+      //   PushSelectedProduct({
+      //     id: product_id,
+      //     color: isColorActive,
+      //     specs: isSpecsActive
+      //   })
+      // );
       Navigate("/CartPage");
     } else {
-      alert(`請選擇顏色和規格`);
+      dispatch(
+        PushMessage({
+          text: "請選擇顏色和規格",
+          status: "failed"
+        })
+      );
     }
   };
 
@@ -189,18 +209,18 @@ export default function ProductsDetailPage() {
     <div className="container">
       <main className="pt-8 pb-14 pt-md-18 pb-md-23">
         <div className="pb-md-18">
-          <ProductNav product={product} />
+          <ProductNav product={productsDetail} />
 
           <div className="row">
             <figure className="col-md-7 m-0">
               <div className="mb-md-10 mb-4">
-                <ProductLmg img={product?.imageUrl} product={product} />
+                <ProductLmg img={productsDetail?.imageUrl} product={productsDetail} />
               </div>
               <div className="row gx-4 gx-md-10">
-                {product?.imagesUrl?.length > 0 &&
-                  product?.imagesUrl.map((img, index) => (
+                {productsDetail?.imagesUrl?.length > 0 &&
+                  productsDetail?.imagesUrl.map((img, index) => (
                     <div className="col" key={index}>
-                      <ProductLmg img={img} product={product} />
+                      <ProductLmg img={img} product={productsDetail} />
                     </div>
                   ))}
               </div>
@@ -208,17 +228,17 @@ export default function ProductsDetailPage() {
 
             <div className="col-md-5 pt-8 pt-md-0">
               <section className="border-bottom mb-9 mb-md-12">
-                <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">{product.title}</h3>
+                <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">{productsDetail.title}</h3>
                 <p className="pb-md-4 pb-2 text-gray-70">
                   VIP 會員獨享/VIP 會員獨享/VIP 會員獨享
                 </p>
-                <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${product.price}`}</p>
+                <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price}`}</p>
               </section>
 
               <div className="mb-6 mb-md-10">
                 <p className="fs-md-9 fs-10 mb-md-6 mb-4">顏色</p>
                 <ul className="list-unstyled d-flex m-0 flex-wrap">
-                  {product.colors?.map((color, index) => (
+                  {productsDetail.colors?.map((color, index) => (
                     <li className="me-lg-5 me-3 mb-lg-3 mb-1" key={index}>
                       <button
                         onClick={() => btnColorActive(color)}
@@ -236,7 +256,7 @@ export default function ProductsDetailPage() {
               <div className="mb-6 mb-md-10">
                 <p className="fs-md-9 fs-10 mb-md-6 mb-4">規格</p>
                 <ul className="list-unstyled d-flex m-0 flex-wrap">
-                  {product.specs?.map((specs, index) => (
+                  {productsDetail.specs?.map((specs, index) => (
                     <li className="me-lg-5 me-3 mb-lg-3 mb-1" key={index}>
                       <button
                         onClick={() => btnSpecsActive(specs)}
@@ -296,13 +316,13 @@ export default function ProductsDetailPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => btnWishList(e, product.id)}
+                  onClick={(e) => btnWishList(e, productsDetail.id)}
                   className="btn btn-outline-primary btn-wish fw-bold py-md-8 py-6 d-flex justify-content-center align-items-center"
                   style={{ width: "51px" }}
                 >
                   <i
                     className={`bi fs-9 ${
-                      wishList[product.id] ? "bi-heart-fill" : "bi-heart"
+                      wishList[productsDetail.id] ? "bi-heart-fill" : "bi-heart"
                     }`}
                   ></i>
                 </button>
@@ -333,7 +353,7 @@ export default function ProductsDetailPage() {
                 id="ProductDataPage-1"
               >
                 <div className="pb-8 border-bottom">
-                  {product.introduce?.map((item, index) => (
+                  {productsDetail.introduce?.map((item, index) => (
                     <p key={index}>{`·${item}`}</p>
                   ))}
                 </div>
@@ -358,7 +378,7 @@ export default function ProductsDetailPage() {
               </p>
               <div ref={cautionRef} className="collapse" id="ProductDataPage-2">
                 <div className="pb-8 border-bottom">
-                  {product.caution?.map((item, index) => (
+                  {productsDetail.caution?.map((item, index) => (
                     <p key={index}>{`·${item}`}</p>
                   ))}
                 </div>
@@ -382,7 +402,7 @@ export default function ProductsDetailPage() {
               </p>
               <div ref={specsRef} className="collapse" id="ProductDataPage-3">
                 <div className="pb-8 border-bottom">
-                  {product.specification?.map((item, index) => (
+                  {productsDetail.specification?.map((item, index) => (
                     <p key={index}>{`·${item}`}</p>
                   ))}
                 </div>
@@ -403,7 +423,7 @@ export default function ProductsDetailPage() {
             style={{ alignItems: "stretch" }}
             className="row gy-10"
           >
-            {allProduct.map((product) => (
+            {productsAll.map((product) => (
               <SwiperSlide key={product.id}>
                 <div
                   className="col d-flex flex-column"

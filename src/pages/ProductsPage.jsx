@@ -4,42 +4,60 @@ import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductNav from "../components/ProductNav";
 import { Collapse } from "bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProduct } from "../redux/slices/apiSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 function ProductsPage() {
   const [products, setProducts] = useState([]); // 當前頁面的產品
-  const [productsAll, setProductsAll] = useState([]); // 全部產品
+  // const [productsAll, setProductsAll] = useState([]); // 全部產品
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState(1); // 當前頁數
   const [selectedFilter, setSelectedFilter] = useState([]); // 存儲當前篩選條件
   const [isActive, setIsActive] = useState(null);
-
   const itemsPerPage = 6;
 
-  const getProducts = async () => {
-    setIsScreenLoading(true);
-    try {
-      const res = await axios.get(
-        `${BASE_URL}/v2/api/${API_PATH}/products/all`
-      );
-      setProductsAll(res.data.products);
-      // setProducts(res.data.products);//為了在初始值時有全部商品
-      setSelectedFilter(res.data.products);
-    } catch (error) {
-      alert("取得產品失敗");
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
+  const { productsAll } = useSelector((state) => state.api) // 全部產品
+  console.log(productsAll)
+  const dispatch = useDispatch();
+  
+
+  // const getProducts = async () => {
+
+  //   setIsScreenLoading(true);
+  //   try {
+  //     const res = await axios.get(
+  //       `${BASE_URL}/v2/api/${API_PATH}/products/all`
+  //     );
+  //     setProductsAll(res.data.products);
+  //     // setProducts(res.data.products);//為了在初始值時有全部商品
+  //     setSelectedFilter(res.data.products);
+  //   } catch (error) {
+  //     alert("取得產品失敗");
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
-    getProducts();
+    // getProducts();
+    setIsScreenLoading(true);
+    dispatch(getAllProduct())
+    .finally(() =>setIsScreenLoading(false))
+    
   }, []);
+
+  useEffect(() => {
+    if (productsAll.length > 0) {
+      setSelectedFilter(productsAll);
+    }
+  }, [productsAll]);
 
   //篩選功能
   const applyFilter = (filter) => {
+    setIsScreenLoading(true);
     let filteredProducts = [...productsAll];
 
     switch (filter) {
@@ -80,6 +98,7 @@ function ProductsPage() {
 
     setSelectedFilter(filteredProducts);
     setPageInfo(1);
+    setTimeout(() => setIsScreenLoading(false), 200);
   };
 
   const handleFilterChange = (filter) => {
