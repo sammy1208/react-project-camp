@@ -6,11 +6,9 @@ import axios from "axios";
 import { Collapse } from "bootstrap";
 
 const routes = [
-  { path: "/", name: "首頁" },
   { path: "/Products", name: "產品分類" },
   { path: "/aboutUs", name: "關於青松" },
   { path: "/KnowledgePage", name: "知識專欄" }
-  // { path: "/CartPage", name: "購物車" },
 ];
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -67,11 +65,10 @@ export default function Header({ className }) {
         <div className="container-fluid d-block">
           <div className="d-flex">
             {/* <!-- //logo --> */}
-            <NavLink className="navbar-brand me-7 logo-hover" to={"/"}>
+            <NavLink className="navbar-brand me-7 logo" to={"/"}>
               <img
                 src={`${PUBLIC_URL}/images/icons/Logo.png`}
                 alt="logo"
-                className="header-logo"
               />
             </NavLink>
             <div className="ms-auto d-flex">
@@ -131,11 +128,6 @@ export default function Header({ className }) {
               onClick={() => toggleCollapse("navbar", navbarRef)}
               className="navbar-toggler border-0 px-4 py-0"
               type="button"
-              // data-bs-toggle="collapse"
-              // data-bs-target="#navbarSupportedContent"
-              // aria-controls="navbarSupportedContent"
-              // aria-expanded="false"
-              // aria-label="Toggle navigation"
             >
               <span className="material-symbols-outlined text-white">menu</span>
             </button>
@@ -156,9 +148,6 @@ export default function Header({ className }) {
                       }
                       className="nav-link dropdown-toggle text-white fw-bold fs-7 p-0"
                       id="navbarDropdown"
-                      // role="button"
-                      // data-bs-toggle="dropdown"
-                      // aria-expanded="false"
                     >
                       產品分類
                     </div>
@@ -191,8 +180,6 @@ export default function Header({ className }) {
                         <div
                           onClick={() => toggleCollapse("nav01", navRef01)}
                           className="py-4 add-icon w-100 p-0 fw-normal rounded-0"
-                          // data-bs-toggle="collapse"
-                          // data-bs-target="#ProductList-1"
                           aria-expanded={isCollapseOpen.nav01}
                         >
                           限時搶購
@@ -218,8 +205,6 @@ export default function Header({ className }) {
                         <div
                           onClick={() => toggleCollapse("nav02", navRef02)}
                           className="py-4 add-icon w-100 p-0 fw-normal rounded-0"
-                          // data-bs-toggle="collapse"
-                          // data-bs-target="#ProductList-2"
                           aria-expanded={isCollapseOpen.nav02}
                         >
                           青松｜帳篷系列
@@ -238,8 +223,6 @@ export default function Header({ className }) {
                         <div
                           onClick={() => toggleCollapse("nav03", navRef03)}
                           className="py-4 add-icon w-100 p-0 fw-normal rounded-0"
-                          // data-bs-toggle="collapse"
-                          // data-bs-target="#ProductList-3"
                           aria-expanded={isCollapseOpen.nav03}
                         >
                           青松｜環保系列
@@ -256,47 +239,6 @@ export default function Header({ className }) {
                       </li>
                     </ul>
 
-                    {/* <ul
-                    ref={productListRef}
-                    id="productList"
-                    className="dropdown-menu bg-primary border-0 pt-0 pt-6"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <li className="pb-2">
-                      <a className="text-white py-4 ps-6" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li className="pb-2">
-                      <a className="text-white py-4 ps-6" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li className="pb-2">
-                      <a
-                        className="dropdown-item text-white py-4 ps-6"
-                        href="#"
-                      >
-                        Action
-                      </a>
-                    </li>
-                    <li className="pb-2">
-                      <a
-                        className="dropdown-item text-white py-4 ps-6"
-                        href="#"
-                      >
-                        Action
-                      </a>
-                    </li>
-                    <li className="pb-2">
-                      <a
-                        className="dropdown-item text-white py-4 ps-6"
-                        href="#"
-                      >
-                        Action
-                      </a>
-                    </li>
-                  </ul> */}
                   </li>
                   <li className="nav-item mt-12">
                     <NavLink

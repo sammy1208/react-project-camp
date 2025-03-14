@@ -1,3 +1,9 @@
+.notFound {
+  &:hover {
+    color: $primary-100;
+  }
+}
+
 .container-index {
   padding-top: 120px;
   padding-bottom: 160px;
@@ -7,18 +13,49 @@
   }
 }
 
-.banner{
-  height: 100vh;
-  background-size: cover;
-  background-position: center; /* 縮放時保持中心點 */
-  background-repeat: no-repeat; /* 避免重複 */
+.logo {
+  &:hover {
+    opacity: 0.7;
+  }
+  img{
+    width: 112px;
+  }
 }
 
-.banner-Products {
-  height: 560px;
-  background-size: cover;
-  background-position: center; /* 縮放時保持中心點 */
-  background-repeat: no-repeat; /* 避免重複 */
+.banner{
+  &-carousel{
+    height: 100vh;
+    background-size: cover;
+    background-position: center; /* 縮放時保持中心點 */
+    background-repeat: no-repeat; /* 避免重複 */
+  }
+  &-static {
+    height: 560px;
+    background-size: cover;
+    background-position: center; /* 縮放時保持中心點 */
+    background-repeat: no-repeat; /* 避免重複 */
+  }
+}
+
+.add-icon {
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  &::after {
+    content: "\f3dd";
+    font-family: "Material Symbols Outlined";
+    font-size: 24px;
+    color: $neutral-90;
+  }
+  &[aria-expanded="true"]::after {
+    /* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
+    content: "\e15b";
+  }
+  &:hover::after {
+    color: $neutral-130; // Hover 時變色，提高互動體驗
+  }
 }
 
 .card-padding {
@@ -48,40 +85,44 @@
   }
 }
 
-.tips-img {
-  height: 306px;
-  height: 306px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include mobile-larger {
-    height: 90px;
-    width: 120px;
+.tips {
+  &-img {
+    height: 306px;
+    height: 306px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include mobile-larger {
+      height: 90px;
+      width: 120px;
+    }
+    img{
+      object-fit:cover;
+      width: 100%;
+      height: 100%;
+    }
   }
-  img{
-    object-fit:cover;
-    width: 100%;
-    height: 100%;
+  &-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    // height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
   }
-}
-
-.content-tips {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  // height: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word;
-}
-
-.title-tips {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  // max-height :48px
+  &-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // max-height :48px
+    min-height: 66px;
+    @include mobile-larger {
+      min-height: 0;
+    }
+  }
 }
 
 ///ProductNav
@@ -91,20 +132,19 @@
     color: $neutral-120 !important;
   }
 }
+
 ///product
 .btn-product-hover {
   &:hover {
     background-color: $neutral-60 !important;
   }
 }
-
 .btn-product-wish {
   border: none !important;
   i:hover {
     color: $primary-30 !important;
   }
 }
-
 .card {
   display: flex;
   flex-direction: column;
@@ -122,34 +162,12 @@
 }
 
 ///_ProductsPage
-.add-icon {
-  padding: 16px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  &::after {
-    content: "\f3dd";
-    font-family: "Material Symbols Outlined";
-    font-size: 24px;
-    color: $neutral-90;
-  }
-  &[aria-expanded="true"]::after {
-    /* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
-    content: "\e15b";
-  }
-  &:hover::after {
-    color: $neutral-130; // Hover 時變色，提高互動體驗
-  }
-}
-
 .page-disabled {
   color: $neutral-70;
   background-color: none;
   border: none;
   pointer-events: none;
 }
-
 .page-active {
   color: $neutral-120;
   font-weight: bold;
@@ -161,7 +179,6 @@
     opacity: 0.7;
   }
 }
-
 .btn-nav {
   border: none;
   &.active {
@@ -185,7 +202,6 @@
     background-color: transparent !important;
   }
 }
-
 .btn-qty {
   border: none;
   &:hover {
@@ -197,7 +213,6 @@
     border: none;
   }
 }
-
 .btn-wish {
   &:hover {
     color: $primary-30 !important;
@@ -205,7 +220,6 @@
     border-color: $primary-30 !important;
   }
 }
-
 .btn-addCart {
   &:hover {
     color: white !important;
@@ -213,18 +227,6 @@
 }
 
 ///productLmg
-.productLmgHover {
-  &:hover {
-    background-color: $neutral-60 !important;
-  }
-}
-
-.notFound {
-  &:hover {
-    color: $primary-100;
-  }
-}
-
 .productLmg-img {
   position: relative;
   width: 100%;
@@ -233,6 +235,9 @@
   justify-content: center;
   align-items: center;
   padding: 5% 5%; /* 控制上下左右的間距 */
+  &:hover {
+    background-color: $neutral-60 !important;
+  }
   img{
     width: 100%;
     height: 100%;
@@ -275,7 +280,6 @@
     padding-bottom: 4px;
   }
 }
-
 .btn-nav-know {
   border: none;
   &.active {
@@ -283,50 +287,5 @@
   }
   &:hover {
     color: $neutral-90 !important;
-  }
-}
-
-///footer
-.logo-hover {
-  &:hover {
-    opacity: 0.7;
-  }
-}
-
-////練習用
-.stretch { 
-  // -webkit-align-items: stretch; 
-  align-items: stretch; 
-}
-.flexItem {
-  display: flex; // 洧杰修改處
-  flex-direction: column; // 洧杰修改處
-
-  &__flexB {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  &__img {
-    max-width: 80%;
-    max-height: 80%;
-    display: block;
-  }
-  &__body {
-    // min-height: 104px;
-    flex-grow:1;  // 洧杰修改處
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1rem;
-  }
-  &__title {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  &__muted {
-    margin-top: 1rem;
   }
 }

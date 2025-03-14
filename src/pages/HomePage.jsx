@@ -250,18 +250,18 @@ export default function HomePage() {
                   <img
                     src={know.imageUrl}
                     className="rounded-4 h-100"
-                    alt="..."
+                    alt={know.title}
                   />
                 </div>
                 <div className="card-body p-0 d-flex flex-column">
                   <p className="fs-10 pb-md-6 pb-2 text-gray-70">2024/12/01</p>
-                  <p className="fs-9 fs-md-8 fw-bold pb-md-6 pb-5 title-tips">
+                  <p className="fs-9 fs-md-8 fw-bold pb-md-6 pb-5 tips-title">
                     {know.title}
                   </p>
                   <div className="d-none d-md-block">
-                    <p className="content-tips">{know.content}</p>
+                    <p className="tips-content">{know.content}</p>
                   </div>
-                  <div className="mt-auto">
+                  <div className="mt-md-auto">
                     <Link
                       to={know.path}
                       className="fs-10 fw-bold text-primary pt-md-9 pt-0"

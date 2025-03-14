@@ -1,18 +1,15 @@
 import { Link } from "react-router-dom";
 
-const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
-
 export default function Footer() {
   return (
     <footer className="footer bg-primary">
       <div className="container-fluid">
         <div className="d-md-flex justify-content-md-between align-items-md-center pb-9">
           <div className="pb-6 pb-md-0">
-            <Link className="navbar-brand me-7 logo-hover" to={"/"}>
+            <Link className="navbar-brand me-7 logo" to={"/"}>
               <img
-                src={`${PUBLIC_URL}/images/icons/Logo.png`}
+                src="./images/icons/Logo.png"
                 alt="logo"
-                className="header-logo"
               />
             </Link>
           </div>
@@ -54,19 +51,19 @@ export default function Footer() {
           <div className="d-none d-md-block">
             <ul className="text-white list-unstyled d-flex m-0">
               <li>
-                <a href="#">
+                <Link to={"/"}>
                   <i className="bi bi-line fs-md-2"></i>
-                </a>
+                </Link>
               </li>
               <li className="ps-8">
-                <a href="#">
+                <Link to={"/"}>
                   <i className="bi bi-youtube fs-md-2"></i>
-                </a>
+                </Link>
               </li>
               <li className="ps-8">
-                <a href="#">
+                <Link to={"/"}>
                   <i className="bi bi-facebook fs-md-2"></i>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

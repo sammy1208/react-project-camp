@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css/navigation";
 import "swiper/css";
 import Header from "../components/header";
-const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
+import { Link } from "react-router-dom";
 
 export default function Banner({imageUrl, data, title, type, className}) {
   if (type === "carousel") {
@@ -13,7 +12,7 @@ export default function Banner({imageUrl, data, title, type, className}) {
         {data.map((item) => (
           <SwiperSlide key={item.id}>
             <div
-              className="banner"
+              className="banner-carousel"
               style={{ backgroundImage: `url(${item.image})` }}
             >
               <Header className={className}/>
@@ -24,13 +23,13 @@ export default function Banner({imageUrl, data, title, type, className}) {
                     <br />
                     {item.description}
                   </h1>
-                  <a
+                  <Link
                     className="btn btn-primary text-white fw-bold py-md-8 px-md-18"
-                    href="#"
+                    to={"/Products"}
                     role="button"
                   >
                     立即選購
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -42,7 +41,7 @@ export default function Banner({imageUrl, data, title, type, className}) {
     return (
       <div
       style={{ backgroundImage: `url(${imageUrl})` }}
-      className="banner-Products d-flex flex-column">
+      className="banner-static d-flex flex-column">
             <Header className={className}/>
         <div className="container text-white text-center h-100 d-flex flex-column justify-content-center">
           <h1 className="fw-bold fs-1">{title}</h1>
