@@ -11,6 +11,7 @@ import Knowledge_camping from "../components/Knowledge_camping"
 import Knowledge_cookware from "../components/Knowledge_cookware"
 import Knowledge_outdoor from "../components/Knowledge_outdoor"
 import Knowledge_newbie from "../components/Knowledge_newbie"
+import CheckoutFormPage from "../pages/CheckoutFormPage"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -60,6 +61,10 @@ const router = createHashRouter ([
             {
                 path: 'Products/:id',
                 element: < ProductsDetailPage />
+            },
+            {
+                path: 'Checkout-Form',
+                element: < CheckoutFormPage />
             }
         ]
     },

@@ -88,7 +88,7 @@ export default function Header({ className }) {
                 <li className="nav-item d-flex align-items-center">
                   <form className="d-flex">
                     <button
-                      className="btn px-4 py-0 d-flex align-items-center"
+                      className="btn px-4 py-0 d-flex align-items-center border-0"
                       type="submit"
                     >
                       <span className="material-symbols-outlined text-white">
@@ -101,19 +101,19 @@ export default function Header({ className }) {
                   <Link
                     to={`/CartPage`}
                     type="button"
-                    className="btn position-relative px-4 py-0"
+                    className="btn position-relative px-4 py-0 border-0"
                   >
                     <span className="material-symbols-outlined align-text-bottom text-white">
                       shopping_cart
                     </span>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-primary-100">
+                    <span className={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-primary-100 ${carts?.length === 0 && "d-none"}`}>
                       {carts?.length}
                     </span>
                   </Link>
                 </li>
                 <li className="nav-item d-flex align-items-center">
-                  <button type="button" className="btn position-relative p-0">
-                    <Link href="test.html" type="button" className=" px-4 py-0">
+                  <button type="button" className="btn position-relative p-0 border-0">
+                    <Link to={"/"} type="button" className="btn px-4 py-0 border-0">
                       <span className="material-symbols-outlined align-text-bottom text-white">
                         notifications
                       </span>

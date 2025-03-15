@@ -145,20 +145,59 @@
     color: $primary-30 !important;
   }
 }
+// .card {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   height: 100%;
+// }
+// .body {
+//   // min-height: 104px;
+//   flex-grow:1;  // 洧杰修改處
+//   height: auto;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   padding: 1rem;
+// }
+
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-.body {
-  // min-height: 104px;
-  flex-grow:1;  // 洧杰修改處
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
+  &-img {
+    height: 306px;
+    height: 306px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include mobile-larger {
+      height: 90px;
+      width: 120px;
+    }
+    img{
+      object-fit:cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    min-height: 42px;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+  &-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 21px;
+    @include mobile-larger {
+      min-height: 0;
+    }
+  }
 }
 
 ///_ProductsPage
@@ -225,7 +264,11 @@
     color: white !important;
   }
 }
-
+.swiper-slide {
+  display: flex;
+  height: 100%;
+  align-items: stretch; 
+}
 ///productLmg
 .productLmg-img {
   position: relative;

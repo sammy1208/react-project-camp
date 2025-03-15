@@ -58,6 +58,7 @@ export default function ProductsDetailPage() {
     dispatch(getAllProduct())
     // getCart();
     dispatch(getCart())
+    console.log(productsDetail.tag)
   }, []);
 
   // const getAllProducts = async () => {
@@ -230,7 +231,9 @@ export default function ProductsDetailPage() {
               <section className="border-bottom mb-9 mb-md-12">
                 <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">{productsDetail.title}</h3>
                 <p className="pb-md-4 pb-2 text-gray-70">
-                  VIP 會員獨享/VIP 會員獨享/VIP 會員獨享
+                  {productsDetail.tag?.map((item, index) => (
+                    <span key={index}>{item}{index !== productsDetail.tag?.length - 1 && "/"}</span>
+                  ))}
                 </p>
                 <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price}`}</p>
               </section>
@@ -420,16 +423,13 @@ export default function ProductsDetailPage() {
             slidesPerView={4}
             spaceBetween={24}
             initialSlide={1}
-            style={{ alignItems: "stretch" }}
-            className="row gy-10"
           >
             {productsAll.map((product) => (
-              <SwiperSlide key={product.id}>
-                <div
-                  className="col d-flex flex-column"
-                  key={product.id}
-                  style={{ alignItems: "stretch", height: "100%" }}
-                >
+              <SwiperSlide
+              key={product.id}
+              className="swiper-slide flex-column"
+              >
+                <div className="d-flex flex-column">
                   <Product product={product} />
                 </div>
               </SwiperSlide>

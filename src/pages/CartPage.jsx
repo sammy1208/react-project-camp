@@ -5,6 +5,7 @@ import ProductLmg from "../components/ProductLmg";
 import { useDispatch, useSelector } from "react-redux";
 import { PushMessage } from "../redux/slices/toastSlice";
 import { updateCartNum, clearCartNum } from "../redux/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -15,12 +16,23 @@ export default function CartPage() {
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [selectProduct, setSelectProduct] = useState({});
   const currentSelection = useSelector(state => state.product.selectedProduct)
+  const [total, setTotal] = useState(0)
   // const { carts } = useSelector(state => state.cart)
 
   useEffect(() => {
     getCart()
   }, []);
-
+  
+  useEffect(() => {
+    if (cart.carts){
+      const product = cart.carts.map((item) => {
+        return item.product.origin_price * item.qty
+      })
+      const totalALL = product.reduce((acc, item) => acc + item, 0);
+      setTotal(totalALL)
+    }
+  },[cart])
+  
   const getCart = async () => {
     setIsScreenLoading(true);
     try {
@@ -178,7 +190,7 @@ export default function CartPage() {
                             總計金額
                           </th>
                           <td className="text-end border-0 px-0 pt-4 text-gray-70">
-                            NT$24,000
+                            {`NT$${total}`}
                           </td>
                         </tr>
                         <tr>
@@ -186,10 +198,10 @@ export default function CartPage() {
                             scope="row"
                             className="border-0 px-0 pt-0 pb-4 text-gray-90"
                           >
-                            付款方式
+                            折扣金額
                           </th>
                           <td className="text-end border-0 px-0 pt-0 pb-4 text-gray-70">
-                            ApplePay
+                          {`- NT$${total - cart.final_total}`}
                           </td>
                         </tr>
                       </tbody>
@@ -197,7 +209,7 @@ export default function CartPage() {
                     <div className="d-flex justify-content-between my-8">
                       <p className="mb-0 fs-7 fw-bold">總計金額</p>
                       <p className="mb-0 fs-7 fw-bold text-primary">
-                        NT$24,000
+                      {`NT$${cart.final_total}`}
                       </p>
                     </div>
                     <div className="d-flex">
@@ -208,13 +220,13 @@ export default function CartPage() {
                       >
                         清空購物車
                       </button>
-                      <button
-                        // onClick={goCart}
+                      <Link
+                      to={"/Checkout-Form"}
                         type="button"
                         className="btn btn-primary text-white fw-bold py-md-8 py-6 w-100 me-4"
                       >
                         結帳
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

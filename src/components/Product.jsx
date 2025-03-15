@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Product({ product }) {
   const { pathname } = useLocation();
-  const primaryBgRoutes = ["/", "/products/"];
+  const [isPrimaryBg, setIsPrimaryBg] = useState(true)
 
   const [wishList, setWishList] = useState(() => {
     const initWishList = localStorage.getItem("wishList")
@@ -28,14 +28,31 @@ export default function Product({ product }) {
   const Navigate = useNavigate();
 
   const handleProduct = () => {
-    Navigate(`/products/${product.id}`);
+    Navigate(`/Products/${product.id}`);
   };
 
-  const isPrimaryBg = primaryBgRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
-  const dNone = isPrimaryBg ? "d-none" : "";
+  // const isPrimaryBg = primaryBgRoutes.some((route) =>
+  //   pathname.startsWith(route)
+  // );
+  // const isPrimaryBg = primaryBgRoutes.includes(pathname);
+  // const isPrimaryBg = primaryBgRoutes.some((path) => path === pathname);
+  const primaryBgRoutes = ["/", "/Products/"];
 
+  useEffect(( ) => {
+    if (pathname === "/") {
+      setIsPrimaryBg(true)
+    } else if (pathname === "/Products/") {
+      setIsPrimaryBg(true)
+    } else if (pathname === "/Products") {
+      setIsPrimaryBg(false)
+    }
+
+  },[])
+  const dNone = isPrimaryBg ? "d-none" : "";
+  console.log(isPrimaryBg, dNone, pathname)
+
+
+  
   return (
     <div
       onClick={() => handleProduct()}
@@ -59,7 +76,7 @@ export default function Product({ product }) {
         <img
           src={product.imageUrl}
           alt={product.title}
-          style={{ minHeight: "100px" }}
+          // style={{ minHeight: "100px" }}
         />
       </div>
       <div className="card-body body p-0 d-flex flex-column">
