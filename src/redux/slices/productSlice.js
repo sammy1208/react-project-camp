@@ -11,13 +11,21 @@ const productSlice = createSlice({
     initialState,
     reducers: {
         PushSelectedProduct(state, action) {
-            const { id, color, specs } =action.payload;
+            const { id, color, specs } = action.payload;
 
-            state.selectedProduct.push({
-                id,
-                color,
-                specs
-            })
+            const existingProduct = state.selectedProduct.find(res => res.id === id)
+
+            if (existingProduct) {
+                existingProduct.color = color;
+                existingProduct.specs = specs;
+            } else {
+                state.selectedProduct.push({
+                    id,
+                    color,
+                    specs
+                })
+            }
+
 
         }
     }

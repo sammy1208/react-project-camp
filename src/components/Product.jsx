@@ -1,28 +1,34 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { wishMessage } from "../redux/slices/wishSlice";
 
 export default function Product({ product }) {
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [isPrimaryBg, setIsPrimaryBg] = useState(true)
 
-  const [wishList, setWishList] = useState(() => {
-    const initWishList = localStorage.getItem("wishList")
-      ? JSON.parse(localStorage.getItem("wishList"))
-      : {};
+  const wishList = useSelector((state) => state.wish.list)
 
-    return initWishList;
-  });
+  // const [wishList, setWishList] = useState(() => {
+  //   const initWishList = localStorage.getItem("wishList")
+  //     ? JSON.parse(localStorage.getItem("wishList"))
+  //     : {};
+
+  //   return initWishList;
+  // });
 
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
-    const newWishList = {
-      ...wishList,
-      [product_id]: !wishList[product_id]
-    };
+    dispatch(wishMessage(product_id))
+    // const newWishList = {
+    //   ...wishList,
+    //   [product_id]: !wishList[product_id]
+    // };
 
-    localStorage.setItem("wishList", JSON.stringify(newWishList));
+    // localStorage.setItem("wishList", JSON.stringify(newWishList));
 
-    setWishList(newWishList);
+    // setWishList(newWishList);
   };
 
   const Navigate = useNavigate();
@@ -30,13 +36,6 @@ export default function Product({ product }) {
   const handleProduct = () => {
     Navigate(`/Products/${product.id}`);
   };
-
-  // const isPrimaryBg = primaryBgRoutes.some((route) =>
-  //   pathname.startsWith(route)
-  // );
-  // const isPrimaryBg = primaryBgRoutes.includes(pathname);
-  // const isPrimaryBg = primaryBgRoutes.some((path) => path === pathname);
-  const primaryBgRoutes = ["/", "/Products/"];
 
   useEffect(( ) => {
     if (pathname === "/") {
@@ -48,11 +47,9 @@ export default function Product({ product }) {
     }
 
   },[])
-  const dNone = isPrimaryBg ? "d-none" : "";
-  console.log(isPrimaryBg, dNone, pathname)
-
-
   
+  const dNone = isPrimaryBg ? "d-none" : "";
+
   return (
     <div
       onClick={() => handleProduct()}
@@ -76,7 +73,6 @@ export default function Product({ product }) {
         <img
           src={product.imageUrl}
           alt={product.title}
-          // style={{ minHeight: "100px" }}
         />
       </div>
       <div className="card-body body p-0 d-flex flex-column">
@@ -101,38 +97,5 @@ export default function Product({ product }) {
         </p>
       </div>
     </div>
-    // <div
-    // onClick={() => handleProduct()}
-    // className="flexItem"
-    // style={{ cursor: "pointer" }}
-    // >
-    //   <div className="bg-gray-30 flexItem__flexB position-relative">
-    //   <button
-    //   onClick={(e) => btnWishList(e, product.id)}
-    //   type="button"
-    //   className="btn position-absolute top-0 end-0 btn-product-wish"
-    // >
-    //   <i
-    //     className={`bi fs-9 ${
-    //       wishList[product.id]
-    //         ? "bi-heart-fill text-primary"
-    //         : "bi-heart text-gray-70"
-    //     }`}
-    //   ></i>
-    // </button>
-    //     <img
-    //   src={product.imageUrl}
-    //   alt={product.title}
-    //   className="flexItem__img"
-    // />
-    //   </div>
-    //   <div className="flexItem__body">
-    //     <div className="flexItem__text">
-    //       <p className="flexItem__title">{product.title}</p>
-    //       <p>{product.description}</p>
-    //     </div>
-    //     <p className="flexItem__muted">{`$${product.price}`}</p>
-    //   </div>
-    // </div>
   );
 }

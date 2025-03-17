@@ -19,6 +19,7 @@ export default function Header({ className }) {
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.cart.carts);
   const productListRef = useRef(null);
+  const wishList = useSelector((state) => state.wish.list)
   const navbarRef = useRef(null);
   const navRef01 = useRef(null);
   const navRef02 = useRef(null);
@@ -85,7 +86,7 @@ export default function Header({ className }) {
                 ))}
               </ul>
               <ul className="list-unstyled d-flex align-items-lg-center m-0">
-                <li className="nav-item d-flex align-items-center">
+                {/* <li className="nav-item d-flex align-items-center">
                   <form className="d-flex">
                     <button
                       className="btn px-4 py-0 d-flex align-items-center border-0"
@@ -96,12 +97,23 @@ export default function Header({ className }) {
                       </span>
                     </button>
                   </form>
+                </li> */}
+                <li className="nav-item d-flex align-items-center">
+                  <NavLink to={"/Wish"} className="nav-link px-4 py-0">
+                  <i
+                    className={`bi fs-9 text-white ${
+                      
+                     Object.keys(wishList).length > 0
+                        ? "bi-heart-fill"
+                        : "bi-heart"
+                    }`}
+                  ></i>
+                  </NavLink>
                 </li>
                 <li className="nav-item d-flex align-items-center">
-                  <Link
+                  <NavLink
                     to={`/CartPage`}
-                    type="button"
-                    className="btn position-relative px-4 py-0 border-0"
+                    className="nav-link position-relative px-4 py-0"
                   >
                     <span className="material-symbols-outlined align-text-bottom text-white">
                       shopping_cart
@@ -109,16 +121,7 @@ export default function Header({ className }) {
                     <span className={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-primary-100 ${carts?.length === 0 && "d-none"}`}>
                       {carts?.length}
                     </span>
-                  </Link>
-                </li>
-                <li className="nav-item d-flex align-items-center">
-                  <button type="button" className="btn position-relative p-0 border-0">
-                    <Link to={"/"} type="button" className="btn px-4 py-0 border-0">
-                      <span className="material-symbols-outlined align-text-bottom text-white">
-                        notifications
-                      </span>
-                    </Link>
-                  </button>
+                  </NavLink>
                 </li>
               </ul>
             </div>

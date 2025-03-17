@@ -14,7 +14,7 @@ export default function FrontLayout() {
   const location = useLocation();
   const path = location.pathname;
 
-  const primaryBgRoutes = ["/CartPage", "/KnowledgePage", "/Products/", "/Checkout-Form"];
+  const primaryBgRoutes = ["/CartPage", "/KnowledgePage", "/Products/", "/Checkout-Form", "/Wish", "/Order/", "/PayOrder/"];
 
   const isPrimaryBg = primaryBgRoutes.some((route) => path.includes(route));
   const layoutClass = isPrimaryBg ? "bg-primary" : "";

@@ -7,10 +7,11 @@ import ScreenLoading from "../components/ScreenLoading";
 import Product from "../components/Product";
 import { useDispatch, useSelector } from "react-redux";
 import { PushMessage } from "../redux/slices/toastSlice";
+import { wishMessage } from "../redux/slices/wishSlice";
 import { updateCartNum } from "../redux/slices/cartSlice";
 import { PushSelectedProduct } from "../redux/slices/productSlice";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import "swiper/css";
 import { Collapse } from "bootstrap";
@@ -26,6 +27,7 @@ export default function ProductsDetailPage() {
   const [isColorActive, setIsColorActive] = useState(null);
   const [isSpecsActive, setIsSpecsActive] = useState(null);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
+  const wishList = useSelector((state) => state.wish.list)
   const dispatch = useDispatch();
 
   const { id: product_id } = useParams(); //因為有重新命名
@@ -54,11 +56,12 @@ export default function ProductsDetailPage() {
     // };
     // getProduct();
     // getAllProducts();
+    setIsScreenLoading(true);
     dispatch(getProductDetail(product_id))
     dispatch(getAllProduct())
     // getCart();
     dispatch(getCart())
-    console.log(productsDetail.tag)
+    .finally(() =>setIsScreenLoading(false))
   }, []);
 
   // const getAllProducts = async () => {
@@ -105,28 +108,42 @@ export default function ProductsDetailPage() {
   //   }
   // };
 
-  const updataCartItem = (product_id, qty) => {
+  const updataCartItem = async (product_id, qty) => {
     const CartData = {
       product_id,
       qty
     }
-    return dispatch(updataCart(CartData))
+    setIsScreenLoading(true);
+    try {
+      return await dispatch(updataCart(CartData)).unwrap();
+    } catch (error) {
+      dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
+      throw error;
+    } finally {
+      setIsScreenLoading(false);
+    }
   }
 
   const handleQty = (qty) => {
     setQtySelect(qty);
   };
 
-  const addCart = () => {
+  const addCart =  async() => {
     if (isColorActive && isSpecsActive) {
-      updataCartItem(product_id, qtySelect);
-      // dispatch(
-      //   PushSelectedProduct({
-      //     id: product_id,
-      //     color: isColorActive,
-      //     specs: isSpecsActive
-      //   })
-      // );
+      try {
+        await updataCartItem(product_id, qtySelect);
+        dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
+      } catch (error) {
+        dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
+      }
+      
+      dispatch(
+        PushSelectedProduct({
+          id: product_id,
+          color: isColorActive,
+          specs: isSpecsActive
+        })
+      );
     } else {
       dispatch(
         PushMessage({
@@ -137,17 +154,23 @@ export default function ProductsDetailPage() {
     }
   };
 
-  const goCart = () => {
+  const goCart = async () => {
     if (isColorActive && isSpecsActive) {
-      updataCartItem(product_id, qtySelect);
-      // dispatch(
-      //   PushSelectedProduct({
-      //     id: product_id,
-      //     color: isColorActive,
-      //     specs: isSpecsActive
-      //   })
-      // );
-      Navigate("/CartPage");
+      try {
+        await updataCartItem(product_id, qtySelect);
+        dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
+        dispatch(
+          PushSelectedProduct({
+            id: product_id,
+            color: isColorActive,
+            specs: isSpecsActive
+          })
+        );
+        Navigate("/CartPage");
+        
+      } catch (error) {
+        dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
+      }
     } else {
       dispatch(
         PushMessage({
@@ -158,24 +181,25 @@ export default function ProductsDetailPage() {
     }
   };
 
-  const [wishList, setWishList] = useState(() => {
-    const initWishList = localStorage.getItem("wishList")
-      ? JSON.parse(localStorage.getItem("wishList"))
-      : {};
+  // const [wishList, setWishList] = useState(() => {
+  //   const initWishList = localStorage.getItem("wishList")
+  //     ? JSON.parse(localStorage.getItem("wishList"))
+  //     : {};
 
-    return initWishList;
-  });
+  //   return initWishList;
+  // });
 
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
-    setWishList((prev) => {
-      const newWishList = {
-        ...prev,
-        [product_id]: !wishList[product_id]
-      };
-      localStorage.setItem("wishList", JSON.stringify(newWishList));
-      return newWishList;
-    });
+    dispatch(wishMessage(product_id))
+    // setWishList((prev) => {
+    //   const newWishList = {
+    //     ...prev,
+    //     [product_id]: !wishList[product_id]
+    //   };
+    //   localStorage.setItem("wishList", JSON.stringify(newWishList));
+    //   return newWishList;
+    // });
   };
 
   const btnColorActive = (item) => {
@@ -415,8 +439,8 @@ export default function ProductsDetailPage() {
         </div>
 
         <section className="d-none d-md-block">
-          <p className="text-primary text-center pb-md-2">Camping Tips</p>
-          <h2 className="text-center pb-md-17">露營知識，不可不知</h2>
+          <p className="text-primary text-center pb-md-2">You May Also Like</p>
+          <h2 className="text-center pb-md-17">猜你喜歡</h2>
           <Swiper
             modules={[Navigation]}
             navigation

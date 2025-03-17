@@ -62,13 +62,13 @@
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 15% 5%;
+  padding: 15% 5% 10% 5%;
   display: flex;
   justify-content: center;
   align-items: center;
   img{
     width: auto;
-    height: 80%;
+    height: 95%;
     object-fit: cover;
     max-width: 100%;
     display: block;
@@ -330,5 +330,26 @@
   }
   &:hover {
     color: $neutral-90 !important;
+  }
+}
+
+///
+.custom-step-line {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    width: 80%;
+    height: 1px;
+    background: $neutral-90;
+    // transform: translate(100%, -50%);
+    z-index: -1;
+  }
+  @include mobile-larger {
+    &::after {
+      display: none;
+    }
   }
 }

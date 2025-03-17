@@ -97,6 +97,11 @@ export default function CartPage() {
     }
   };
 
+  const getSelectProduct = (id) => {
+    const curren = currentSelection.find((product) => id === product.id )
+    return curren || null;
+  }
+
   return (
     <>
       <article className="container-index">
@@ -129,9 +134,9 @@ export default function CartPage() {
                           <p className="fs-9 fs-md-8 pb-2 fw-bold">
                             {cartItem.product.title}
                           </p>
-                          {selectProduct && (
+                          {getSelectProduct(cartItem.product?.id) && (
                               <p className="fs-11 fs-md-10 text-gray-70 pb-3">
-                                {`${selectProduct.color} / ${selectProduct.specs}`}
+                                {`${getSelectProduct(cartItem.product?.id).color} / ${getSelectProduct(cartItem.product?.id).specs}`}
                               </p>
                           )}
                           <div className="d-flex align-items-center pb-5 ">
@@ -236,7 +241,7 @@ export default function CartPage() {
             <>
               <div className="text-center">
                 <img
-                  src="/青松露營w.svg"
+                  src="./青松露營w.svg"
                   alt="logo"
                   style={{ height: "200px" }}
                 />

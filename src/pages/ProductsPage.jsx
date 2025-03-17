@@ -17,7 +17,7 @@ function ProductsPage() {
   const [pageInfo, setPageInfo] = useState(1); // 當前頁數
   const [selectedFilter, setSelectedFilter] = useState([]); // 存儲當前篩選條件
   const [isActive, setIsActive] = useState(null);
-  const itemsPerPage = 6;
+  const itemsPerPage = 12;
 
   const { productsAll } = useSelector((state) => state.api) // 全部產品
   console.log(productsAll)

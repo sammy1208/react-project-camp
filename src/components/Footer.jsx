@@ -15,19 +15,16 @@ export default function Footer() {
           </div>
           <ul className="d-flex text-white list-unstyled mb-lg-0 mb-6 justify-content-md-end d-md-none">
             <li>
-              <a href="#">
-                <i className="bi bi-line fs-3"></i>
-              </a>
+              <Link to={"/"}>
+                <i className="bi bi-linkedin  fs-3"></i>
+              </Link>
             </li>
-            <li className="ps-6">
-              <a href="#">
-                <i className="bi bi-youtube fs-3"></i>
+            <li className="ps-8">
+              <a href="https://github.com/sammy1208/react-project-camp">
+                <i className="bi bi-github  fs-3"></i>
               </a>
-            </li>
-            <li className="ps-6">
-              <a href="#">
-                <i className="bi bi-facebook fs-3"></i>
-              </a>
+              <Link to={"/"}>
+              </Link>
             </li>
           </ul>
           <ul className="text-white list-unstyled fs-10 fs-md-9 d-flex m-0">
@@ -52,18 +49,13 @@ export default function Footer() {
             <ul className="text-white list-unstyled d-flex m-0">
               <li>
                 <Link to={"/"}>
-                  <i className="bi bi-line fs-md-2"></i>
+                  <i className="bi bi-linkedin fs-md-4"></i>
                 </Link>
               </li>
               <li className="ps-8">
-                <Link to={"/"}>
-                  <i className="bi bi-youtube fs-md-2"></i>
-                </Link>
-              </li>
-              <li className="ps-8">
-                <Link to={"/"}>
-                  <i className="bi bi-facebook fs-md-2"></i>
-                </Link>
+                <a href="https://github.com/sammy1208/react-project-camp">
+                  <i className="bi bi-github fs-md-4"></i>
+                </a>
               </li>
             </ul>
           </div>

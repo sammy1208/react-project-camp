@@ -12,6 +12,9 @@ import Knowledge_cookware from "../components/Knowledge_cookware"
 import Knowledge_outdoor from "../components/Knowledge_outdoor"
 import Knowledge_newbie from "../components/Knowledge_newbie"
 import CheckoutFormPage from "../pages/CheckoutFormPage"
+import WishPage from "../pages/WishPage"
+import OrderPage from "../pages/OrderPage"
+import PayOrderPage from "../pages/PayOrderPage"
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -63,8 +66,20 @@ const router = createHashRouter ([
                 element: < ProductsDetailPage />
             },
             {
+                path: 'Wish',
+                element: < WishPage />
+            },
+            {
                 path: 'Checkout-Form',
                 element: < CheckoutFormPage />
+            },
+            {
+                path: 'Order/:id',
+                element: < OrderPage />
+            },
+            {
+                path: 'PayOrder/:id',
+                element: < PayOrderPage />
             }
         ]
     },
@@ -75,9 +90,3 @@ const router = createHashRouter ([
 ])
 
 export default router
-{/* <HomePage/> */}
-const routes = [
-    { path: "/Camping", name: "無痕露營" },
-    { path: "/outdoor", name: "永續戶外" },
-    { path: "/cookware", name: "環保炊具" }
-];
