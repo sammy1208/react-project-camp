@@ -78,9 +78,9 @@ export default function OrderPage() {
 
   return (
     <>
-      <article className="container-index">
+      <article className="container-default">
         <div className="container">
-          <p className="text-center pb-md-2">CampEase design</p>
+          <p className="text-center pb-md-2">Shopping Cart</p>
           <h2 className="text-center pb-md-17 pb-12">購物車</h2>
           <div className="row justify-content-center">
             <div className="col-8">

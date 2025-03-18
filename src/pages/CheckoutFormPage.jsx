@@ -84,23 +84,23 @@ export default function CheckoutFormPage() {
 
   return (
     <>
-      <article className="container-index">
+      <article className="container-default">
         <div className="container">
-          <p className="text-center pb-md-2">CampEase design</p>
+          <p className="text-center pb-md-2">Shopping Cart</p>
           <h2 className="text-center pb-md-17 pb-12">購物車</h2>
           <div className="row justify-content-center">
             <div className="col-md-8">
               <ul className="list-unstyled mb-14 ms-md-auto d-flex align-items-center justify-content-between w-100 mt-md-0 mt-4 custom-step-line">
                 <li className="me-md-6 me-3 position-relative bg-white">
-                  <i class="bi bi-1-circle-fill fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-1-circle-fill fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10 fw-bold">訂單資料</span>
                 </li>
                 <li className="me-md-6 me-3 position-relative bg-white">
-                  <i class="bi bi-2-circle fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-2-circle fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10">結帳付款</span>
                 </li>
                 <li className="bg-white">
-                  <i class="bi bi-3-circle fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-3-circle fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10">訂購結果</span>
                 </li>
               </ul>

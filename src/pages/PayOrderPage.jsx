@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import ScreenLoading from "../components/ScreenLoading";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductLmg from "../components/ProductLmg";
+import { getAllProduct, getProductDetail, getCart, updataCart } from "../redux/slices/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -14,9 +16,11 @@ export default function PayOrderPage() {
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const { id: order_id } = useParams();
   const Navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getOrder();
+    dispatch(getCart())
   }, []);
 
   const checkoutPay = () => {
@@ -47,9 +51,9 @@ export default function PayOrderPage() {
 
   return (
     <>
-      <article className="container-index">
+      <article className="container-default">
         <div className="container">
-          <p className="text-center pb-md-2">CampEase design</p>
+          <p className="text-center pb-md-2">Shopping Cart</p>
           <h2 className="text-center pb-md-17 pb-12">購物車</h2>
           <div className="row justify-content-center">
             <div className="col-8">

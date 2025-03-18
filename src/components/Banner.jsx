@@ -15,7 +15,7 @@ export default function Banner({imageUrl, data, title, type, className}) {
               className="banner-carousel"
               style={{ backgroundImage: `url(${item.image})` }}
             >
-              <Header className={className}/>
+              {/* <Header className={className}/> */}
               <div className="d-flex flex-column h-100 justify-content-center">
                 <div className="container text-white text-center">
                   <h1 className="fw-bold fs-1 mb-md-13">
@@ -42,15 +42,16 @@ export default function Banner({imageUrl, data, title, type, className}) {
       <div
       style={{ backgroundImage: `url(${imageUrl})` }}
       className="banner-static d-flex flex-column">
-            <Header className={className}/>
+            {/* <Header className={className}/> */}
         <div className="container text-white text-center h-100 d-flex flex-column justify-content-center">
           <h1 className="fw-bold fs-1">{title}</h1>
         </div>
       </div>
     );
-  } else {
-    return (
-        <Header className={className}/>
-    );
-  }
+  } 
+  // else {
+  //   return (
+  //       <Header className={className}/>
+  //   );
+  // }
 }

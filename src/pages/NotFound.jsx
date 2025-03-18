@@ -4,7 +4,7 @@ const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
 export default function NotFound() {
   return (
     <>
-      <div className="container-index">
+      <div className="container-default">
         <div className="container">
           <div className="text-center">
             <img src={`${PUBLIC_URL}/青松露營w.svg`} alt="logo" style={{ height: "200px" }} />

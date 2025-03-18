@@ -232,7 +232,7 @@ export default function ProductsDetailPage() {
 
   return (
     <div className="container">
-      <main className="pt-8 pb-14 pt-md-18 pb-md-23">
+      <main className="container-default">
         <div className="pb-md-18">
           <ProductNav product={productsDetail} />
 

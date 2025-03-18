@@ -104,9 +104,9 @@ export default function CartPage() {
 
   return (
     <>
-      <article className="container-index">
+      <article className="container-default">
         <div className="container">
-          <p className="text-center pb-md-2">CampEase design</p>
+          <p className="text-center pb-md-2">Shopping Cart</p>
           <h2 className="text-center pb-md-17 pb-12">購物車</h2>
           {cart.carts?.length > 0 ? (
             <div>

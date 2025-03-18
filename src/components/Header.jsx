@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { updateCartNum } from "../redux/slices/cartSlice";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -20,6 +20,8 @@ export default function Header({ className }) {
   const carts = useSelector((state) => state.cart.carts);
   const productListRef = useRef(null);
   const wishList = useSelector((state) => state.wish.list)
+  const [isScrolled, setIsScrolled] = useState(false);
+  const handleScrollRef = useRef(null);
   const navbarRef = useRef(null);
   const navRef01 = useRef(null);
   const navRef02 = useRef(null);
@@ -45,6 +47,20 @@ export default function Header({ className }) {
     getCart();
   }, []);
 
+  useEffect(() => {
+    handleScrollRef.current  = () => {
+
+      if (window.scrollY > 560) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+    }
+    window.addEventListener("scroll", handleScrollRef.current);
+
+    return () => {window.removeEventListener("scroll", handleScrollRef.current)}
+  },[])
+
   const toggleCollapse = (key, ref) => {
     if (ref.current) {
       const bsCollapse = new Collapse(ref.current);
@@ -56,17 +72,40 @@ export default function Header({ className }) {
     }
   };
 
+  const closeNavbar = () => {
+    if (navbarRef.current && isCollapseOpen.navbar) {
+      const bsCollapse = new Collapse(navbarRef.current);
+      bsCollapse.hide();
+      setIsCollapseOpen((prev) => ({
+        ...prev,
+        navbar: false,
+      }));
+    }
+  };
+
   return (
-    <nav className={`${className}`}>
+    <nav
+    style={{
+      position: "fixed",
+      zIndex: "2",
+      backgroundColor: isScrolled ? "#638C6D" : "transparent",
+      transition: "background-color 0.3s ease",
+    }}
+    className={`${className} w-100`}>
       <div
-        className={`navbar navbar-expand-lg navbar-dark py-10 ${
+        className={`navbar navbar-expand-lg navbar-dark py-md-10 py-6 ${
           isCollapseOpen.navbar ? "bg-primary" : ""
         }`}
+        style={{transition: "1s"}}
       >
         <div className="container-fluid d-block">
           <div className="d-flex">
             {/* <!-- //logo --> */}
-            <NavLink className="navbar-brand me-7 logo" to={"/"}>
+            <NavLink
+            className="navbar-brand me-7 logo p-0"
+            to={"/"}
+            onClick={closeNavbar}
+            >
               <img
                 src={`${PUBLIC_URL}/images/icons/Logo.png`}
                 alt="logo"
@@ -99,7 +138,10 @@ export default function Header({ className }) {
                   </form>
                 </li> */}
                 <li className="nav-item d-flex align-items-center">
-                  <NavLink to={"/Wish"} className="nav-link px-4 py-0">
+                  <NavLink
+                  to={"/Wish"}
+                  onClick={closeNavbar}
+                  className="nav-link px-4 py-0">
                   <i
                     className={`bi fs-9 text-white ${
                       
@@ -113,6 +155,7 @@ export default function Header({ className }) {
                 <li className="nav-item d-flex align-items-center">
                   <NavLink
                     to={`/CartPage`}
+                    onClick={closeNavbar}
                     className="nav-link position-relative px-4 py-0"
                   >
                     <span className="material-symbols-outlined align-text-bottom text-white">
@@ -248,6 +291,7 @@ export default function Header({ className }) {
                       className="nav-link active text-white fw-bold fs-7 p-0"
                       aria-current="page"
                       to={`/aboutUs`}
+                      onClick={closeNavbar}
                     >
                       關於青松
                     </NavLink>
@@ -257,6 +301,7 @@ export default function Header({ className }) {
                       className="nav-link active text-white fw-bold fs-7 p-0"
                       aria-current="page"
                       to={`/KnowledgePage`}
+                      onClick={closeNavbar}
                     >
                       知識專欄
                     </NavLink>

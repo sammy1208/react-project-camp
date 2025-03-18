@@ -11,11 +11,11 @@ export default function KnowledgePage() {
   return (
     <>
       <div className="container-lg">
-        <main className="pt-8 pb-14 pt-md-18 pb-md-23">
+        <main className="container-default">
           <div className="row">
             {/* 左側nav */}
             <div className="col-3 d-none d-md-block">
-              <p className="fs-8 fw-bold mb-6">產品分類</p>
+              <p className="fs-8 fw-bold mb-6">知識分類</p>
               <ul className="list-unstyled">
                 {KnowledgeRoutes.map((routes) => (
                   <li className="mb-4 border-bottom" key={routes.path}>

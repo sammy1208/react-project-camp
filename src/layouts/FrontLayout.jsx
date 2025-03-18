@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import AutoScrollToTop from "../components/AutoScrollToTop";
 import { useSelector } from "react-redux";
+import Header from "../components/header";
 
 export default function FrontLayout() {
   const { bannerStyles } = useSelector((state) => state.siteContent);
@@ -34,6 +35,7 @@ export default function FrontLayout() {
   return (
     <>
       <AutoScrollToTop />
+      < Header className={layoutClass} />
       <Banner {...bannerProps} className={layoutClass} />
       <Outlet />
       <Footer />

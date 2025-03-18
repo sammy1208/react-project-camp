@@ -30,7 +30,7 @@ export default function WishPage() {
 
   return (
     <>
-      <main className="container-index">
+      <main className="container-default">
         <div className="container">
           <div className="pb-md-18">
           <p className="text-center pb-md-2">Wish List</p>
