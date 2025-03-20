@@ -16,15 +16,13 @@ export default function Footer() {
           <ul className="d-flex text-white list-unstyled mb-lg-0 mb-6 justify-content-md-end d-md-none">
             <li>
               <Link to={"/"}>
-                <i className="bi bi-linkedin  fs-3"></i>
+                <i className="bi bi-linkedin fs-3"></i>
               </Link>
             </li>
             <li className="ps-8">
               <a href="https://github.com/sammy1208/react-project-camp">
                 <i className="bi bi-github  fs-3"></i>
               </a>
-              <Link to={"/"}>
-              </Link>
             </li>
           </ul>
           <ul className="text-white list-unstyled fs-10 fs-md-9 d-flex m-0">
@@ -55,6 +53,11 @@ export default function Footer() {
               <li className="ps-8">
                 <a href="https://github.com/sammy1208/react-project-camp">
                   <i className="bi bi-github fs-md-4"></i>
+                </a>
+              </li>
+              <li className="ps-8">
+                <a href="https://github.com/sammy1208/react-project-camp">
+                <i class="bi bi-person-circle fs-md-4"></i>
                 </a>
               </li>
             </ul>

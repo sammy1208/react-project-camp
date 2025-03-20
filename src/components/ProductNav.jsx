@@ -1,8 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 export default function ProductNav({ product }) {
-  const { id: product_id } = useParams(); //因為有重新命名
   const location = useLocation();
 
   return (

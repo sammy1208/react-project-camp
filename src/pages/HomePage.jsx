@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import Product from "../components/Product";
 import ProductLmg from "../components/ProductLmg";
-import { Link } from "react-router-dom";
 import ScreenLoading from "../components/ScreenLoading";
-import { useSelector } from "react-redux";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;

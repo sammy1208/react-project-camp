@@ -1,36 +1,25 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useForm } from "react-hook-form";
-import ScreenLoading from "../components/ScreenLoading";
 import { useNavigate } from "react-router-dom";
-import ProductLmg from "../components/ProductLmg";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import { PushMessage } from "../redux/slices/toastSlice";
-import { useDispatch } from "react-redux";
+import { getCart } from "../redux/slices/apiSlice";
+import axios from "axios";
+import ScreenLoading from "../components/ScreenLoading";
+import ProductLmg from "../components/ProductLmg";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function CheckoutFormPage() {
-  const [cart, setCart] = useState({});
-  const [total, setTotal] = useState(0);
-  const [isScreenLoading, setIsScreenLoading] = useState(false);
   const Navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const getCart = async () => {
-    setIsScreenLoading(true);
-    try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      setCart(res.data.data);
-    } catch (error) {
-      alert("取得購物車失敗");
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
+  const cart = useSelector((state) => state.cart);
+  const [total, setTotal] = useState(0);
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
 
   useEffect(() => {
-    getCart();
+    dispatch(getCart());
   }, []);
 
   const {
@@ -50,7 +39,6 @@ export default function CheckoutFormPage() {
     };
     const res = await checkout(userInfo);
     dispatch(PushMessage({ text: "建立訂單成功！", status: "success" }));
-    console.log("onSubmit", res.orderId);
     Navigate(`/Order/${res.orderId}`);
   });
 
@@ -62,11 +50,10 @@ export default function CheckoutFormPage() {
         data
       );
       reset();
-      getCart();
-      console.log("checkout", res.data);
+      dispatch(getCart());
       return res.data;
     } catch (error) {
-      alert("結帳失敗");
+      alert("建立訂單失敗");
     } finally {
       setIsScreenLoading(false);
     }

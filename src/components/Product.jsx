@@ -6,29 +6,13 @@ import { wishMessage } from "../redux/slices/wishSlice";
 export default function Product({ product }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const [isPrimaryBg, setIsPrimaryBg] = useState(true)
+  const [isPrimaryBg, setIsPrimaryBg] = useState(true);
+  const wishList = useSelector((state) => state.wish.list);
 
-  const wishList = useSelector((state) => state.wish.list)
-
-  // const [wishList, setWishList] = useState(() => {
-  //   const initWishList = localStorage.getItem("wishList")
-  //     ? JSON.parse(localStorage.getItem("wishList"))
-  //     : {};
-
-  //   return initWishList;
-  // });
 
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
-    dispatch(wishMessage(product_id))
-    // const newWishList = {
-    //   ...wishList,
-    //   [product_id]: !wishList[product_id]
-    // };
-
-    // localStorage.setItem("wishList", JSON.stringify(newWishList));
-
-    // setWishList(newWishList);
+    dispatch(wishMessage(product_id));
   };
 
   const Navigate = useNavigate();
@@ -37,17 +21,16 @@ export default function Product({ product }) {
     Navigate(`/Products/${product.id}`);
   };
 
-  useEffect(( ) => {
+  useEffect(() => {
     if (pathname === "/") {
-      setIsPrimaryBg(true)
+      setIsPrimaryBg(true);
     } else if (pathname === "/Products/") {
-      setIsPrimaryBg(true)
+      setIsPrimaryBg(true);
     } else if (pathname === "/Products") {
-      setIsPrimaryBg(false)
+      setIsPrimaryBg(false);
     }
+  }, []);
 
-  },[])
-  
   const dNone = isPrimaryBg ? "d-none" : "";
 
   return (
@@ -70,10 +53,7 @@ export default function Product({ product }) {
             }`}
           ></i>
         </button>
-        <img
-          src={product.imageUrl}
-          alt={product.title}
-        />
+        <img src={product.imageUrl} alt={product.title} />
       </div>
       <div className="card-body body p-0 d-flex flex-column">
         <div className="flexItem__text">

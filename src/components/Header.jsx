@@ -1,8 +1,7 @@
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { updateCartNum } from "../redux/slices/cartSlice";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import { getCart } from "../redux/slices/apiSlice";
 import { Collapse } from "bootstrap";
 
 const routes = [
@@ -11,16 +10,12 @@ const routes = [
   { path: "/KnowledgePage", name: "知識專欄" }
 ];
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-const API_PATH = import.meta.env.VITE_API_PATH;
-const PUBLIC_URL = import.meta.env.VITE_PUBLIC_URL;
-
 export default function Header({ className }) {
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.cart.carts);
-  const productListRef = useRef(null);
-  const wishList = useSelector((state) => state.wish.list)
+  const wishList = useSelector((state) => state.wish.list);
   const [isScrolled, setIsScrolled] = useState(false);
+  const productListRef = useRef(null);
   const handleScrollRef = useRef(null);
   const navbarRef = useRef(null);
   const navRef01 = useRef(null);
@@ -34,32 +29,24 @@ export default function Header({ className }) {
     nav03: false
   });
 
-  const getCart = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      dispatch(updateCartNum(res.data.data));
-    } catch (error) {
-      alert(error);
-    }
-  };
-
   useEffect(() => {
-    getCart();
+    dispatch(getCart());
   }, []);
 
   useEffect(() => {
-    handleScrollRef.current  = () => {
-
+    handleScrollRef.current = () => {
       if (window.scrollY > 560) {
-        setIsScrolled(true)
+        setIsScrolled(true);
       } else {
-        setIsScrolled(false)
+        setIsScrolled(false);
       }
-    }
+    };
     window.addEventListener("scroll", handleScrollRef.current);
 
-    return () => {window.removeEventListener("scroll", handleScrollRef.current)}
-  },[])
+    return () => {
+      window.removeEventListener("scroll", handleScrollRef.current);
+    };
+  }, []);
 
   const toggleCollapse = (key, ref) => {
     if (ref.current) {
@@ -78,38 +65,36 @@ export default function Header({ className }) {
       bsCollapse.hide();
       setIsCollapseOpen((prev) => ({
         ...prev,
-        navbar: false,
+        navbar: false
       }));
     }
   };
 
   return (
     <nav
-    style={{
-      position: "fixed",
-      zIndex: "2",
-      backgroundColor: isScrolled ? "#638C6D" : "transparent",
-      transition: "background-color 0.3s ease",
-    }}
-    className={`${className} w-100`}>
+      style={{
+        position: "fixed",
+        zIndex: "2",
+        backgroundColor: isScrolled ? "#638C6D" : "transparent",
+        transition: "background-color 0.3s ease"
+      }}
+      className={`${className} w-100`}
+    >
       <div
         className={`navbar navbar-expand-lg navbar-dark py-md-10 py-6 ${
           isCollapseOpen.navbar ? "bg-primary" : ""
         }`}
-        style={{transition: "1s"}}
+        style={{ transition: "1s" }}
       >
         <div className="container-fluid d-block">
           <div className="d-flex">
             {/* <!-- //logo --> */}
             <NavLink
-            className="navbar-brand me-7 logo p-0"
-            to={"/"}
-            onClick={closeNavbar}
+              className="navbar-brand me-7 logo p-0"
+              to={"/"}
+              onClick={closeNavbar}
             >
-              <img
-                src={`${PUBLIC_URL}/images/icons/Logo.png`}
-                alt="logo"
-              />
+              <img src="./images/icons/Logo.png" alt="logo" />
             </NavLink>
             <div className="ms-auto d-flex">
               <ul className="list-unstyled d-lg-flex align-items-lg-center m-0 d-none pe-4">
@@ -139,17 +124,17 @@ export default function Header({ className }) {
                 </li> */}
                 <li className="nav-item d-flex align-items-center">
                   <NavLink
-                  to={"/Wish"}
-                  onClick={closeNavbar}
-                  className="nav-link px-4 py-0">
-                  <i
-                    className={`bi fs-9 text-white ${
-                      
-                     Object.keys(wishList).length > 0
-                        ? "bi-heart-fill"
-                        : "bi-heart"
-                    }`}
-                  ></i>
+                    to={"/Wish"}
+                    onClick={closeNavbar}
+                    className="nav-link px-4 py-0"
+                  >
+                    <i
+                      className={`bi fs-9 text-white ${
+                        Object.keys(wishList).length > 0
+                          ? "bi-heart-fill"
+                          : "bi-heart"
+                      }`}
+                    ></i>
                   </NavLink>
                 </li>
                 <li className="nav-item d-flex align-items-center">
@@ -161,7 +146,11 @@ export default function Header({ className }) {
                     <span className="material-symbols-outlined align-text-bottom text-white">
                       shopping_cart
                     </span>
-                    <span className={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-primary-100 ${carts?.length === 0 && "d-none"}`}>
+                    <span
+                      className={`position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-primary-100 ${
+                        carts?.length === 0 && "d-none"
+                      }`}
+                    >
                       {carts?.length}
                     </span>
                   </NavLink>
@@ -187,7 +176,7 @@ export default function Header({ className }) {
             >
               <div className="" style={{ height: "100vh" }}>
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mt-12">
-                  <li className="nav-item dropdown">
+                  {/* <li className="nav-item dropdown">
                     <div
                       onClick={() =>
                         toggleCollapse("productList", productListRef)
@@ -285,6 +274,16 @@ export default function Header({ className }) {
                       </li>
                     </ul>
 
+                  </li> */}
+                  <li className="nav-item mt-12">
+                    <NavLink
+                      className="nav-link active text-white fw-bold fs-7 p-0"
+                      aria-current="page"
+                      to={`/Products`}
+                      onClick={closeNavbar}
+                    >
+                      產品分類
+                    </NavLink>
                   </li>
                   <li className="nav-item mt-12">
                     <NavLink

@@ -1,65 +1,52 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { clearCartNum } from "../redux/slices/cartSlice";
+import { getCart } from "../redux/slices/apiSlice";
+import { PushMessage } from "../redux/slices/toastSlice";
 import axios from "axios";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
-import { useDispatch, useSelector } from "react-redux";
-import { PushMessage } from "../redux/slices/toastSlice";
-import { updateCartNum, clearCartNum } from "../redux/slices/cartSlice";
-import { Link } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const [cart, setCart] = useState({});
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const [selectProduct, setSelectProduct] = useState({});
-  const currentSelection = useSelector(state => state.product.selectedProduct)
-  const [total, setTotal] = useState(0)
-  // const { carts } = useSelector(state => state.cart)
+  const currentSelection = useSelector(
+    (state) => state.product.selectedProduct
+  );
+  const [total, setTotal] = useState(0);
+  const carts = useSelector((state) => state.cart);
 
   useEffect(() => {
-    getCart()
+    dispatch(getCart());
   }, []);
-  
+
   useEffect(() => {
-    if (cart.carts){
-      const product = cart.carts.map((item) => {
-        return item.product.origin_price * item.qty
-      })
+    if (carts) {
+      const product = carts.carts?.map((item) => {
+        return item.product.origin_price * item.qty;
+      });
       const totalALL = product.reduce((acc, item) => acc + item, 0);
-      setTotal(totalALL)
+      setTotal(totalALL);
     }
-  },[cart])
-  
-  const getCart = async () => {
-    setIsScreenLoading(true);
-    try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-      setCart(res.data.data);
-      dispatch(updateCartNum(res.data.data))
-    } catch (error) {
-      dispatch(PushMessage({
-        text: "取得購物車失敗",
-        status: "failed"
-      }))
-    } finally {
-      setIsScreenLoading(false);
-    }
-  };
+  }, [carts]);
 
   const removeCart = async () => {
     setIsScreenLoading(true);
     try {
       await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
 
-      getCart();
+      dispatch(getCart());
     } catch (error) {
-      dispatch(PushMessage({
-        text: "刪除購物車失敗",
-        status: "failed"
-      }))
+      dispatch(
+        PushMessage({
+          text: "刪除購物車失敗",
+          status: "failed"
+        })
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -70,8 +57,8 @@ export default function CartPage() {
     try {
       await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`);
 
-      getCart();
-      dispatch(clearCartNum())
+      dispatch(getCart());
+      dispatch(clearCartNum());
     } catch (error) {
       alert(`刪除購物車品項失敗`);
     } finally {
@@ -89,7 +76,7 @@ export default function CartPage() {
         }
       });
 
-      getCart();
+      dispatch(getCart());
     } catch (error) {
       alert(`更新購物車品項失敗`);
     } finally {
@@ -98,9 +85,9 @@ export default function CartPage() {
   };
 
   const getSelectProduct = (id) => {
-    const curren = currentSelection.find((product) => id === product.id )
+    const curren = currentSelection.find((product) => id === product.id);
     return curren || null;
-  }
+  };
 
   return (
     <>
@@ -108,11 +95,11 @@ export default function CartPage() {
         <div className="container">
           <p className="text-center pb-md-2">Shopping Cart</p>
           <h2 className="text-center pb-md-17 pb-12">購物車</h2>
-          {cart.carts?.length > 0 ? (
+          {carts.carts?.length > 0 ? (
             <div>
               <div className="row justify-content-center">
                 <div className="col-md-8">
-                  {cart.carts?.map((cartItem) => (
+                  {carts.carts?.map((cartItem) => (
                     <div className="mb-3 p-6" key={cartItem.id}>
                       <div className="row p-6">
                         <div className="position-relative">
@@ -135,9 +122,13 @@ export default function CartPage() {
                             {cartItem.product.title}
                           </p>
                           {getSelectProduct(cartItem.product?.id) && (
-                              <p className="fs-11 fs-md-10 text-gray-70 pb-3">
-                                {`${getSelectProduct(cartItem.product?.id).color} / ${getSelectProduct(cartItem.product?.id).specs}`}
-                              </p>
+                            <p className="fs-11 fs-md-10 text-gray-70 pb-3">
+                              {`${
+                                getSelectProduct(cartItem.product?.id).color
+                              } / ${
+                                getSelectProduct(cartItem.product?.id).specs
+                              }`}
+                            </p>
                           )}
                           <div className="d-flex align-items-center pb-5 ">
                             <p className="fs-9 fs-md-8 text-decoration-line-through text-gray-70 pe-4">{`$${cartItem.product.origin_price}`}</p>
@@ -206,7 +197,7 @@ export default function CartPage() {
                             折扣金額
                           </th>
                           <td className="text-end border-0 px-0 pt-0 pb-4 text-gray-70">
-                          {`- NT$${total - cart.final_total}`}
+                            {`- NT$${total - carts.final_total}`}
                           </td>
                         </tr>
                       </tbody>
@@ -214,7 +205,7 @@ export default function CartPage() {
                     <div className="d-flex justify-content-between my-8">
                       <p className="mb-0 fs-7 fw-bold">總計金額</p>
                       <p className="mb-0 fs-7 fw-bold text-primary">
-                      {`NT$${cart.final_total}`}
+                        {`NT$${carts.final_total}`}
                       </p>
                     </div>
                     <div className="d-flex">
@@ -226,7 +217,7 @@ export default function CartPage() {
                         清空購物車
                       </button>
                       <Link
-                      to={"/Checkout-Form"}
+                        to={"/Checkout-Form"}
                         type="button"
                         className="btn btn-primary text-white fw-bold py-md-8 py-6 w-100 me-4"
                       >

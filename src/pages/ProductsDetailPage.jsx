@@ -1,118 +1,48 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { PushMessage } from "../redux/slices/toastSlice";
+import { wishMessage } from "../redux/slices/wishSlice";
+import {
+  getAllProduct,
+  getProductDetail,
+  getCart,
+  updataCart
+} from "../redux/slices/apiSlice";
+import { PushSelectedProduct } from "../redux/slices/productSlice";
+import { Navigation } from "swiper/modules";
+import { Collapse } from "bootstrap";
 import ProductLmg from "../components/ProductLmg";
 import ProductNav from "../components/ProductNav";
 import ScreenLoading from "../components/ScreenLoading";
 import Product from "../components/Product";
-import { useDispatch, useSelector } from "react-redux";
-import { PushMessage } from "../redux/slices/toastSlice";
-import { wishMessage } from "../redux/slices/wishSlice";
-import { updateCartNum } from "../redux/slices/cartSlice";
-import { PushSelectedProduct } from "../redux/slices/productSlice";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import "swiper/css";
-import { Collapse } from "bootstrap";
-import { getAllProduct, getProductDetail, getCart, updataCart } from "../redux/slices/apiSlice";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function ProductsDetailPage() {
-  // const [product, setProduct] = useState({});
-  // const [allProduct, setAllProduct] = useState([]);
   const [qtySelect, setQtySelect] = useState(1);
   const [isColorActive, setIsColorActive] = useState(null);
   const [isSpecsActive, setIsSpecsActive] = useState(null);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const wishList = useSelector((state) => state.wish.list)
+  const wishList = useSelector((state) => state.wish.list);
   const dispatch = useDispatch();
-
   const { id: product_id } = useParams(); //因為有重新命名
-
   const Navigate = useNavigate();
-
-  const { productsAll, productsDetail } = useSelector((state) => state.api) // 全部產品
-
-  const currentSelection = useSelector(
-    (state) => state.product.selectedProduct
-  );
+  const { productsAll, productsDetail } = useSelector((state) => state.api); // 全部產品
 
   useEffect(() => {
-    // const getProduct = async () => {
-    //   setIsScreenLoading(true);
-    //   try {
-    //     const res = await axios.get(
-    //       `${BASE_URL}/v2/api/${API_PATH}/product/${product_id}`
-    //     );
-    //     setProduct(res.data.product);
-    //   } catch (error) {
-    //     alert("取得產品失敗");
-    //   } finally {
-    //     setIsScreenLoading(false);
-    //   }
-    // };
-    // getProduct();
-    // getAllProducts();
     setIsScreenLoading(true);
-    dispatch(getProductDetail(product_id))
-    dispatch(getAllProduct())
-    // getCart();
-    dispatch(getCart())
-    .finally(() =>setIsScreenLoading(false))
+    dispatch(getProductDetail(product_id));
+    dispatch(getAllProduct());
+    dispatch(getCart()).finally(() => setIsScreenLoading(false));
   }, []);
-
-  // const getAllProducts = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       `${BASE_URL}/v2/api/${API_PATH}/products/all`
-  //     );
-  //     setAllProduct(res.data.products);
-  //   } catch (error) {
-  //     alert("取得產品失敗");
-  //   }
-  // };
-
-  // const getCart = async () => {
-  //   try {
-  //     const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
-  //     dispatch(updateCartNum(res.data.data));
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
-
-  // const updataCartItem = async (product_id, qty) => {
-  //   setIsScreenLoading(true);
-  //   try {
-  //     await axios.post(`${BASE_URL}/v2/api/${API_PATH}/cart`, {
-  //       data: {
-  //         product_id,
-  //         qty: Number(qty)
-  //       }
-  //     });
-  //     dispatch(
-  //       PushMessage({
-  //         text: "加入購物車",
-  //         status: "success"
-  //       })
-  //     );
-  //     // getCart();
-  //     dispatch(getCart())
-  //   } catch (error) {
-  //     alert(error);
-  //   } finally {
-  //     setIsScreenLoading(false);
-  //   }
-  // };
 
   const updataCartItem = async (product_id, qty) => {
     const CartData = {
       product_id,
       qty
-    }
+    };
     setIsScreenLoading(true);
     try {
       return await dispatch(updataCart(CartData)).unwrap();
@@ -122,13 +52,13 @@ export default function ProductsDetailPage() {
     } finally {
       setIsScreenLoading(false);
     }
-  }
+  };
 
   const handleQty = (qty) => {
     setQtySelect(qty);
   };
 
-  const addCart =  async() => {
+  const addCart = async () => {
     if (isColorActive && isSpecsActive) {
       try {
         await updataCartItem(product_id, qtySelect);
@@ -136,7 +66,7 @@ export default function ProductsDetailPage() {
       } catch (error) {
         dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
       }
-      
+
       dispatch(
         PushSelectedProduct({
           id: product_id,
@@ -167,7 +97,6 @@ export default function ProductsDetailPage() {
           })
         );
         Navigate("/CartPage");
-        
       } catch (error) {
         dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
       }
@@ -181,25 +110,9 @@ export default function ProductsDetailPage() {
     }
   };
 
-  // const [wishList, setWishList] = useState(() => {
-  //   const initWishList = localStorage.getItem("wishList")
-  //     ? JSON.parse(localStorage.getItem("wishList"))
-  //     : {};
-
-  //   return initWishList;
-  // });
-
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
-    dispatch(wishMessage(product_id))
-    // setWishList((prev) => {
-    //   const newWishList = {
-    //     ...prev,
-    //     [product_id]: !wishList[product_id]
-    //   };
-    //   localStorage.setItem("wishList", JSON.stringify(newWishList));
-    //   return newWishList;
-    // });
+    dispatch(wishMessage(product_id));
   };
 
   const btnColorActive = (item) => {
@@ -239,7 +152,10 @@ export default function ProductsDetailPage() {
           <div className="row">
             <figure className="col-md-7 m-0">
               <div className="mb-md-10 mb-4">
-                <ProductLmg img={productsDetail?.imageUrl} product={productsDetail} />
+                <ProductLmg
+                  img={productsDetail?.imageUrl}
+                  product={productsDetail}
+                />
               </div>
               <div className="row gx-4 gx-md-10">
                 {productsDetail?.imagesUrl?.length > 0 &&
@@ -253,10 +169,15 @@ export default function ProductsDetailPage() {
 
             <div className="col-md-5 pt-8 pt-md-0">
               <section className="border-bottom mb-9 mb-md-12">
-                <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">{productsDetail.title}</h3>
+                <h3 className="pb-md-4 pb-2 fs-7 fs-md-3">
+                  {productsDetail.title}
+                </h3>
                 <p className="pb-md-4 pb-2 text-gray-70">
                   {productsDetail.tag?.map((item, index) => (
-                    <span key={index}>{item}{index !== productsDetail.tag?.length - 1 && "/"}</span>
+                    <span key={index}>
+                      {item}
+                      {index !== productsDetail.tag?.length - 1 && "/"}
+                    </span>
                   ))}
                 </p>
                 <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price}`}</p>
@@ -362,14 +283,8 @@ export default function ProductsDetailPage() {
                 <button
                   onClick={() => toggleCollapse("description", descriptionRef)}
                   aria-expanded={isCollapseOpen.description}
-                  // data-icon={isCollapseOpen.description ? "\e15b" : "\f3dd"}
                   type="button"
                   className="btn border-0 w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon"
-                  // data-bs-toggle="collapse"
-                  // href="#ProductDataPage-1"
-                  // role="button"
-                  // aria-expanded="false"
-                  // aria-controls="collapseExample"
                 >
                   產品說明
                 </button>
@@ -391,14 +306,8 @@ export default function ProductsDetailPage() {
                 <button
                   onClick={() => toggleCollapse("caution", cautionRef)}
                   aria-expanded={isCollapseOpen.caution}
-                  // data-icon={isCollapseOpen.description ? "\e15b" : "\f3dd"}
                   type="button"
                   className="btn border-0 w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon"
-                  // data-bs-toggle="collapse"
-                  // href="#ProductDataPage-2"
-                  // role="button"
-                  // aria-expanded="false"
-                  // aria-controls="collapseExample"
                 >
                   注意事項
                 </button>
@@ -418,11 +327,6 @@ export default function ProductsDetailPage() {
                   aria-expanded={isCollapseOpen.specs}
                   type="button"
                   className="btn border-0 w-100 text-start fw-bold fs-md-7 fs-9 py-1 px-0 add-icon"
-                  // data-bs-toggle="collapse"
-                  // href="#ProductDataPage-3"
-                  // role="button"
-                  // aria-expanded="false"
-                  // aria-controls="collapseExample"
                 >
                   產品規格
                 </button>
@@ -450,8 +354,8 @@ export default function ProductsDetailPage() {
           >
             {productsAll.map((product) => (
               <SwiperSlide
-              key={product.id}
-              className="swiper-slide flex-column"
+                key={product.id}
+                className="swiper-slide flex-column"
               >
                 <div className="d-flex flex-column">
                   <Product product={product} />

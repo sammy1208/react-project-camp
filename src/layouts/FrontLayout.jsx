@@ -1,21 +1,27 @@
+import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Toast from "../components/Toast";
-import "swiper/css/navigation";
-import "swiper/css";
-import { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import AutoScrollToTop from "../components/AutoScrollToTop";
-import { useSelector } from "react-redux";
 import Header from "../components/header";
 
 export default function FrontLayout() {
-  const { bannerStyles } = useSelector((state) => state.siteContent);
-  const [bannerProps, setBannerProps] = useState(null);
   const location = useLocation();
   const path = location.pathname;
+  const { bannerStyles } = useSelector((state) => state.siteContent);
+  const [bannerProps, setBannerProps] = useState(null);
 
-  const primaryBgRoutes = ["/CartPage", "/KnowledgePage", "/Products/", "/Checkout-Form", "/Wish", "/Order/", "/PayOrder/"];
+  const primaryBgRoutes = [
+    "/CartPage",
+    "/KnowledgePage",
+    "/Products/",
+    "/Checkout-Form",
+    "/Wish",
+    "/Order/",
+    "/PayOrder/"
+  ];
 
   const isPrimaryBg = primaryBgRoutes.some((route) => path.includes(route));
   const layoutClass = isPrimaryBg ? "bg-primary" : "";
@@ -35,7 +41,7 @@ export default function FrontLayout() {
   return (
     <>
       <AutoScrollToTop />
-      < Header className={layoutClass} />
+      <Header className={layoutClass} />
       <Banner {...bannerProps} className={layoutClass} />
       <Outlet />
       <Footer />

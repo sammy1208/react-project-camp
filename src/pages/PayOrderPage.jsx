@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCart } from "../redux/slices/apiSlice";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 import ScreenLoading from "../components/ScreenLoading";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ProductLmg from "../components/ProductLmg";
-import { getAllProduct, getProductDetail, getCart, updataCart } from "../redux/slices/apiSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function PayOrderPage() {
-  const [order, setOrder] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const { id: order_id } = useParams();
   const Navigate = useNavigate();
   const dispatch = useDispatch();
+  const [order, setOrder] = useState([]);
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
+  const { id: order_id } = useParams();
 
   useEffect(() => {
     getOrder();
-    dispatch(getCart())
+    dispatch(getCart());
   }, []);
 
   const checkoutPay = () => {
@@ -28,7 +25,7 @@ export default function PayOrderPage() {
     try {
       Navigate("/");
     } catch (error) {
-      alert("結帳失敗");
+      alert(error);
     } finally {
       setIsScreenLoading(false);
     }
@@ -40,10 +37,9 @@ export default function PayOrderPage() {
       const res = await axios.get(
         `${BASE_URL}/v2/api/${API_PATH}/order/${order_id}`
       );
-      console.log(res.data.order);
       setOrder(res.data.order);
     } catch (error) {
-      alert("結帳失敗");
+      alert(error);
     } finally {
       setIsScreenLoading(false);
     }
@@ -59,20 +55,20 @@ export default function PayOrderPage() {
             <div className="col-8">
               <ul className="list-unstyled mb-10 ms-md-auto d-flex align-items-center justify-content-between w-100 mt-md-0 mt-4 custom-step-line">
                 <li className="me-md-6 me-3 position-relative bg-white">
-                  <i class="bi bi-1-circle fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-1-circle fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10">訂單資料</span>
                 </li>
                 <li className="me-md-6 me-3 position-relative bg-white">
-                  <i class="bi bi-2-circle fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-2-circle fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10">結帳付款</span>
                 </li>
                 <li className="bg-white">
-                  <i class="bi bi-3-circle-fill fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-3-circle-fill fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10 fw-bold">訂購結果</span>
                 </li>
               </ul>
               <div className="text-center pb-12">
-                <i class="bi bi-check-circle fs-1 text-primary"></i>
+                <i className="bi bi-check-circle fs-1 text-primary"></i>
                 <h4 className=" pt-0">訂購成功</h4>
               </div>
               <div
