@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
 import { useDispatch } from "react-redux";
-import { pushMessage } from "../redux/toastSlice";
+import { PushMessage } from "../../redux/slices/toastSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -38,7 +38,7 @@ function ProductModal({
     }
   }, [isOpen]);
 
-  const dispatch = useDispatch(pushMessage)
+  const dispatch = useDispatch(PushMessage)
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -57,7 +57,7 @@ function ProductModal({
         imageUrl: uploadedImageUrl
       });
     } catch (error) {
-      dispatch(pushMessage({
+      dispatch(PushMessage({
         text: "上傳失敗",
         status: "failed"
       }))
@@ -114,14 +114,14 @@ function ProductModal({
       getProduct();
 
       handleCloseModal();
-      dispatch(pushMessage({
+      dispatch(PushMessage({
         text: "編輯成功",
         status: "success"
       }))
     } catch (error) {
       const { message } = error.response.data;
 
-      dispatch(pushMessage({
+      dispatch(PushMessage({
         text: message.join("、"),
         status: "failed"
       }))
@@ -229,7 +229,7 @@ function ProductModal({
                 </div>
 
                 {/* 副圖 */}
-                <div className="border border-2 border-dashed rounded-3 p-3">
+                <div className="border border-2 border-dashed rounded-4 p-3">
                   {modalData.imagesUrl?.map((image, index) => (
                     <div key={index} className="mb-2">
                       <label
@@ -408,14 +408,14 @@ function ProductModal({
             <button
               onClick={handleCloseModal}
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary text-white"
             >
               取消
             </button>
             <button
               onClick={handleUpdateProduct}
               type="button"
-              className="btn btn-primary"
+              className="btn btn-primary text-white"
             >
               確認
             </button>

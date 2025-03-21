@@ -4,13 +4,9 @@ import { NavLink } from "react-router-dom";
 import { getCart } from "../redux/slices/apiSlice";
 import { Collapse } from "bootstrap";
 
-const routes = [
-  { path: "/Products", name: "產品分類" },
-  { path: "/aboutUs", name: "關於青松" },
-  { path: "/KnowledgePage", name: "知識專欄" }
-];
 
-export default function Header({ className }) {
+
+export default function Header({ className, routes }) {
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.cart.carts);
   const wishList = useSelector((state) => state.wish.list);

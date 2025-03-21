@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-// import reactLogo from './assets/react.svg'
 import axios from "axios";
-// import { Modal } from "bootstrap";
-import Pagination from "../../components/Pagination";
-import ProductModal from "../../components/ProductModal";
-import DelProductModal from "../../components/DelProductModal";
-import { useNavigate } from "react-router-dom";
-// import ProductPage from './pages/ProductPage';
-// import './App.css'
+import Pagination from "../../components/admin/Pagination";
+import ProductModal from "../../components/admin/ProductModal";
+import DelProductModal from "../../components/admin/DelProductModal";
+import ScreenLoading from "../../components/ScreenLoading";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -25,20 +21,20 @@ const defaultModalState = {
   imagesUrl: [""]
 };
 
-function ProductListPage () {
+function ProductListPage() {
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [products, setProduct] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDleModalOpen, setIsDleModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
-  const navigate = useNavigate();
 
   const handleOpenModal = (mode, product) => {
     setModalMode(mode);
 
     switch (mode) {
       case "create":
-        setTempProduct({...defaultModalState});
+        setTempProduct({ ...defaultModalState });
         break;
 
       case "edit":
@@ -64,17 +60,19 @@ function ProductListPage () {
       setProduct(res.data.products);
       setPageInfo(res.data.pagination);
     } catch (error) {
-      alert(error.message)
-      
+      alert(error.message);
     }
   };
 
   const checkUser = async () => {
+    setIsScreenLoading(true)
     try {
       await axios.post(`${BASE_URL}/v2/api/user/check`);
       getProduct(1);
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
+    } finally {
+      setIsScreenLoading(false)
     }
   };
 
@@ -83,124 +81,105 @@ function ProductListPage () {
       /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
-    if(token.length > 0){
+    if (token.length > 0) {
       axios.defaults.headers.common["Authorization"] = token;
       checkUser();
     }
   }, []);
 
-
-
-
-  const handelLogout = async () => {
-    try {
-      const res = await axios.post(`${BASE_URL}/v2/logout`);
-      document.cookie = "hexToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-      navigate('/login')
-    } catch (error) {
-      alert(`登出失敗:${error.message}`)
-    }
-  };
-
   return (
     <>
-      <div className="container py-5">
-      <div className="row mb-3">
-        <div className="justify-content-end">
-          <button
-          onClick={handelLogout}
-          type="button" className="btn btn-secondary">
-            登出
-          </button>
-        </div>
-      </div>
-        <div className="row">
-          <div className="col">
-            <div className="d-flex justify-content-between">
-              <h2>產品列表</h2>
-              <button
-                onClick={() => {
-                  handleOpenModal("create");
-                }}
-                type="button"
-                className="btn btn-primary"
-              >
-                建立新的產品
-              </button>
-            </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">產品名稱</th>
-                  <th scope="col">原價</th>
-                  <th scope="col">售價</th>
-                  <th scope="col">是否啟用</th>
-                  <th scope="col">查看細節</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product.id}>
-                    <th scope="row">{product.title}</th>
-                    <td>{product.origin_price}</td>
-                    <td>{product.price}</td>
-                    <td>
-                      {product.is_enabled ? (
-                        <span className="text-success">啟用</span>
-                      ) : (
-                        <span>未啟用</span>
-                      )}
-                    </td>
-                    <td>
-                      <div className="btn-group">
-                        <button
-                          onClick={() => {
-                            handleOpenModal("edit", product);
-                          }}
-                          type="button"
-                          className="btn btn-outline-primary btn-sm"
-                        >
-                          編輯
-                        </button>
-                        <button
-                          onClick={() => {
-                            handleOpenDelModal(product);
-                          }}
-                          type="button"
-                          className="btn btn-outline-danger btn-sm"
-                        >
-                          刪除
-                        </button>
-                      </div>
-                    </td>
+      <article className="container-default">
+        <div className="container">
+          <p className="text-center pb-md-2">Manage Products</p>
+          <h2 className="text-center pb-md-17 pb-12">管理產品</h2>
+          <div className="row">
+            <div className="col">
+              <div className="d-flex justify-content-end">
+                <button
+                  onClick={() => {
+                    handleOpenModal("create");
+                  }}
+                  type="button"
+                  className="btn btn-primary text-white"
+                >
+                  建立新的產品
+                </button>
+              </div>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">產品名稱</th>
+                    <th scope="col">原價</th>
+                    <th scope="col">售價</th>
+                    <th scope="col">是否啟用</th>
+                    <th scope="col">查看細節</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product.id}>
+                      <th scope="row">{product.title}</th>
+                      <td>{product.origin_price}</td>
+                      <td>{product.price}</td>
+                      <td>
+                        {product.is_enabled ? (
+                          <span className="text-primary">啟用</span>
+                        ) : (
+                          <span>未啟用</span>
+                        )}
+                      </td>
+                      <td>
+                        <div className="btn-group">
+                          <button
+                            onClick={() => {
+                              handleOpenModal("edit", product);
+                            }}
+                            type="button"
+                            className="btn btn-outline-primary btn-sm"
+                          >
+                            編輯
+                          </button>
+                          <button
+                            onClick={() => {
+                              handleOpenDelModal(product);
+                            }}
+                            type="button"
+                            className="btn btn-outline-danger btn-sm"
+                          >
+                            刪除
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
-        <Pagination
-          products={products}
-          pageInfo={pageInfo}
+          <Pagination
+            products={products}
+            pageInfo={pageInfo}
+            getProduct={getProduct}
+          />
+        </div>
+        <ProductModal
+          modalMode={modalMode}
+          tempProduct={tempProduct}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
           getProduct={getProduct}
         />
-      </div>
 
-      <ProductModal
-        modalMode={modalMode}
-        tempProduct={tempProduct}
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        getProduct={getProduct}
-      />
-
-      <DelProductModal
-        tempProduct={tempProduct}
-        isOpen={isDleModalOpen}
-        setIsOpen={setIsDleModalOpen}
-        getProduct={getProduct}
-      />
+        <DelProductModal
+          tempProduct={tempProduct}
+          isOpen={isDleModalOpen}
+          setIsOpen={setIsDleModalOpen}
+          getProduct={getProduct}
+        />
+      </article>
+      <ScreenLoading isLoading={isScreenLoading} />
     </>
   );
 }

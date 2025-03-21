@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import ScreenLoading from "../../components/ScreenLoading";
+import Header from "../../components/header";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const routes = [
     { path: "/", name: "首頁" },
 ];
+const layoutClass = "bg-primary";
 
 function LoginPage( ) {
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [account, setAccount] = useState({
     username: "qa821746@gmail.com",
     password: "az821746"
@@ -40,11 +43,14 @@ function LoginPage( ) {
   };
 
   const checkUser = async () => {
+    setIsScreenLoading(true)
     try {
         await axios.post(`${BASE_URL}/v2/api/user/check`);
         navigate("/admin/productList");
     } catch (error) {
       console.log("驗證失敗，可能是因為用戶已登出");
+    } finally {
+      setIsScreenLoading(false)
     }
   }
 
@@ -62,38 +68,48 @@ function LoginPage( ) {
 
   return (
     <>
-    < Navbar routes={routes} />
-    <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-      <h1 className="mb-5">請先登入</h1>
-      <form onSubmit={handleLogin} className="d-flex flex-column gap-3">
-        <div className="form-floating mb-3">
-          <input
-            name="username"
-            value={account.username}
-            onChange={handleInput}
-            type="email"
-            className="form-control"
-            id="username"
-            placeholder="name@example.com"
-          />
-          <label htmlFor="username">Email address</label>
+    < Header className={layoutClass} routes={routes} />
+    <article className="container-default">
+      <div className="container">
+        <p className="text-center pb-md-2">Administrator Login</p>
+        <h2 className="text-center pb-md-17 pb-12">登入後台頁面</h2>
+        <div className="row justify-content-center">
+          <div className="col-6">
+            <form onSubmit={handleLogin} className="d-flex flex-column gap-7">
+              <div className="form-floating mb-3">
+                <input
+                  name="username"
+                  value={account.username}
+                  onChange={handleInput}
+                  type="email"
+                  className="form-control"
+                  id="username"
+                  placeholder="name@example.com"
+                />
+                <label htmlFor="username">Email address</label>
+              </div>
+              <div className="form-floating">
+                <input
+                  name="password"
+                  value={account.password}
+                  onChange={handleInput}
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Password"
+                />
+                <label htmlFor="password">Password</label>
+              </div>
+              <button className="btn btn-primary text-white">登入</button>
+            </form>
+            <p className="mt-5 mb-3 text-muted">&copy; 2024~∞ - 六角學院</p>
+          </div>
         </div>
-        <div className="form-floating">
-          <input
-            name="password"
-            value={account.password}
-            onChange={handleInput}
-            type="password"
-            className="form-control"
-            id="password"
-            placeholder="Password"
-          />
-          <label htmlFor="password">Password</label>
-        </div>
-        <button className="btn btn-primary">登入</button>
-      </form>
-      <p className="mt-5 mb-3 text-muted">&copy; 2024~∞ - 六角學院</p>
-    </div>
+
+      </div>
+    </article>
+    <ScreenLoading isLoading={isScreenLoading} />
+
     </>
   );
 }

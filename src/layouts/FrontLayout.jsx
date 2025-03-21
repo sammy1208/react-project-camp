@@ -7,6 +7,12 @@ import Banner from "../components/Banner";
 import AutoScrollToTop from "../components/AutoScrollToTop";
 import Header from "../components/header";
 
+const routes = [
+  { path: "/Products", name: "產品分類" },
+  { path: "/aboutUs", name: "關於青松" },
+  { path: "/KnowledgePage", name: "知識專欄" }
+];
+
 export default function FrontLayout() {
   const location = useLocation();
   const path = location.pathname;
@@ -41,7 +47,7 @@ export default function FrontLayout() {
   return (
     <>
       <AutoScrollToTop />
-      <Header className={layoutClass} />
+      <Header className={layoutClass} routes={routes} />
       <Banner {...bannerProps} className={layoutClass} />
       <Outlet />
       <Footer />

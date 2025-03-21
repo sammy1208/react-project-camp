@@ -1,6 +1,6 @@
 import { createHashRouter } from "react-router-dom"
 import FrontLayout from "../layouts/FrontLayout"
-import ProductsDetailPage from "../pages/ProductsDetailPage"
+import AdminLayout from "../layouts/AdminLayout"
 import HomePage from "../pages/HomePage"
 import ProductsPage from "../pages/ProductsPage"
 import CartPage from "../pages/CartPage"
@@ -14,8 +14,11 @@ import Knowledge_newbie from "../components/Knowledge_newbie"
 import CheckoutFormPage from "../pages/CheckoutFormPage"
 import WishPage from "../pages/WishPage"
 import OrderPage from "../pages/OrderPage"
+import ProductsDetailPage from "../pages/ProductsDetailPage"
 import PayOrderPage from "../pages/PayOrderPage"
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginPage from "../pages/admin/LoginPage"
+import ProductListPage from "../pages/admin/ProductListPage"
+import OrderListPage from "../pages/admin/OrderListPage"
 
 
 const router = createHashRouter ([
@@ -80,6 +83,28 @@ const router = createHashRouter ([
             {
                 path: 'PayOrder/:id',
                 element: < PayOrderPage />
+            }
+        ]
+    },
+    {
+        path: '/login',
+        element: < LoginPage />
+    },
+    {
+        path: '/admin',
+        element: <AdminLayout />,
+        children: [
+            {
+                index: true,
+                element:< ProductListPage />
+            },
+            {
+                path: 'productList',
+                element: < ProductListPage />
+            },
+            {
+                path: 'order',
+                element: < OrderListPage />
             }
         ]
     },

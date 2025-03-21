@@ -56,9 +56,9 @@ export default function Footer() {
                 </a>
               </li>
               <li className="ps-8">
-                <a href="https://github.com/sammy1208/react-project-camp">
-                <i class="bi bi-person-circle fs-md-4"></i>
-                </a>
+                <Link to="/login" >
+                <i className="bi bi-person-circle fs-md-4"></i>
+                </Link>
               </li>
             </ul>
           </div>
