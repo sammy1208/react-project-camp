@@ -1,3 +1,4 @@
+import React from 'react';
 import { createHashRouter } from "react-router-dom"
 import FrontLayout from "../layouts/FrontLayout"
 import AdminLayout from "../layouts/AdminLayout"

@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,3 +81,8 @@ export default function Product({ product }) {
     </div>
   );
 }
+
+// **PropTypes 驗證**
+Product.propTypes = {
+  product: PropTypes.object.isRequired,
+};

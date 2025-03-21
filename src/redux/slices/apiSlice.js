@@ -1,12 +1,10 @@
-import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { updateCartNum } from "./cartSlice";
 
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
-
-const initialState = {};
 
 // 🔹 取得全部商品
 export const getAllProduct = createAsyncThunk(
@@ -17,7 +15,7 @@ export const getAllProduct = createAsyncThunk(
         `${BASE_URL}/v2/api/${API_PATH}/products/all`
       );
       return res.data.products
-    } catch (error) {
+    } catch {
       return rejectWithValue("獲取商品失敗");
     }
   }
@@ -32,7 +30,7 @@ export const getProductDetail = createAsyncThunk(
           `${BASE_URL}/v2/api/${API_PATH}/product/${product_id}`
       );
       return res.data.product
-    } catch (error) {
+    } catch {
       return rejectWithValue("獲取商品失敗");
     }
   }
@@ -46,7 +44,7 @@ export const getCart = createAsyncThunk(
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/cart`);
       thunkAPI.dispatch(updateCartNum(res.data.data));
       return res.data.data;
-    } catch (error) {
+    } catch {
       return thunkAPI.rejectWithValue("獲取購物車失敗");
     }
   }
@@ -66,7 +64,7 @@ export const updataCart = createAsyncThunk(
       });
       thunkAPI.dispatch(getCart()).unwrap();
       return res.data.data;
-    } catch (error) {
+    } catch {
       return thunkAPI.rejectWithValue("新增購物車失敗");
     }
   }

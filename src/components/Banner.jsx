@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
@@ -48,3 +50,23 @@ export default function Banner({ imageUrl, data, title, type }) {
     );
   }
 }
+
+// **PropTypes 驗證**
+Banner.propTypes = {
+  imageUrl: PropTypes.string,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      image: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  title: PropTypes.string,
+  type: PropTypes.oneOf(["carousel", "static"]).isRequired, // 限定 `type` 只能是這兩種
+};
+
+// **設定預設值**
+Banner.defaultProps = {
+  imageUrl: "",
+  title: "",
+};

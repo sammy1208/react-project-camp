@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useEffect, useRef } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
@@ -100,5 +101,17 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
     </div>
   );
 }
+
+
+// **🔹 PropTypes 驗證**
+DelProductModal.propTypes = {
+  tempProduct: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  getProduct: PropTypes.func.isRequired,
+};
 
 export default DelProductModal;

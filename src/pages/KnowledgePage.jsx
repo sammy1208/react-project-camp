@@ -1,12 +1,13 @@
-import { useState } from "react";
+import React from 'react';
+// import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import ScreenLoading from "../components/ScreenLoading";
+// import ScreenLoading from "../components/ScreenLoading";
 import { useSelector } from "react-redux";
 
 export default function KnowledgePage() {
   const { KnowledgeRoutes } = useSelector((state) => state.siteContent)
   const location = useLocation();
-  const [isScreenLoading, setIsScreenLoading] = useState(false);
+  // const [isScreenLoading, setIsScreenLoading] = useState(false);
 
   return (
     <>
@@ -37,7 +38,7 @@ export default function KnowledgePage() {
             </div>
           </div>
         </main>
-        <ScreenLoading isLoading={isScreenLoading} />
+        {/* <ScreenLoading isLoading={isScreenLoading} /> */}
       </div>
     </>
   );

@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -11,12 +13,12 @@ export default function Header({ className, routes }) {
   const carts = useSelector((state) => state.cart.carts);
   const wishList = useSelector((state) => state.wish.list);
   const [isScrolled, setIsScrolled] = useState(false);
-  const productListRef = useRef(null);
+  // const productListRef = useRef(null);
   const handleScrollRef = useRef(null);
   const navbarRef = useRef(null);
-  const navRef01 = useRef(null);
-  const navRef02 = useRef(null);
-  const navRef03 = useRef(null);
+  // const navRef01 = useRef(null);
+  // const navRef02 = useRef(null);
+  // const navRef03 = useRef(null);
   const [isCollapseOpen, setIsCollapseOpen] = useState({
     productList: false,
     navbar: false,
@@ -310,3 +312,19 @@ export default function Header({ className, routes }) {
     </nav>
   );
 }
+
+// **PropTypes 驗證**
+Header.propTypes = {
+  className: PropTypes.string,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
+
+// **設定預設值**
+Header.defaultProps = {
+  className: "bg-primary",
+};

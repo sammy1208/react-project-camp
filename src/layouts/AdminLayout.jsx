@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet } from "react-router-dom";
 import Toast from "../components/Toast";
 import AutoScrollToTop from "../components/AutoScrollToTop";

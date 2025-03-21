@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,7 +64,7 @@ export default function ProductsDetailPage() {
       try {
         await updataCartItem(product_id, qtySelect);
         dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
-      } catch (error) {
+      } catch {
         dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
       }
 
@@ -97,7 +98,7 @@ export default function ProductsDetailPage() {
           })
         );
         Navigate("/CartPage");
-      } catch (error) {
+      } catch {
         dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
       }
     } else {

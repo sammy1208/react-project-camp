@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -37,7 +38,7 @@ function LoginPage( ) {
       document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
       axios.defaults.headers.common["Authorization"] = `${token}`;
       navigate("/admin/productList");
-    } catch (error) {
+    } catch {
       alert(`登入失敗`)
     }
   };
@@ -47,7 +48,7 @@ function LoginPage( ) {
     try {
         await axios.post(`${BASE_URL}/v2/api/user/check`);
         navigate("/admin/productList");
-    } catch (error) {
+    } catch {
       console.log("驗證失敗，可能是因為用戶已登出");
     } finally {
       setIsScreenLoading(false)
@@ -56,7 +57,7 @@ function LoginPage( ) {
 
   useEffect(() => {
     const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
+        /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
         "$1"
     );
     if(token.length > 0){

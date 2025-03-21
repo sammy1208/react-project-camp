@@ -1,5 +1,6 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from "react";
-
 import axios from "axios";
 import { Modal } from "bootstrap";
 import { useDispatch } from "react-redux";
@@ -56,7 +57,7 @@ function ProductModal({
         ...modalData,
         imageUrl: uploadedImageUrl
       });
-    } catch (error) {
+    } catch {
       dispatch(PushMessage({
         text: "上傳失敗",
         status: "failed"
@@ -106,7 +107,7 @@ function ProductModal({
   };
 
   const handleUpdateProduct = async () => {
-    const apiCall = modalMode === "create" ? createProduct : updataProduct;
+    const apiCall = modalMode === "create" ? createProduct : updateProduct;
 
     try {
       await apiCall();
@@ -119,48 +120,38 @@ function ProductModal({
         status: "success"
       }))
     } catch (error) {
-      const { message } = error.response.data;
-
+      const message = error.response?.data?.message;
+      const errorMessage = Array.isArray(message) ? message.join("、") : message || "操作失敗";
       dispatch(PushMessage({
-        text: message.join("、"),
+        text: errorMessage,
         status: "failed"
       }))
     }
   };
 
   const createProduct = async () => {
-    try {
-      await axios.post(`${BASE_URL}/v2/api/${API_PATH}/admin/product`, {
+    return await axios.post(`${BASE_URL}/v2/api/${API_PATH}/admin/product`, {
+      data: {
+        ...modalData,
+        origin_price: Number(modalData.origin_price),
+        price: Number(modalData.price),
+        is_enabled: modalData.is_enabled ? 1 : 0
+      }
+    });
+  };
+
+  const updateProduct = async () => {
+    return await axios.put(
+      `${BASE_URL}/v2/api/${API_PATH}/admin/product/${modalData.id}`,
+      {
         data: {
           ...modalData,
           origin_price: Number(modalData.origin_price),
           price: Number(modalData.price),
           is_enabled: modalData.is_enabled ? 1 : 0
         }
-      });
-    } catch (error) {
-      // alert(`新增產品失敗`);
-      throw error;
-    }
-  };
-
-  const updataProduct = async () => {
-    try {
-      await axios.put(
-        `${BASE_URL}/v2/api/${API_PATH}/admin/product/${modalData.id}`,
-        {
-          data: {
-            ...modalData,
-            origin_price: Number(modalData.origin_price),
-            price: Number(modalData.price),
-            is_enabled: modalData.is_enabled ? 1 : 0
-          }
-        }
-      );
-    } catch (error) {
-      // alert(`新增產品失敗`);
-      throw error;
-    }
+      }
+    );
   };
 
   const handleCloseModal = () => {
@@ -425,5 +416,26 @@ function ProductModal({
     </div>
   );
 }
+
+ProductModal.propTypes = {
+  modalMode: PropTypes.oneOf(["create", "edit"]).isRequired, // 限定只能是 "create" 或 "edit"
+  tempProduct: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    title: PropTypes.string,
+    category: PropTypes.string,
+    unit: PropTypes.string,
+    origin_price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    description: PropTypes.string,
+    content: PropTypes.string,
+    is_enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]), // 可能是布林值或數字
+    imageUrl: PropTypes.string,
+    imagesUrl: PropTypes.arrayOf(PropTypes.string), // 陣列內為字串
+  }).isRequired,
+  isOpen: PropTypes.bool.isRequired, // 是否開啟 Modal
+  setIsOpen: PropTypes.func.isRequired, // 設置 Modal 狀態
+  getProduct: PropTypes.func.isRequired, // 取得產品列表
+};
+
 
 export default ProductModal;

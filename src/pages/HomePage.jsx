@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -27,7 +28,7 @@ export default function HomePage() {
       setProducts(res.data.products);
       setProducts1(res.data.products[0]);
       setProducts6(res.data.products[6]);
-    } catch (error) {
+    } catch {
       alert("取得產品失敗");
     } finally {
       setIsScreenLoading(false);

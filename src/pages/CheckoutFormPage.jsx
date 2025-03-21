@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +53,7 @@ export default function CheckoutFormPage() {
       reset();
       dispatch(getCart());
       return res.data;
-    } catch (error) {
+    } catch {
       alert("建立訂單失敗");
     } finally {
       setIsScreenLoading(false);

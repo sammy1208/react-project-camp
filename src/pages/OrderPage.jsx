@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -26,7 +27,7 @@ export default function OrderPage() {
         `${BASE_URL}/v2/api/${API_PATH}/order/${order_id}`
       );
       setOrder(res.data.order);
-    } catch (error) {
+    } catch {
       alert("結帳失敗");
     } finally {
       setIsScreenLoading(false);
@@ -36,7 +37,7 @@ export default function OrderPage() {
   const getPay = async (order_id) => {
     setIsScreenLoading(true);
     try {
-      const res = await axios.post(
+      await axios.post(
         `${BASE_URL}/v2/api/${API_PATH}/pay/${order_id}`
       );
       dispatch(PushMessage({ text: "付款成功！", status: "success" }));
@@ -58,7 +59,7 @@ export default function OrderPage() {
             <div className="col-8">
               <ul className="list-unstyled mb-14 ms-md-auto d-flex align-items-center justify-content-between w-100 mt-md-0 mt-4 custom-step-line">
                 <li className="me-md-6 me-3 position-relative bg-white">
-                  <i class="bi bi-1-circle fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-1-circle fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10">訂單資料</span>
                 </li>
                 <li className="me-md-6 me-3 position-relative bg-white">
@@ -66,7 +67,7 @@ export default function OrderPage() {
                   <span className="text-nowrap fs-10 fw-bold">結帳付款</span>
                 </li>
                 <li className="bg-white">
-                  <i class="bi bi-3-circle fs-2 text-primary d-block text-center"></i>
+                  <i className="bi bi-3-circle fs-2 text-primary d-block text-center"></i>
                   <span className="text-nowrap fs-10">訂購結果</span>
                 </li>
               </ul>

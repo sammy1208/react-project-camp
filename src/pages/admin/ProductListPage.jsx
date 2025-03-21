@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../../components/admin/Pagination";
@@ -78,7 +79,7 @@ function ProductListPage() {
 
   useEffect(() => {
     const token = document.cookie.replace(
-      /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
+      /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
     if (token.length > 0) {

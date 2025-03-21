@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../../components/admin/Pagination";
@@ -6,39 +7,9 @@ import ScreenLoading from "../../components/ScreenLoading";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-const defaultModalState = {
-  imageUrl: "",
-  title: "",
-  category: "",
-  unit: "",
-  origin_price: "",
-  price: "",
-  description: "",
-  content: "",
-  is_enabled: 0,
-  imagesUrl: [""]
-};
-
 function OrderListPage() {
   const [order, setOrder] = useState([]);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-
-  const handleOpenModal = (mode, product) => {
-    setModalMode(mode);
-
-    switch (mode) {
-      case "create":
-        setTempProduct({ ...defaultModalState });
-        break;
-
-      case "edit":
-        setTempProduct(product);
-        break;
-    }
-
-    setIsModalOpen(true);
-  };
-
   const [pageInfo, setPageInfo] = useState({});
 
   const getOrder = async (page) => {
@@ -67,7 +38,7 @@ function OrderListPage() {
 
   useEffect(() => {
     const token = document.cookie.replace(
-      /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
+      /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
     if (token.length > 0) {
@@ -78,7 +49,7 @@ function OrderListPage() {
 
   const removeOrder = async (order_id) => {
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `${BASE_URL}/v2/api/${API_PATH}/admin/order/${order_id}`
       );
       alert("刪除成功");

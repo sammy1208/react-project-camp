@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -40,7 +41,7 @@ export default function CartPage() {
       await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
 
       dispatch(getCart());
-    } catch (error) {
+    } catch {
       dispatch(
         PushMessage({
           text: "刪除購物車失敗",
@@ -59,7 +60,7 @@ export default function CartPage() {
 
       dispatch(getCart());
       dispatch(clearCartNum());
-    } catch (error) {
+    } catch {
       alert(`刪除購物車品項失敗`);
     } finally {
       setIsScreenLoading(false);
@@ -77,7 +78,7 @@ export default function CartPage() {
       });
 
       dispatch(getCart());
-    } catch (error) {
+    } catch {
       alert(`更新購物車品項失敗`);
     } finally {
       setIsScreenLoading(false);
