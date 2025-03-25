@@ -49,7 +49,9 @@ export default function FrontLayout() {
     <>
       <AutoScrollToTop />
       <Header className={layoutClass} routes={routes} />
-      <Banner {...bannerProps} className={layoutClass} />
+      {["carousel", "static"].includes(bannerProps?.type) && (
+        <Banner {...bannerProps} className={layoutClass} />
+      )}
       <Outlet />
       <Footer />
       <Toast />

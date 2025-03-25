@@ -31,7 +31,3 @@ export default function ScreenLoading({ isLoading }) {
 ScreenLoading.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
-
-ScreenLoading.defaultProps = {
-  isLoading: false,
-};

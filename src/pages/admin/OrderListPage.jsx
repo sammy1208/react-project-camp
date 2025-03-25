@@ -129,11 +129,13 @@ function OrderListPage() {
               </table>
             </div>
           </div>
-          <Pagination
-            products={order}
-            pageInfo={pageInfo}
-            getProduct={getOrder}
-          />
+          {pageInfo.total_pages !== undefined && (
+            <Pagination
+              products={order}
+              pageInfo={pageInfo}
+              getProduct={getOrder}
+            />
+          )}
         </div>
       </div>
       <ScreenLoading isLoading={isScreenLoading} />

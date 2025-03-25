@@ -159,26 +159,32 @@ function ProductListPage() {
             </div>
           </div>
 
-          <Pagination
-            products={products}
-            pageInfo={pageInfo}
+          {pageInfo.total_pages !== undefined && (
+            <Pagination
+              products={products}
+              pageInfo={pageInfo}
+              getProduct={getProduct}
+            />
+          )}
+        </div>
+        {modalMode && (
+          <ProductModal
+            modalMode={modalMode}
+            tempProduct={tempProduct}
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
             getProduct={getProduct}
           />
-        </div>
-        <ProductModal
-          modalMode={modalMode}
-          tempProduct={tempProduct}
-          isOpen={isModalOpen}
-          setIsOpen={setIsModalOpen}
-          getProduct={getProduct}
-        />
+        )}
+        {tempProduct.id !== undefined && (
+          <DelProductModal
+            tempProduct={tempProduct}
+            isOpen={isDleModalOpen}
+            setIsOpen={setIsDleModalOpen}
+            getProduct={getProduct}
+          />
+        )}
 
-        <DelProductModal
-          tempProduct={tempProduct}
-          isOpen={isDleModalOpen}
-          setIsOpen={setIsDleModalOpen}
-          getProduct={getProduct}
-        />
       </article>
       <ScreenLoading isLoading={isScreenLoading} />
     </>

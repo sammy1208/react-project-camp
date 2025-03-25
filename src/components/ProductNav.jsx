@@ -35,5 +35,5 @@ export default function ProductNav({ product }) {
 
 // **PropTypes 驗證**
 ProductNav.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.object,
 };

@@ -153,17 +153,18 @@ export default function ProductsDetailPage() {
           <div className="row">
             <figure className="col-md-7 m-0">
               <div className="mb-md-10 mb-4">
-                <ProductLmg
-                  img={productsDetail?.imageUrl}
-                  product={productsDetail}
-                />
+                {productsDetail?.imageUrl && (
+                  <ProductLmg img={productsDetail.imageUrl} product={productsDetail} />
+                )}
               </div>
               <div className="row gx-4 gx-md-10">
                 {productsDetail?.imagesUrl?.length > 0 &&
                   productsDetail?.imagesUrl.map((img, index) => (
-                    <div className="col" key={index}>
-                      <ProductLmg img={img} product={productsDetail} />
-                    </div>
+                    img && (
+                      <div className="col" key={index}>
+                        <ProductLmg img={img} product={productsDetail} />
+                      </div>
+                    )
                   ))}
               </div>
             </figure>

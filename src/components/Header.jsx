@@ -323,8 +323,3 @@ Header.propTypes = {
     })
   ).isRequired,
 };
-
-// **設定預設值**
-Header.defaultProps = {
-  className: "bg-primary",
-};

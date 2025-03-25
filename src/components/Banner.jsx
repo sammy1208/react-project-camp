@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css";
 
 export default function Banner({ imageUrl, data, title, type }) {
-  if (type === "carousel") {
+  if (type === "carousel" && Array.isArray(data)) {
     return (
       <Swiper modules={[Navigation]} navigation>
         {data.map((item) => (
@@ -48,6 +48,8 @@ export default function Banner({ imageUrl, data, title, type }) {
         </div>
       </div>
     );
+  } else if (type === "default") {
+    return null; 
   }
 }
 
@@ -59,14 +61,9 @@ Banner.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       image: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
     })
-  ).isRequired,
+  ),
   title: PropTypes.string,
-  type: PropTypes.oneOf(["carousel", "static"]).isRequired, // 限定 `type` 只能是這兩種
-};
-
-// **設定預設值**
-Banner.defaultProps = {
-  imageUrl: "",
-  title: "",
+  type: PropTypes.oneOf(["carousel", "static", "default"]).isRequired,
 };

@@ -18,8 +18,8 @@ export default function HomePage() {
 
   const [products, setProducts] = useState([]);
 
-  const [products1, setProducts1] = useState([]);
-  const [products6, setProducts6] = useState([]);
+  const [products1, setProducts1] = useState(null);
+  const [products6, setProducts6] = useState(null);
 
   const getProduct = async () => {
     setIsScreenLoading(true);
@@ -48,7 +48,7 @@ export default function HomePage() {
         <h2 className="text-center pb-md-17 pb-10 h4 fs-md-2">冬眠季大應援</h2>
         <div className="row">
           <div className="col d-none d-md-block">
-            <Product product={products1} />
+            {products1 && <Product product={products1} />}
           </div>
           <div className="col">
             <div className="row row-cols-2 gy-md-10 gy-8">
@@ -59,7 +59,7 @@ export default function HomePage() {
               ))}
 
               <div className="col d-md-none d-block">
-                <Product product={products6} />
+                {products6 && <Product product={products6} />}
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ export default function HomePage() {
                 <div className="col">
                   <ProductLmg
                     img={`${productShow[0].image_url}`}
-                    product={productShow[0].title}
+                    product={productShow[0]}
                   />
                 </div>
                 <div className="col">
@@ -111,19 +111,19 @@ export default function HomePage() {
                     <div className="col">
                       <ProductLmg
                         img={`${productShow[0].image_url_01}`}
-                        product={productShow[0].title}
+                        product={productShow[0]}
                       />
                     </div>
                     <div className="col">
                       <ProductLmg
                         img={`${productShow[0].image_url_02}`}
-                        product={productShow[0].title}
+                        product={productShow[0]}
                       />
                     </div>
                     <div className="col">
                       <ProductLmg
                         img={`${productShow[0].image_url_03}`}
-                        product={productShow[0].title}
+                        product={productShow[0]}
                       />
                     </div>
                   </div>
@@ -145,7 +145,7 @@ export default function HomePage() {
               <div className="col">
                 <ProductLmg
                   img={`${productShow[1].image_url}`}
-                  product={productShow[0].title}
+                  product={productShow[0]}
                 />
               </div>
               <div className="col">
@@ -153,19 +153,19 @@ export default function HomePage() {
                   <div className="col">
                     <ProductLmg
                       img={`${productShow[1].image_url_01}`}
-                      product={productShow[0].title}
+                      product={productShow[0]}
                     />
                   </div>
                   <div className="col">
                     <ProductLmg
                       img={`${productShow[1].image_url_02}`}
-                      product={productShow[0].title}
+                      product={productShow[0]}
                     />
                   </div>
                   <div className="col">
                     <ProductLmg
                       img={`${productShow[1].image_url_03}`}
-                      product={productShow[0].title}
+                      product={productShow[0]}
                     />
                   </div>
                 </div>
