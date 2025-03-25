@@ -42,6 +42,7 @@
 
 ## 專案結構簡介
 
+```text
 react-project-camp/
 ├── public/              # 靜態資源
 ├── src/
