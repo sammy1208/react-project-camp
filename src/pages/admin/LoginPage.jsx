@@ -15,8 +15,8 @@ const layoutClass = "bg-primary";
 function LoginPage( ) {
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [account, setAccount] = useState({
-    username: "qa821746@gmail.com",
-    password: "az821746"
+    username: "",
+    password: ""
   });
 
   const navigate = useNavigate();
