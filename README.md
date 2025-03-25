@@ -56,6 +56,7 @@ react-project-camp/
 
 ---
 
+```
 ## API 資源
 
 使用 六角學院 API 提供的購物車與商品資料。
