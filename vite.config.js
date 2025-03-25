@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/react-project-camp/' : '/',
+  base: import.meta.env.MODE === 'production' ? '/react-project-camp/' : '/',
   plugins: [react()],
 })
