@@ -37,7 +37,8 @@ export default function ProductsDetailPage() {
     dispatch(getProductDetail(product_id));
     dispatch(getAllProduct());
     dispatch(getCart()).finally(() => setIsScreenLoading(false));
-  }, []);
+  }, [product_id]);
+
 
   const updataCartItem = async (product_id, qty) => {
     const CartData = {
@@ -356,10 +357,14 @@ export default function ProductsDetailPage() {
           >
             {productsAll.map((product) => (
               <SwiperSlide
-                key={product.id}
-                className="swiper-slide flex-column"
+              key={product.id}
+              className="swiper-slide flex-column"
               >
-                <div className="d-flex flex-column">
+                <div
+                onClick={() => Navigate(`/Products/${product.id}`)}
+                className="d-flex flex-column"
+                style={{ cursor: "pointer" }}
+                >
                   <Product product={product} />
                 </div>
               </SwiperSlide>
