@@ -6,9 +6,9 @@ export default function Knowledge_outdoor() {
       <div className="pb-md-8 pb-6 border-bottom">
         <img
           src="https://images.unsplash.com/photo-1707007730851-c53cc2879f00?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt=""
+          alt="永續戶外"
         />
-        <h5 className="my-4 fs-md-5 fs-7">永續戶外：享受自然，同時保護地球</h5>
+        <h5 className="my-6 fs-md-4 fs-5">永續戶外：享受自然，同時保護地球</h5>
         <p className="content">
           戶外活動，如登山、露營、健行和攀岩，讓人們親近自然，享受戶外生活的美好。然而，隨著戶外活動的普及，環境問題也隨之而來，如垃圾污染、自然棲地破壞與碳排放增加。永續戶外（Sustainable
           Outdoor）是一種負責任的方式，讓我們在享受大自然的同時，也能保護環境，確保未來世代仍然能夠體驗這份美好。

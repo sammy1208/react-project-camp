@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default function ProductLmg({ img, product }) {
   return (
@@ -13,6 +13,6 @@ export default function ProductLmg({ img, product }) {
 ProductLmg.propTypes = {
   img: PropTypes.string.isRequired, // img 必須是字串
   product: PropTypes.shape({
-    title: PropTypes.string.isRequired, // product.title 必須是字串
-  }).isRequired,
+    title: PropTypes.string.isRequired // product.title 必須是字串
+  }).isRequired
 };

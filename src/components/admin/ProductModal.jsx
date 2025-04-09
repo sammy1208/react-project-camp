@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
@@ -19,6 +19,7 @@ function ProductModal({
   const [modalData, setModalData] = useState(tempProduct);
 
   const productModalRef = useRef(null);
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     setModalData({
@@ -33,13 +34,15 @@ function ProductModal({
   }, []);
 
   useEffect(() => {
+    const modalInstance = Modal.getInstance(productModalRef.current);
     if (isOpen) {
-      const modalInstance = Modal.getInstance(productModalRef.current);
       modalInstance.show();
+    } else {
+      modalInstance.hide();
     }
   }, [isOpen]);
 
-  const dispatch = useDispatch(PushMessage)
+  const dispatch = useDispatch(PushMessage);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -57,11 +60,14 @@ function ProductModal({
         ...modalData,
         imageUrl: uploadedImageUrl
       });
+      fileInputRef.current.value = ""
     } catch {
-      dispatch(PushMessage({
-        text: "上傳失敗",
-        status: "failed"
-      }))
+      dispatch(
+        PushMessage({
+          text: "上傳失敗",
+          status: "failed"
+        })
+      );
     }
   };
 
@@ -115,17 +121,23 @@ function ProductModal({
       getProduct();
 
       handleCloseModal();
-      dispatch(PushMessage({
-        text: "編輯成功",
-        status: "success"
-      }))
+      dispatch(
+        PushMessage({
+          text: "編輯成功",
+          status: "success"
+        })
+      );
     } catch (error) {
       const message = error.response?.data?.message;
-      const errorMessage = Array.isArray(message) ? message.join("、") : message || "操作失敗";
-      dispatch(PushMessage({
-        text: errorMessage,
-        status: "failed"
-      }))
+      const errorMessage = Array.isArray(message)
+        ? message.join("、")
+        : message || "操作失敗";
+      dispatch(
+        PushMessage({
+          text: errorMessage,
+          status: "failed"
+        })
+      );
     }
   };
 
@@ -155,9 +167,19 @@ function ProductModal({
   };
 
   const handleCloseModal = () => {
-    const modalInstance = Modal.getInstance(productModalRef.current);
-    modalInstance.hide();
+    // const modalInstance = Modal.getInstance(productModalRef.current);
+    // modalInstance.hide();
+    
+    // modalInstance.dispose();
     setIsOpen(false);
+    getProduct();
+
+    setTimeout(() => {
+      document.body.classList.remove("modal-open");
+      document.body.style = "";
+      const backdrop = document.querySelector(".modal-backdrop");
+      if (backdrop) backdrop.remove();
+    }, 400);
   };
 
   return (
@@ -190,6 +212,7 @@ function ProductModal({
                     圖片上傳{" "}
                   </label>
                   <input
+                    ref={fileInputRef}
                     onChange={handleFileChange}
                     type="file"
                     accept=".jpg,.jpeg,.png"
@@ -328,6 +351,7 @@ function ProductModal({
                       name="origin_price"
                       id="origin_price"
                       type="number"
+                      min="0"
                       className="form-control"
                       placeholder="請輸入原價"
                     />
@@ -342,6 +366,7 @@ function ProductModal({
                       name="price"
                       id="price"
                       type="number"
+                      min="0"
                       className="form-control"
                       placeholder="請輸入售價"
                     />
@@ -430,12 +455,11 @@ ProductModal.propTypes = {
     content: PropTypes.string,
     is_enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]), // 可能是布林值或數字
     imageUrl: PropTypes.string,
-    imagesUrl: PropTypes.arrayOf(PropTypes.string), // 陣列內為字串
+    imagesUrl: PropTypes.arrayOf(PropTypes.string) // 陣列內為字串
   }).isRequired,
   isOpen: PropTypes.bool.isRequired, // 是否開啟 Modal
   setIsOpen: PropTypes.func.isRequired, // 設置 Modal 狀態
-  getProduct: PropTypes.func.isRequired, // 取得產品列表
+  getProduct: PropTypes.func.isRequired // 取得產品列表
 };
-
 
 export default ProductModal;

@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,9 @@ export default function Product({ product }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [isPrimaryBg, setIsPrimaryBg] = useState(true);
+  const [isNewCart, setIsNewCart] = useState(false);
   const wishList = useSelector((state) => state.wish.list);
-
+  const carts = useSelector((state) => state.cart.carts);
 
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
@@ -31,9 +32,16 @@ export default function Product({ product }) {
     } else if (pathname === "/Products") {
       setIsPrimaryBg(false);
     }
+    cart()
   }, []);
 
   const dNone = isPrimaryBg ? "d-none" : "";
+
+const cart = () => {
+  const newCart = carts.map((item) => item.product_id)
+  const isInCart = newCart.includes(product.id);
+  setIsNewCart(isInCart);
+}
 
   return (
     <div
@@ -42,19 +50,31 @@ export default function Product({ product }) {
       style={{ cursor: "pointer" }}
     >
       <div className="mb-md-6 mb-2 bg-gray-30 rounded-3 card-padding h-100 btn-product-hover">
-        <button
-          onClick={(e) => btnWishList(e, product.id)}
-          type="button"
-          className="btn position-absolute top-0 end-0 btn-product-wish"
-        >
+        <div className="position-absolute top-0 end-0">
+          <div className="d-flex align-items-center">
           <i
-            className={`bi fs-9 ${
-              wishList[product.id]
-                ? "bi-heart-fill text-primary"
-                : "bi-heart text-gray-70"
-            }`}
-          ></i>
-        </button>
+              className={`bi fs-8 btn-product-wish ${
+                isNewCart
+                  ? "bi-cart-fill text-primary"
+                  : "bi-cart3 text-gray-70"
+              }`}
+            ></i>
+            <button
+              onClick={(e) => btnWishList(e, product.id)}
+              type="button"
+              className="btn btn-product-wish"
+            >
+              <i
+                className={`bi fs-9 ${
+                  wishList[product.id]
+                    ? "bi-heart-fill text-primary"
+                    : "bi-heart text-gray-70"
+                }`}
+              ></i>
+            </button>
+          </div>
+        </div>
+        
         <img src={product.imageUrl} alt={product.title} />
       </div>
       <div className="card-body body p-0 d-flex flex-column">
@@ -75,7 +95,7 @@ export default function Product({ product }) {
           </p>
         </div>
         <p className="card-text fs-md-8 fs-9 fw-bold text-gray-100 mt-auto">
-          <small className="text-muted">{`$${product.price}`}</small>
+          <small className="text-muted">{`$${product.price?.toLocaleString("zh-Hant-TW")}`}</small>
         </p>
       </div>
     </div>
@@ -84,5 +104,5 @@ export default function Product({ product }) {
 
 // **PropTypes 驗證**
 Product.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.object.isRequired
 };

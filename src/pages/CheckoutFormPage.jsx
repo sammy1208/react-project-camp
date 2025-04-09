@@ -8,6 +8,7 @@ import { getCart } from "../redux/slices/apiSlice";
 import axios from "axios";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
+import SectionTitle from '../components/SectionTitle';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -54,7 +55,12 @@ export default function CheckoutFormPage() {
       dispatch(getCart());
       return res.data;
     } catch {
-      alert("建立訂單失敗");
+      dispatch(
+        PushMessage({
+          text: "建立訂單失敗",
+          status: "failed"
+        })
+      )
     } finally {
       setIsScreenLoading(false);
     }
@@ -74,8 +80,7 @@ export default function CheckoutFormPage() {
     <>
       <article className="container-default">
         <div className="container">
-          <p className="text-center pb-md-2">Shopping Cart</p>
-          <h2 className="text-center pb-md-17 pb-12">購物車</h2>
+          <SectionTitle subtitle="Shopping Cart" title="購物車" subtitleColor="text-primary" titleColor=""/>
           <div className="row justify-content-center">
             <div className="col-md-8">
               <ul className="list-unstyled mb-14 ms-md-auto d-flex align-items-center justify-content-between w-100 mt-md-0 mt-4 custom-step-line">
@@ -94,7 +99,7 @@ export default function CheckoutFormPage() {
               </ul>
             </div>
           </div>
-          <form onSubmit={onSubmit} className="row mb-md-16 mb-12 d-flex">
+          <form onSubmit={onSubmit} className="row mb-md-16 mb-12">
             <div className="col-md-8">
               <div className="h-100 rounded">
                 <div className="mb-5 justify-content-center">
@@ -106,6 +111,7 @@ export default function CheckoutFormPage() {
                         className="form-label mb-2 text-gray-70"
                       >
                         Email
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
                         {...register("email", {
@@ -135,6 +141,7 @@ export default function CheckoutFormPage() {
                         className="form-label mb-2 text-gray-70"
                       >
                         收件人姓名
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
                         {...register("name", {
@@ -160,6 +167,7 @@ export default function CheckoutFormPage() {
                         className="form-label mb-2 text-gray-70"
                       >
                         收件人電話
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
                         {...register("tel", {
@@ -188,6 +196,7 @@ export default function CheckoutFormPage() {
                         className="form-label mb-2 text-gray-70"
                       >
                         收件人地址
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
                         {...register("address", {
@@ -229,7 +238,7 @@ export default function CheckoutFormPage() {
             </div>
 
             <div className="col-md-4">
-              <div className="border border-primary-1 p-4 mb-4 rounded">
+              <div className="border border-primary-1 p-8 mb-4 rounded">
                 <h5 className="fw-bold mb-6 fs-8 fs-md-7">明細</h5>
                 {cart.carts?.map((cartItem) => (
                   <div key={cartItem.id} className="d-flex mb-4 w-100">
@@ -242,7 +251,7 @@ export default function CheckoutFormPage() {
                     <div className="w-100">
                       <div>
                         <p className="mb-0 fw-bold">{cartItem.product.title}</p>
-                        <p className="mb-0">{`$${cartItem.product.price}`}</p>
+                        <p className="mb-0">{`$${cartItem.product.price.toLocaleString("zh-Hant-TW")}`}</p>
                       </div>
                       <p className="mb-0 fw-bold">{`X ${cartItem.qty}`}</p>
                     </div>
@@ -258,7 +267,7 @@ export default function CheckoutFormPage() {
                         總計金額
                       </th>
                       <td className="text-end border-0 px-0 pt-4 text-gray-70">
-                        {`NT$${total}`}
+                        {`NT$${total.toLocaleString("zh-Hant-TW")}`}
                       </td>
                     </tr>
                     <tr>
@@ -269,7 +278,7 @@ export default function CheckoutFormPage() {
                         折扣金額
                       </th>
                       <td className="text-end border-0 px-0 pt-0 pb-4 text-gray-70">
-                        {`- NT$${total - cart.final_total}`}
+                        {`- NT$${(total - cart.final_total).toLocaleString("zh-Hant-TW")}`}
                       </td>
                     </tr>
                   </tbody>
@@ -277,7 +286,7 @@ export default function CheckoutFormPage() {
                 <div className="d-flex justify-content-between my-8">
                   <p className="mb-0 fs-7 fw-bold">總計金額</p>
                   <p className="mb-0 fs-7 fw-bold text-primary">
-                    {`NT$${cart.final_total}`}
+                    {`NT$${cart.final_total.toLocaleString("zh-Hant-TW")}`}
                   </p>
                 </div>
 
@@ -296,7 +305,7 @@ export default function CheckoutFormPage() {
           </form>
         </div>
       </article>
-      <ScreenLoading isLoading={isScreenLoading} />
+      <ScreenLoading isLoading={isScreenLoading}/>
     </>
   );
 }

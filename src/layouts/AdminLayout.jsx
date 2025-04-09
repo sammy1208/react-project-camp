@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Toast from "../components/Toast";
 import AutoScrollToTop from "../components/AutoScrollToTop";
 import HeaderAdmin from "../components/admin/HeaderAdmin";
 import FooterAdmin from "../components/admin/FooterAdmin";
-
 const routes = [
   { path: "/admin/productList", name: "後台產品列表" },
   { path: "/admin/order", name: "後台訂單列表" }

@@ -8,6 +8,7 @@ import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import "swiper/css/navigation";
 import "swiper/css";
+import SectionTitle from '../components/SectionTitle';
 
 export default function WishPage() {
   const dispatch = useDispatch();
@@ -27,8 +28,7 @@ export default function WishPage() {
       <main className="container-default">
         <div className="container">
           <div className="pb-md-18">
-            <p className="text-center pb-md-2">Wish List</p>
-            <h2 className="text-center pb-md-17 pb-12">收藏</h2>
+            <SectionTitle subtitle="Wish List" title="收藏" subtitleColor="text-primary" titleColor=""/>
             {wishProduct?.length > 0 ? (
               <div className="row gy-10" style={{ alignItems: "stretch" }}>
                 {wishProduct.map((product) => (
@@ -36,7 +36,7 @@ export default function WishPage() {
                     className="col-md-4 col-6 d-flex flex-column"
                     key={product.id}
                   >
-                    <Product product={product} />
+                    <Product product={product}/>
                   </div>
                 ))}
               </div>
@@ -46,20 +46,17 @@ export default function WishPage() {
                   <img
                     src="./青松露營w.svg"
                     alt="logo"
-                    style={{ height: "200px" }}
+                    style={{ height: "100px" }}
                   />
-                  <h1 className="d-flex justify-content-center py-12 text-gray-80">
+                  <h5 className="d-flex justify-content-center py-12 text-gray-80">
                     {`目前沒有收藏喔  >~<`}
-                  </h1>
+                  </h5>
                 </div>
               </>
             )}
           </div>
           <div className="d-none d-md-block">
-            <p className="text-primary text-center pb-md-2">
-              You May Also Like
-            </p>
-            <h2 className="text-center pb-md-17">猜你喜歡</h2>
+            <SectionTitle subtitle="You May Also Like" title="猜你喜歡" subtitleColor="text-primary" titleColor=""/>
             <Swiper
               modules={[Navigation]}
               navigation
@@ -73,7 +70,7 @@ export default function WishPage() {
                   className="swiper-slide flex-column"
                 >
                   <div className="d-flex flex-column">
-                    <Product product={product} />
+                    <Product product={product}/>
                   </div>
                 </SwiperSlide>
               ))}
@@ -82,7 +79,7 @@ export default function WishPage() {
         </div>
       </main>
 
-      <ScreenLoading isLoading={isScreenLoading} />
+      <ScreenLoading isLoading={isScreenLoading}/>
     </>
   );
 }

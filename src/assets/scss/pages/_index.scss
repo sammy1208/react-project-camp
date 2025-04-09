@@ -43,7 +43,7 @@
     background-repeat: no-repeat; /* 避免重複 */
   }
   &-static {
-    height: 560px;
+    height: 240px;
     background-size: cover;
     background-position: center; /* 縮放時保持中心點 */
     background-repeat: no-repeat; /* 避免重複 */
@@ -90,7 +90,6 @@
 
 .designer-img {
   border-radius: 12px;
-  height: 200px;
   object-fit: cover;
   max-width: 100%;
   @include mobile-larger {
@@ -131,7 +130,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     // max-height :48px
-    min-height: 66px;
+    min-height: 60px;
     @include mobile-larger {
       min-height: 0;
     }
@@ -158,21 +157,6 @@
     color: $primary-30 !important;
   }
 }
-// .card {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   height: 100%;
-// }
-// .body {
-//   // min-height: 104px;
-//   flex-grow:1;  // 洧杰修改處
-//   height: auto;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   padding: 1rem;
-// }
 
 .card {
   &-img {
@@ -359,10 +343,5 @@
     background: $neutral-90;
     // transform: translate(100%, -50%);
     z-index: -1;
-  }
-  @include mobile-larger {
-    &::after {
-      display: none;
-    }
   }
 }

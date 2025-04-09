@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../../components/admin/Pagination";
 import ProductModal from "../../components/admin/ProductModal";
 import DelProductModal from "../../components/admin/DelProductModal";
 import ScreenLoading from "../../components/ScreenLoading";
+import { PushMessage } from "../../redux/slices/toastSlice";
+import { useDispatch } from "react-redux";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -29,6 +31,7 @@ function ProductListPage() {
   const [isDleModalOpen, setIsDleModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
+  const dispatch = useDispatch();
 
   const handleOpenModal = (mode, product) => {
     setModalMode(mode);
@@ -54,6 +57,7 @@ function ProductListPage() {
   const [pageInfo, setPageInfo] = useState({});
 
   const getProduct = async (page) => {
+    setIsScreenLoading(true);
     try {
       const res = await axios.get(
         `${BASE_URL}/v2/api/${API_PATH}/admin/products?page=${page}`
@@ -61,30 +65,45 @@ function ProductListPage() {
       setProduct(res.data.products);
       setPageInfo(res.data.pagination);
     } catch (error) {
-      alert(error.message);
+      const err = error.message
+      dispatch(
+        PushMessage({
+          text: err,
+          status: "failed"
+        })
+      )
+    } finally {
+      setIsScreenLoading(false);
     }
   };
 
-  const checkUser = async () => {
-    setIsScreenLoading(true)
-    try {
-      await axios.post(`${BASE_URL}/v2/api/user/check`);
-      getProduct(1);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsScreenLoading(false)
-    }
-  };
+  // const checkUser = async () => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     await axios.post(`${BASE_URL}/v2/api/user/check`);
+  //     getProduct(1);
+  //   } catch (error) {
+  //     const err = error.message
+  //     dispatch(
+  //       PushMessage({
+  //         text: err,
+  //         status: "failed"
+  //       })
+  //     )
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
+    
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
     if (token.length > 0) {
       axios.defaults.headers.common["Authorization"] = token;
-      checkUser();
+      getProduct(1);
     }
   }, []);
 
@@ -184,7 +203,6 @@ function ProductListPage() {
             getProduct={getProduct}
           />
         )}
-
       </article>
       <ScreenLoading isLoading={isScreenLoading} />
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,7 @@ export default function ProductsDetailPage() {
     dispatch(getProductDetail(product_id));
     dispatch(getAllProduct());
     dispatch(getCart()).finally(() => setIsScreenLoading(false));
-  }, []);
+  }, [product_id]);
 
   const updataCartItem = async (product_id, qty) => {
     const CartData = {
@@ -154,18 +154,22 @@ export default function ProductsDetailPage() {
             <figure className="col-md-7 m-0">
               <div className="mb-md-10 mb-4">
                 {productsDetail?.imageUrl && (
-                  <ProductLmg img={productsDetail.imageUrl} product={productsDetail} />
+                  <ProductLmg
+                    img={productsDetail.imageUrl}
+                    product={productsDetail}
+                  />
                 )}
               </div>
               <div className="row gx-4 gx-md-10">
                 {productsDetail?.imagesUrl?.length > 0 &&
-                  productsDetail?.imagesUrl.map((img, index) => (
-                    img && (
-                      <div className="col" key={index}>
-                        <ProductLmg img={img} product={productsDetail} />
-                      </div>
-                    )
-                  ))}
+                  productsDetail?.imagesUrl.map(
+                    (img, index) =>
+                      img && (
+                        <div className="col" key={index}>
+                          <ProductLmg img={img} product={productsDetail} />
+                        </div>
+                      )
+                  )}
               </div>
             </figure>
 
@@ -182,7 +186,7 @@ export default function ProductsDetailPage() {
                     </span>
                   ))}
                 </p>
-                <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price}`}</p>
+                <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price?.toLocaleString("zh-Hant-TW")}`}</p>
               </section>
 
               <div className="mb-6 mb-md-10">
@@ -197,7 +201,7 @@ export default function ProductsDetailPage() {
                           isColorActive === color && "active"
                         }`}
                       >
-                        <p className="fs-7">{color}</p>
+                        <p>{color}</p>
                       </button>
                     </li>
                   ))}
@@ -216,7 +220,7 @@ export default function ProductsDetailPage() {
                           isSpecsActive === specs && "active"
                         }`}
                       >
-                        <p className="fs-7">{specs}</p>
+                        <p>{specs}</p>
                       </button>
                     </li>
                   ))}
@@ -227,16 +231,6 @@ export default function ProductsDetailPage() {
                 <p className="fs-md-9 fs-10 mb-md-6 mb-4">數量</p>
                 <div>
                   <button
-                    onClick={() => handleQty(qtySelect + 1)}
-                    type="button"
-                    className="btn p-0 btn-qty text-gray-50"
-                  >
-                    <span className="material-symbols-outlined">
-                      add_circle
-                    </span>
-                  </button>
-                  <span className="text-gray-70 px-8">{qtySelect}</span>
-                  <button
                     onClick={() => handleQty(qtySelect - 1)}
                     type="button"
                     className="btn p-0 btn-qty text-gray-50"
@@ -244,6 +238,16 @@ export default function ProductsDetailPage() {
                   >
                     <span className="material-symbols-outlined">
                       do_not_disturb_on
+                    </span>
+                  </button>
+                  <span className="text-gray-70 px-8">{qtySelect}</span>
+                  <button
+                    onClick={() => handleQty(qtySelect + 1)}
+                    type="button"
+                    className="btn p-0 btn-qty text-gray-50"
+                  >
+                    <span className="material-symbols-outlined">
+                      add_circle
                     </span>
                   </button>
                 </div>
@@ -359,7 +363,11 @@ export default function ProductsDetailPage() {
                 key={product.id}
                 className="swiper-slide flex-column"
               >
-                <div className="d-flex flex-column">
+                <div
+                  onClick={() => Navigate(`/Products/${product.id}`)}
+                  className="d-flex flex-column"
+                  style={{ cursor: "pointer" }}
+                >
                   <Product product={product} />
                 </div>
               </SwiperSlide>

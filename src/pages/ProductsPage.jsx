@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProduct } from "../redux/slices/apiSlice";
@@ -151,75 +151,75 @@ function ProductsPage() {
                   <div
                     onClick={() => toggleCollapse("nav01", navRef01)}
                     className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    // data-bs-toggle="collapse"
-                    // data-bs-target="#ProductList-1"
                     aria-expanded={isCollapseOpen.nav01}
                   >
                     限時搶購
                   </div>
                   <div ref={navRef01} className="collapse" id="nav01">
-                    <button
-                      type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
-                        isActive === "lowPrice" ? "active" : ""
-                      }`}
-                      onClick={() => handleFilterChange("lowPrice")}
-                    >
-                      冬眠季應援團·全面 85 折
-                    </button>
-                    <button
-                      type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
-                        isActive === "highPrice" ? "active" : ""
-                      }`}
-                      onClick={() => handleFilterChange("highPrice")}
-                    >
-                      周年慶·滿千折百
-                    </button>
+                    <div className="d-flex flex-column">
+                      <button
+                        type="button"
+                        className={`btn-nav btn fs-10 text-gray-70 fw-normal pt-0 px-0 text-start border-o ${
+                          isActive === "lowPrice" ? "active" : ""
+                        }`}
+                        onClick={() => handleFilterChange("lowPrice")}
+                      >
+                        冬眠季應援團·全面 85 折
+                      </button>
+                      <button
+                        type="button"
+                        className={`btn-nav btn fs-10 text-gray-70 fw-normal pt-0 px-0 text-start border-o ${
+                          isActive === "highPrice" ? "active" : ""
+                        }`}
+                        onClick={() => handleFilterChange("highPrice")}
+                      >
+                        周年慶·滿千折百
+                      </button>
+                    </div>
                   </div>
                 </li>
                 <li className="mb-4 border-bottom">
                   <div
                     onClick={() => toggleCollapse("nav02", navRef02)}
                     className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    // data-bs-toggle="collapse"
-                    // data-bs-target="#ProductList-2"
                     aria-expanded={isCollapseOpen.nav02}
                   >
                     青松｜帳篷系列
                   </div>
                   <div ref={navRef02} className="collapse" id="nav02">
-                    <button
-                      type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
-                        isActive === "tent" ? "active" : ""
-                      }`}
-                      onClick={() => handleFilterChange("tent")}
-                    >
-                      帳篷系列
-                    </button>
+                    <div className="d-flex flex-column">
+                      <button
+                        type="button"
+                        className={`btn-nav btn fs-10 text-gray-70 pt-0 fw-normal px-0 text-start border-o ${
+                          isActive === "tent" ? "active" : ""
+                        }`}
+                        onClick={() => handleFilterChange("tent")}
+                      >
+                        帳篷系列
+                      </button>
+                    </div>
                   </div>
                 </li>
                 <li className="mb-4 border-bottom">
                   <div
                     onClick={() => toggleCollapse("nav03", navRef03)}
-                    className="py-8 add-icon w-100 p-0 fw-normal rounded-0"
-                    // data-bs-toggle="collapse"
-                    // data-bs-target="#ProductList-3"
+                    className="py-8 add-icon w-100 pt-0 fw-normal rounded-0"
                     aria-expanded={isCollapseOpen.nav03}
                   >
                     青松｜環保系列
                   </div>
                   <div ref={navRef03} className="collapse" id="nav03">
-                    <button
-                      type="button"
-                      className={`btn-nav btn fs-10 text-gray-70 pb-4 fw-normal px-0 text-start border-o ${
-                        isActive === "outdoor" ? "active" : ""
-                      }`}
-                      onClick={() => handleFilterChange("outdoor")}
-                    >
-                      戶外用品
-                    </button>
+                    <div className="d-flex flex-column">
+                      <button
+                        type="button"
+                        className={`btn-nav btn fs-10 text-gray-70 pt-0 fw-normal px-0 text-start border-o ${
+                          isActive === "outdoor" ? "active" : ""
+                        }`}
+                        onClick={() => handleFilterChange("outdoor")}
+                      >
+                        戶外用品
+                      </button>
+                    </div>
                   </div>
                 </li>
               </ul>

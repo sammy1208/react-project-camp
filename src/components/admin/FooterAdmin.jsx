@@ -3,17 +3,26 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { PushMessage } from '../../redux/slices/toastSlice';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function FooterAdmin() {
   const navigate = useNavigate();
+  const dispatch = useDispatch(PushMessage);
 
   const checkUser = async () => {
     try {
       await axios.post(`${BASE_URL}/v2/api/user/check`);
     } catch (error) {
-      alert(error.message);
+      const err = error.message
+      dispatch(
+        PushMessage({
+          text: err,
+          status: "failed"
+        })
+      )
     }
   };
 
@@ -34,7 +43,13 @@ export default function FooterAdmin() {
       document.cookie = "hexToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       navigate("/login");
     } catch (error) {
-      alert(`登出失敗:${error.message}`);
+      const err = `登出失敗:${error.message}`
+      dispatch(
+        PushMessage({
+          text: err,
+          status: "failed"
+        })
+      )
     }
   };
   return (

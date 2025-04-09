@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -8,10 +8,7 @@ export default function Footer() {
         <div className="d-md-flex justify-content-md-between align-items-md-center pb-9">
           <div className="pb-6 pb-md-0">
             <Link className="navbar-brand me-7 logo" to={"/"}>
-              <img
-                src="./images/icons/Logo.png"
-                alt="logo"
-              />
+              <img src="./images/icons/Logo.png" alt="logo" />
             </Link>
           </div>
           <ul className="d-flex text-white list-unstyled mb-lg-0 mb-6 justify-content-md-end d-md-none">
@@ -57,8 +54,8 @@ export default function Footer() {
                 </a>
               </li>
               <li className="ps-8">
-                <Link to="/login" >
-                <i className="bi bi-person-circle fs-md-4"></i>
+                <Link to="/login">
+                  <i className="bi bi-person-circle fs-md-4"></i>
                 </Link>
               </li>
             </ul>

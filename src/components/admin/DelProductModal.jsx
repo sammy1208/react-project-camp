@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
@@ -11,7 +11,7 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 
 function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
   const delProductModalRef = useRef(null);
-  const dispatch = useDispatch(PushMessage)
+  const dispatch = useDispatch(PushMessage);
 
   useEffect(() => {
     new Modal(delProductModalRef.current, {
@@ -31,12 +31,19 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
       await deleteProduct();
       getProduct();
       handleCloseDelModal();
-      dispatch(PushMessage({
-        text: "刪除成功",
-        status: "success"
-      }))
+      dispatch(
+        PushMessage({
+          text: "刪除成功",
+          status: "success"
+        })
+      );
     } catch {
-      alert(`刪除產品失敗`);
+      dispatch(
+        PushMessage({
+          text: "刪除失敗`",
+          status: "failed"
+        })
+      )
     }
   };
 
@@ -52,7 +59,12 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
         `${BASE_URL}/v2/api/${API_PATH}/admin/product/${tempProduct.id}`
       );
     } catch {
-      alert(`刪除產品失敗`);
+      dispatch(
+        PushMessage({
+          text: "刪除產品失敗`",
+          status: "failed"
+        })
+      )
     }
   };
 
@@ -102,16 +114,15 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
   );
 }
 
-
 // **🔹 PropTypes 驗證**
 DelProductModal.propTypes = {
   tempProduct: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   }).isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  getProduct: PropTypes.func.isRequired,
+  getProduct: PropTypes.func.isRequired
 };
 
 export default DelProductModal;

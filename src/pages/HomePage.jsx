@@ -1,11 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Product from "../components/Product";
 import ProductLmg from "../components/ProductLmg";
 import ScreenLoading from "../components/ScreenLoading";
+import SectionTitle from '../components/SectionTitle';
+import { PushMessage } from '../redux/slices/toastSlice';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -20,6 +22,8 @@ export default function HomePage() {
 
   const [products1, setProducts1] = useState(null);
   const [products6, setProducts6] = useState(null);
+  const Navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getProduct = async () => {
     setIsScreenLoading(true);
@@ -29,11 +33,20 @@ export default function HomePage() {
       setProducts1(res.data.products[0]);
       setProducts6(res.data.products[6]);
     } catch {
-      alert("取得產品失敗");
+      dispatch(
+        PushMessage({
+          text: "取得產品失敗",
+          status: "failed"
+        })
+      )
     } finally {
       setIsScreenLoading(false);
     }
   };
+
+  const handleTips =(link) => {
+    Navigate(link);
+  }
 
   useEffect(() => {
     getProduct();
@@ -42,24 +55,21 @@ export default function HomePage() {
   return (
     <>
       <section className="container container-index">
-        <p className="text-primary text-center pb-md-2 fs-md-9 fs-10">
-          Winter Series
-        </p>
-        <h2 className="text-center pb-md-17 pb-10 h4 fs-md-2">冬眠季大應援</h2>
+        <SectionTitle subtitle="Winter Series" title="冬眠季大應援" subtitleColor="text-primary" titleColor=""/>
         <div className="row">
           <div className="col d-none d-md-block">
-            {products1 && <Product product={products1} />}
+            {products1 && <Product product={products1}/>}
           </div>
           <div className="col">
             <div className="row row-cols-2 gy-md-10 gy-8">
               {products.slice(1, 5).map((product) => (
                 <div className="col" key={product.id}>
-                  <Product product={product} />
+                  <Product product={product}/>
                 </div>
               ))}
 
               <div className="col d-md-none d-block">
-                {products6 && <Product product={products6} />}
+                {products6 && <Product product={products6}/>}
               </div>
             </div>
           </div>
@@ -77,11 +87,8 @@ export default function HomePage() {
 
       <section className="container-index bg-gray-20">
         <div className="container">
-          <p className="text-primary text-center pb-md-2 fs-md-9 fs-10">
-            tents Series
-          </p>
-          <h2 className="text-center pb-md-17 pb-10 h4 fs-md-2">帳篷系列</h2>
-          <div className="row g-0 d-flex flex-column-reverse flex-md-row">
+          <SectionTitle subtitle="tents Series" title="帳篷系列" subtitleColor="text-primary" titleColor=""/>
+          <div className="row g-0 flex-column-reverse flex-md-row">
             <div className="col-md d-flex justify-content-center align-items-center">
               <div className="text-md-end text-center me-md-21">
                 <h3 className="pb-4 pb-md-8 pt-10 pt-md-0 fs-7 fs-md-3">
@@ -135,11 +142,8 @@ export default function HomePage() {
       </section>
 
       <section className="container container-index">
-        <p className="text-primary text-center pb-md-2 fs-md-9 fs-10">
-          Outdoor Series
-        </p>
-        <h2 className="text-center pb-md-17 pb-10 h4 fs-md-2">戶外用品系列</h2>
-        <div className="row g-0 d-flex flex-column flex-md-row">
+        <SectionTitle subtitle="Outdoor Series" title="戶外用品系列" subtitleColor="text-primary" titleColor=""/>
+        <div className="row g-0 flex-column flex-md-row">
           <div className="col-md">
             <div className="row row-cols-1 gy-md-10 gy-6">
               <div className="col">
@@ -193,15 +197,12 @@ export default function HomePage() {
 
       <article className="container-index bg-primary">
         <div className="container">
-          <p className="text-white text-center pb-md-2">CampEase design</p>
-          <h2 className="text-white text-center pb-md-17 pb-12">
-            青松嚴選，頂尖設計
-          </h2>
+          <SectionTitle subtitle="CampEase design" title="青松嚴選，頂尖設計" subtitleColor="text-white" titleColor="text-white"/>
           <div className="row justify-content-center">
-            <div className="col-8">
+            <div className="col-md-8">
               {designerList.map((designer, index) => (
                 <div
-                  className={`row mb-md-16 mb-12 d-flex flex-column-reverse flex-md-row ${
+                  className={`row mb-md-16 mb-12 flex-column-reverse flex-md-row ${
                     index % 2 === 0 ? "flex-md-row" : " flex-md-row-reverse"
                   }`}
                   key={designer.title}
@@ -238,11 +239,13 @@ export default function HomePage() {
       </article>
 
       <article className="container container-index">
-        <p className="text-primary text-center pb-md-2">Camping Tips</p>
-        <h2 className="text-center pb-md-17 pb-10">露營知識，不可不知</h2>
+        <SectionTitle subtitle="Camping Tips" title="露營知識，不可不知" subtitleColor="text-primary" titleColor=""/>
         <div className="row justify-content-center">
           {Knowledge.map((know) => (
-            <div className="col-md-3 mb-8 mb-md-0" key={know.path}>
+            <div
+            onClick={() => handleTips(know.path)}
+            style={{ cursor: "pointer" }}
+            className="col-md-3 mb-8 mb-md-0" key={know.path}>
               <div
                 className="card mb-3 border-0 h-100 flex-row flex-md-column justify-content-between"
                 key={know.title}
@@ -256,19 +259,16 @@ export default function HomePage() {
                 </div>
                 <div className="card-body p-0 d-flex flex-column">
                   <p className="fs-10 pb-md-6 pb-2 text-gray-70">2024/12/01</p>
-                  <p className="fs-9 fs-md-8 fw-bold pb-md-6 pb-5 tips-title">
+                  <p className="fs-9 fs-md-8 fw-bold pb-md-2 pb-5 tips-title">
                     {know.title}
                   </p>
                   <div className="d-none d-md-block">
                     <p className="tips-content">{know.content}</p>
                   </div>
                   <div className="mt-md-auto">
-                    <Link
-                      to={know.path}
-                      className="fs-10 fw-bold text-primary pt-md-9 pt-0"
-                    >
+                    <p className="fs-10 fw-bold text-primary pt-md-9 pt-0">
                       立即閱讀
-                    </Link>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function HomePage() {
         </div>
       </article>
 
-      <ScreenLoading isLoading={isScreenLoading} />
+      <ScreenLoading isLoading={isScreenLoading}/>
     </>
   );
 }

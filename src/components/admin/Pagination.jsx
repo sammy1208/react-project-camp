@@ -1,8 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 function Pagination({ products, pageInfo, getProduct }) {
-  const handlePageChange = (page) => {
+  const handlePageChange = (e, page) => {
+    e.preventDefault();
     getProduct(page);
   };
 
@@ -15,7 +16,7 @@ function Pagination({ products, pageInfo, getProduct }) {
           <ul className="pagination">
             <li className={`page-item ${!pageInfo.has_pre && "disabled"}`}>
               <a
-                onClick={() => handlePageChange(pageInfo.current_page - 1)}
+                onClick={(e) => handlePageChange(e, pageInfo.current_page - 1)}
                 className="page-link"
               >
                 上一頁
@@ -30,7 +31,7 @@ function Pagination({ products, pageInfo, getProduct }) {
                 }`}
               >
                 <a
-                  onClick={() => handlePageChange(index + 1)}
+                  onClick={(e) => handlePageChange(e, index + 1)}
                   className="page-link"
                 >
                   {index + 1}
@@ -40,7 +41,7 @@ function Pagination({ products, pageInfo, getProduct }) {
 
             <li className={`page-item ${!pageInfo.has_next && "disabled"}`}>
               <a
-                onClick={() => handlePageChange(pageInfo.current_page + 1)}
+                onClick={(e) => handlePageChange(e, pageInfo.current_page + 1)}
                 className="page-link"
               >
                 下一頁
@@ -60,9 +61,9 @@ Pagination.propTypes = {
     total_pages: PropTypes.number.isRequired,
     current_page: PropTypes.number.isRequired,
     has_pre: PropTypes.bool.isRequired,
-    has_next: PropTypes.bool.isRequired,
+    has_next: PropTypes.bool.isRequired
   }).isRequired,
-  getProduct: PropTypes.func.isRequired, // 確保 `getProduct` 是函式
+  getProduct: PropTypes.func.isRequired // 確保 `getProduct` 是函式
 };
 
 export default Pagination;

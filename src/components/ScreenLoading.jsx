@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import ReactLoading from "react-loading";
 
 export default function ScreenLoading({ isLoading }) {
@@ -29,5 +29,5 @@ export default function ScreenLoading({ isLoading }) {
 
 // **PropTypes 驗證**
 ScreenLoading.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };

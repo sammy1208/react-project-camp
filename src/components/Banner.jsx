@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ export default function Banner({ imageUrl, data, title, type }) {
             >
               <div className="d-flex flex-column h-100 justify-content-center">
                 <div className="container text-white text-center">
-                  <h1 className="fw-bold fs-1 mb-md-13">
+                  <h1 className="fw-bold mb-13 fs-md-1 fs-3">
                     {item.title}
                     <br />
                     {item.description}
@@ -44,12 +44,12 @@ export default function Banner({ imageUrl, data, title, type }) {
         className="banner-static d-flex flex-column"
       >
         <div className="container text-white text-center h-100 d-flex flex-column justify-content-center">
-          <h1 className="fw-bold fs-1">{title}</h1>
+          <h1 className="fw-bold fs-md-1 fs-3">{title}</h1>
         </div>
       </div>
     );
   } else if (type === "default") {
-    return null; 
+    return null;
   }
 }
 
@@ -65,5 +65,5 @@ Banner.propTypes = {
     })
   ),
   title: PropTypes.string,
-  type: PropTypes.oneOf(["carousel", "static", "default"]).isRequired,
+  type: PropTypes.oneOf(["carousel", "static", "default"]).isRequired
 };

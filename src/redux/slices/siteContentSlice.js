@@ -53,16 +53,16 @@ const initialState = {
       title: "印地安單峰帳",
       name: "輕量設計，簡易搭建，適合冒險者探索自然。",
       type: "提供可靠遮蔽，享受純粹的露營體驗。",
-      image_url: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow5.png",
-      image_url_01: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow1.png",
-      image_url_02: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow4.png",
-      image_url_03: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow3.png"
+      image_url: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow5.webp",
+      image_url_01: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow1.webp",
+      image_url_02: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow4.webp",
+      image_url_03: "./images/camp/碧海微風沙灘帳篷/Dark_Tent_Glow3.webp"
     },
     {
       title: "簡易炊具組",
       name: "輕巧便攜，包含鍋、碗、湯勺等露營必備餐具，",
       type: "耐高溫易清潔，適合戶外煮食，讓野餐變得輕鬆又愉快！",
-      image_url: "./images/camp/簡易炊具組/Img.png",
+      image_url: "./images/camp/簡易炊具組/Img.webp",
       image_url_01: "./images/camp/簡易炊具組/Img-1.png",
       image_url_02: "./images/camp/簡易炊具組/Img-2.png",
       image_url_03: "./images/camp/簡易炊具組/Img-3.png"
@@ -76,7 +76,7 @@ const initialState = {
       content:
         "隨著露營活動的興起，環境保護成為不可忽視的議題。許多露營區因為遊客的垃圾、一次性用品的使用，導致自然生態受損，甚至影響當地動植物的生存環境。",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1680788452823-49bb63651490?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "https://images.unsplash.com/photo-1616259538387-9c602e98b747?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       path: "/KnowledgePage/cookware",
@@ -85,7 +85,7 @@ const initialState = {
       content:
         "露營時，享受美食是不可或缺的一部分。然而，傳統的炊具與料理方式往往會對環境造成影響，例如一次性燃料罐的浪費、過度使用木材生火、以及難以回收的鋁箔包裝等。因此，選擇環保炊具成為現代露營者的新趨勢。透過使用節能爐具、可重複使用的餐具，以及環保燃料，我們可以在享受美味料理的同時，也為地球盡一份心力。",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1680788452823-49bb63651490?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "https://plus.unsplash.com/premium_photo-1714785786689-ed6b64e28917?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       path: "/KnowledgePage/outdoor",
@@ -110,27 +110,27 @@ const initialState = {
     {
       time: "2004",
       description: "在台北松山，第一家 CampEase 青松露營開幕",
-      imageUrl: "./images/AboutUsPage/Rectangle 2.png"
+      imageUrl: "./images/AboutUsPage/Rectangle 2.webp"
     },
     {
       time: "2008",
       description: "除了露營用品外，也邀請許多品牌合作，擴大營業方向",
-      imageUrl: "./images/AboutUsPage/Rectangle 3.png"
+      imageUrl: "./images/AboutUsPage/Rectangle 3.webp"
     },
     {
       time: "2010",
       description: "CampEase 青松露營線上購物網開始營運",
-      imageUrl: "./images/AboutUsPage/Rectangle 4.png"
+      imageUrl: "./images/AboutUsPage/Rectangle 4.webp"
     },
     {
       time: "2018",
       description: "榮獲 ECSA 環保企業永續獎",
-      imageUrl: "./images/AboutUsPage/Rectangle 5.png"
+      imageUrl: "./images/AboutUsPage/Rectangle 5.webp"
     },
     {
       time: "2024",
       description: "30 間店鋪達成，員工突破 1000 人",
-      imageUrl: "./images/AboutUsPage/Rectangle 1.png"
+      imageUrl: "./images/AboutUsPage/Rectangle 1.webp"
     }
   ],
   brandStory: {
@@ -142,20 +142,20 @@ const initialState = {
       "我們不僅僅是販售產品，更希望傳遞一種生活態度：在自然中找到內心的平靜，與家人朋友一同創造難忘的珍貴回憶。CampEase 青松露營專注於設計輕便、實用又美觀的裝備，不論是靜享山林間的寧靜，還是與親友共享星空下的歡笑，我們都希望成為你露營旅程中的最佳夥伴。",
     title: "“輕鬆露營，樂享自然“",
     type: "CampEase 青松露營，台北松山創始店",
-    imageUrl: "./images/AboutUsPage/alpen-tokyo-the-north-face 1.png"
+    imageUrl: "./images/AboutUsPage/alpen-tokyo-the-north-face 1.webp"
   },
   responsibility: [
     {
       title: "支持永續發展，守護大自然的美好",
       content:
         "致力於環境保護，選用可回收材料製造商品，減少資源浪費。我們承諾在每售出一個帳篷後，投入部分收益支持植樹計畫，恢復森林生態。讓我們一起珍惜自然，為下一代留下一片綠意盎然的世界。",
-      imageUrl: "./images/AboutUsPage/社會責任-1.png"
+      imageUrl: "./images/AboutUsPage/社會責任-1.webp"
     },
     {
       title: "打造更友善的社會，共創露營新體驗",
       content:
         "積極推動社會公益，定期舉辦「公益露營日」，邀請偏鄉孩童免費參與露營活動，體驗戶外生活的樂趣。我們相信，露營不僅是一場旅行，更是一個分享幸福與愛的機會，讓每個人都能感受大自然的美好。",
-      imageUrl: "./images/AboutUsPage/社會責任-2.png"
+      imageUrl: "./images/AboutUsPage/社會責任-2.webp"
     }
   ],
   KnowledgeRoutes: [
@@ -203,21 +203,21 @@ const initialState = {
         {
           id: 1,
           image:
-            "./images/banner/Home-banner-01.png",
+            "./images/banner/Home-banner-01.webp",
           title: "單人露營組",
           description: "一人成家"
         },
         {
           id: 2,
           image:
-            "./images/banner/Home-banner-02.png",
+            "./images/banner/Home-banner-02.webp",
           title: "野炊鍋具組",
           description: "食盡山水"
         },
         {
           id: 3,
           image:
-            "./images/banner/Home-banner-03.png",
+            "./images/banner/Home-banner-03.webp",
           title: "質感手提燈",
           description: "引領夜空"
         }
@@ -226,7 +226,7 @@ const initialState = {
     products: {
       type: "static",
       imageUrl:
-        "https://plus.unsplash.com/premium_photo-1669674583896-15235322d26e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1611245346298-0062eddd788f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "產品分類"
     },
     aboutUs: {

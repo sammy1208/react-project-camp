@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 
 export default function ProductNav({ product }) {
@@ -35,5 +35,5 @@ export default function ProductNav({ product }) {
 
 // **PropTypes 驗證**
 ProductNav.propTypes = {
-  product: PropTypes.object,
+  product: PropTypes.object
 };

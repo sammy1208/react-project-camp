@@ -1,36 +1,51 @@
-import React from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import ScreenLoading from "../components/ScreenLoading";
+import SectionTitle from "../components/SectionTitle";
 
 export default function AboutUsPage() {
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
+
   const { brandTimeline, brandStory, responsibility } = useSelector(
     (state) => state.siteContent
   );
+
+  useEffect(() => {
+    setIsScreenLoading(true);
+
+    const time = setTimeout(() => {
+      setIsScreenLoading(false);
+    }, 300);
+
+    return () => clearTimeout(time);
+  }, []);
+
   return (
     <>
       <article className="container-index">
         <div className="container">
-          <p className="text-center pb-md-2 text-primary">Brand Timeline</p>
-          <h2 className="text-center pb-md-17 pb-12">品牌年表</h2>
-          <div className="row row-cols-md-5 row-cols-1 d-flex align-items-end">
+          <SectionTitle subtitle="Brand Timeline" title="品牌年表" subtitleColor="text-primary" titleColor=""/>
+          <div className="row row-cols-md-5 row-cols-1 align-items-end">
             {brandTimeline.map((data, index) => (
               <div className="col" key={index}>
                 <div
-                  className={`row d-flex justify-content-between ${
+                  className={`row justify-content-between ${
                     index % 2 === 0
-                      ? "pt-md-15 pt-0 flex-md-column flex-row pb-10 pb-md-0"
-                      : "align-self-start pb-md-15 pb-0 flex-md-column-reverse flex-row-reverse"
+                      ? "flex-md-column flex-row pb-10 pb-md-0 pt-md-15 pt-0"
+                      : "flex-md-column-reverse flex-row-reverse align-self-start pb-md-15 pb-10 "
                   }`}
                 >
                   <div className="col">
-                    <div className="pb-md-6 pb-0 pe-10 pe-md-0">
+                    <div className="pb-md-6 pb-0 pe-md-0">
                       <p className="fs-lg-1 fs-2 fw-light text-primary">
                         {data.time}
                       </p>
-                      <p>{data.description}</p>
+                      <p style={{minHeight: "80px"}}>{data.description}</p>
                     </div>
                   </div>
                   <div className="col">
-                    <img className="rounded-4" src={data.imageUrl} alt="" />
+                    <img className="rounded-4" src={data.imageUrl} alt={data.description} />
                   </div>
                 </div>
               </div>
@@ -41,8 +56,7 @@ export default function AboutUsPage() {
 
       <article className="container-index bg-primary">
         <div className="container">
-          <p className="text-white text-center pb-md-2">Brand story</p>
-          <h2 className="text-white text-center pb-md-17 pb-12">品牌故事</h2>
+          <SectionTitle subtitle="Brand story" title="品牌故事" subtitleColor="text-white" titleColor="text-white"/>
           <div className="row row-cols-md-3 row-cols-1 justify-content-center text-white pb-10 pb-md-14 gy-10">
             <div className="col">
               <p>{brandStory.content01}</p>
@@ -66,12 +80,11 @@ export default function AboutUsPage() {
 
       <article className="container-index">
         <div className="container">
-          <p className="text-center pb-md-2 text-primary">Responsibility</p>
-          <h2 className="text-center pb-md-17 pb-12">社會責任</h2>
+          <SectionTitle subtitle="Responsibility" title="社會責任" subtitleColor="text-primary" titleColor=""/>
           {responsibility.map((res, index) => (
             <div
               key={index}
-              className={`row d-flex justify-content-center pb-md-18 pb-12 ${
+              className={`row justify-content-center pb-md-18 pb-12 ${
                 index % 2 === 0
                   ? "flex-column-reverse flex-md-row-reverse"
                   : "flex-column-reverse flex-md-row"
@@ -105,6 +118,7 @@ export default function AboutUsPage() {
           ))}
         </div>
       </article>
+      <ScreenLoading isLoading={isScreenLoading} />
     </>
   );
 }

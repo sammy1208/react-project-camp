@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import Toast from "../components/Toast";
 import Banner from "../components/Banner";
 import AutoScrollToTop from "../components/AutoScrollToTop";
-import Header from "../components/header";
+import Header from "../components/Header";
 
 const routes = [
   { path: "/Products", name: "產品分類" },
