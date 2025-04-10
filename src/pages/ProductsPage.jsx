@@ -6,6 +6,7 @@ import { Collapse } from "bootstrap";
 import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductNav from "../components/ProductNav";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ProductsPage() {
   const [products, setProducts] = useState([]); // 當前頁面的產品
@@ -14,7 +15,8 @@ function ProductsPage() {
   const [selectedFilter, setSelectedFilter] = useState([]); // 存儲當前篩選條件
   const [isActive, setIsActive] = useState(null);
   const itemsPerPage = 12;
-
+  const [searchParams] = useSearchParams();
+  const Navigate = useNavigate();
   const { productsAll } = useSelector((state) => state.api); // 全部產品
   const dispatch = useDispatch();
 
@@ -29,9 +31,17 @@ function ProductsPage() {
     }
   }, [productsAll]);
 
+  useEffect(() => {
+    const initialFilter = searchParams.get("filter")
+    if(initialFilter) {
+      handleFilterChange(initialFilter)
+    }
+  },[searchParams])
+
   //篩選功能
   const applyFilter = (filter) => {
     setIsScreenLoading(true);
+    Navigate(`/Products?filter=${filter}`);
     let filteredProducts = [...productsAll];
 
     switch (filter) {

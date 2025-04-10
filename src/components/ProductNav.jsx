@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
-
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 export default function ProductNav({ product }) {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const filterLabelMap = {
+    new: "新品報到",
+    top: "冠軍排名",
+    lowPrice: "冬眠季應援團·全面 85 折",
+    highPrice: "周年慶·滿千折百",
+    tent: "帳篷系列",
+    outdoor: "戶外用品",
+  };
+
+  useEffect(() => {
+    const filter = searchParams.get("filter")
+    setSelectedFilter(filterLabelMap[filter] || "產品分類")
+
+  }, [searchParams])
+
 
   return (
     <nav aria-label="breadcrumb" className=" pb-4 pb-md-8">
@@ -18,7 +34,7 @@ export default function ProductNav({ product }) {
           aria-current={location.pathname === "/Products" ? "page" : undefined}
         >
           {location.pathname === "/Products" ? (
-            "產品分類"
+            selectedFilter
           ) : (
             <Link to={`/Products`}>產品分類</Link>
           )}

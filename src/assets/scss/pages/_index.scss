@@ -71,6 +71,27 @@
   }
 }
 
+.add-icon-header {
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  &::after {
+    content: "\f3dd";
+    font-family: "Material Symbols Outlined";
+    font-size: 24px;
+    color: #ffffff;
+  }
+  &[aria-expanded="true"]::after {
+    /* 當 `aria-expanded="true"`，改變 `::after` 圖示 */
+    content: "\e15b";
+  }
+  &:hover::after {
+    color: $neutral-130; // Hover 時變色，提高互動體驗
+  }
+}
+
 .card-padding {
   position: relative;
   width: 100%;
