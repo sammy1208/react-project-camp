@@ -377,8 +377,8 @@ export default function ProductsDetailPage() {
           >
             {productsAll.map((product) => (
               <SwiperSlide
-                key={product.id}
-                className="swiper-slide flex-column"
+              key={product.id}
+              className="swiper-slide flex-column"
               >
                 <div
                   onClick={() => Navigate(`/Products/${product.id}`)}
