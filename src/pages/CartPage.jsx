@@ -9,6 +9,7 @@ import axios from "axios";
 import ScreenLoading from "../components/ScreenLoading";
 import ProductLmg from "../components/ProductLmg";
 import SectionTitle from "../components/SectionTitle";
+import DelModal from "../components/DelModal";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -21,9 +22,11 @@ export default function CartPage() {
   );
   const [total, setTotal] = useState(0);
   const carts = useSelector((state) => state.cart);
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     dispatch(getCart());
+    console.log(carts)
   }, []);
 
   useEffect(() => {
@@ -36,22 +39,26 @@ export default function CartPage() {
     }
   }, [carts]);
 
-  const removeCart = async () => {
-    setIsScreenLoading(true);
-    try {
-      await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
+  // const removeCart = async () => {
+  //   setIsScreenLoading(true);
+  //   try {
+  //     await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
 
-      dispatch(getCart());
-    } catch {
-      dispatch(
-        PushMessage({
-          text: "刪除購物車失敗",
-          status: "failed"
-        })
-      );
-    } finally {
-      setIsScreenLoading(false);
-    }
+  //     dispatch(getCart());
+  //   } catch {
+  //     dispatch(
+  //       PushMessage({
+  //         text: "刪除購物車失敗",
+  //         status: "failed"
+  //       })
+  //     );
+  //   } finally {
+  //     setIsScreenLoading(false);
+  //   }
+  // };
+
+  const removeCart = async () => {
+    setIsOpen(true)
   };
 
   const removeCartItem = async (cartItem_id) => {
@@ -258,6 +265,10 @@ export default function CartPage() {
           )}
         </div>
       </article>
+      <DelModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      ></DelModal>
       <ScreenLoading isLoading={isScreenLoading} />
     </>
   );

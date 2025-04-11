@@ -4,12 +4,13 @@ import { useEffect, useRef } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
 import { useDispatch } from "react-redux";
-import { PushMessage } from "../../redux/slices/toastSlice";
+import { PushMessage } from "../redux/slices/toastSlice";
+import { getCart } from "../redux/slices/apiSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-function DelModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
+function DelModal({ isOpen, setIsOpen }) {
   const delProductModalRef = useRef(null);
   const dispatch = useDispatch(PushMessage);
 
@@ -29,7 +30,7 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
   const handleDeleteProduct = async () => {
     try {
       await removeCart();
-      getProduct();
+      dispatch(getCart());
       handleCloseDelModal();
       dispatch(
         PushMessage({
@@ -45,6 +46,12 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
         })
       )
     }
+    setTimeout(() => {
+      document.body.classList.remove("modal-open");
+      document.body.style = "";
+      const backdrop = document.querySelector(".modal-backdrop");
+      if (backdrop) backdrop.remove();
+    }, 400);
   };
 
   const handleCloseDelModal = () => {
@@ -92,7 +99,7 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h1 className="modal-title fs-5">刪除產品</h1>
+            <h1 className="modal-title fs-5">清空購物車</h1>
             <button
               onClick={handleCloseDelModal}
               type="button"
@@ -102,21 +109,21 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
             ></button>
           </div>
           <div className="modal-body">
-            你是否要刪除
-            <span className="text-danger fw-bold">{tempProduct.title}</span>
+            你是否要清空購物車?
+            {/* <span className="text-danger fw-bold">{carts.title}</span> */}
           </div>
           <div className="modal-footer">
             <button
               onClick={handleCloseDelModal}
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary text-white"
             >
               取消
             </button>
             <button
               onClick={handleDeleteProduct}
               type="button"
-              className="btn btn-danger"
+              className="btn btn-danger text-white"
             >
               刪除
             </button>
@@ -129,13 +136,8 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
 
 // **🔹 PropTypes 驗證**
 DelModal.propTypes = {
-  tempProduct: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    title: PropTypes.string.isRequired
-  }).isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  getProduct: PropTypes.func.isRequired
 };
 
 export default DelModal;

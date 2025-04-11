@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getAllProduct } from "../redux/slices/apiSlice";
-import { Navigation } from "swiper/modules";
 import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import "swiper/css/navigation";
@@ -15,6 +14,7 @@ export default function WishPage() {
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const wishList = useSelector((state) => state.wish.list);
   const { productsAll } = useSelector((state) => state.api); // 全部產品
+  const swiperRef = useRef(null)
 
   useEffect(() => {
     setIsScreenLoading(true);
@@ -22,6 +22,22 @@ export default function WishPage() {
   }, []);
 
   const wishProduct = productsAll.filter((product) => wishList[product.id]);
+
+  const handleNextSlide = () => {
+    if (swiperRef.current.isEnd) {
+      swiperRef.current.slideTo(0)
+    } else {
+      swiperRef.current.slideNext()
+    }
+  }
+
+  const handlePrevSlide = () => {
+    if (swiperRef.current.isBeginning) {
+      swiperRef.current.slideTo(swiperRef.current.slides.length - 1)
+    } else {
+      swiperRef.current.slidePrev()
+    }
+  }
 
   return (
     <>
@@ -58,11 +74,12 @@ export default function WishPage() {
           <div className="d-none d-md-block">
             <SectionTitle subtitle="You May Also Like" title="猜你喜歡" subtitleColor="text-primary" titleColor=""/>
             <Swiper
-              modules={[Navigation]}
-              navigation
               slidesPerView={4}
               spaceBetween={24}
               initialSlide={1}
+              onSwiper={(swiper) =>
+                swiperRef.current = swiper
+              }
             >
               {productsAll.map((product) => (
                 <SwiperSlide
@@ -75,6 +92,31 @@ export default function WishPage() {
                 </SwiperSlide>
               ))}
             </Swiper>
+
+            <ul className="pagination m-0 d-flex align-items-center justify-content-end text-gray-70">
+              <li className="page-item">
+                <button
+                  type="button"
+                  className={`btn border-0 fs-md-9 fs-10 page-hover py-8`}
+                  onClick={() => handlePrevSlide()}
+                >
+                  <i className="bi bi-arrow-left d-flex align-items-center"></i>
+                </button>
+              </li>
+              <li className={`page-item`}>
+                <button
+                  type="button"
+                  className={`btn border-0 fs-md-9 fs-10 page-hover py-8`}
+                  onClick={() => handleNextSlide()}
+                >
+                  <i className="bi bi-arrow-right d-flex align-items-center"></i>
+                </button>
+              </li>
+            </ul>
+
+
+
+
           </div>
         </div>
       </main>

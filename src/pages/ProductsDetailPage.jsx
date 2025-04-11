@@ -12,7 +12,6 @@ import {
   updataCart
 } from "../redux/slices/apiSlice";
 import { PushSelectedProduct } from "../redux/slices/productSlice";
-import { Navigation } from "swiper/modules";
 import { Collapse } from "bootstrap";
 import ProductLmg from "../components/ProductLmg";
 import ProductNav from "../components/ProductNav";
@@ -31,6 +30,7 @@ export default function ProductsDetailPage() {
   const { id: product_id } = useParams(); //因為有重新命名
   const Navigate = useNavigate();
   const { productsAll, productsDetail } = useSelector((state) => state.api); // 全部產品
+    const swiperRef = useRef(null)
 
   useEffect(() => {
     setIsScreenLoading(true);
@@ -143,6 +143,22 @@ export default function ProductsDetailPage() {
       }));
     }
   };
+
+  const handleNextSlide = () => {
+    if (swiperRef.current.isEnd) {
+      swiperRef.current.slideTo(0)
+    } else {
+      swiperRef.current.slideNext()
+    }
+  }
+
+  const handlePrevSlide = () => {
+    if (swiperRef.current.isBeginning) {
+      swiperRef.current.slideTo(swiperRef.current.slides.length - 1)
+    } else {
+      swiperRef.current.slidePrev()
+    }
+  }
 
   return (
     <div className="container">
@@ -352,11 +368,12 @@ export default function ProductsDetailPage() {
           <p className="text-primary text-center pb-md-2">You May Also Like</p>
           <h2 className="text-center pb-md-17">猜你喜歡</h2>
           <Swiper
-            modules={[Navigation]}
-            navigation
             slidesPerView={4}
             spaceBetween={24}
             initialSlide={1}
+            onSwiper={(swiper) =>
+              swiperRef.current = swiper
+            }
           >
             {productsAll.map((product) => (
               <SwiperSlide
@@ -373,6 +390,26 @@ export default function ProductsDetailPage() {
               </SwiperSlide>
             ))}
           </Swiper>
+          <ul className="pagination m-0 d-flex align-items-center justify-content-end text-gray-70">
+            <li className="page-item">
+              <button
+                type="button"
+                className={`btn border-0 fs-md-9 fs-10 page-hover py-8`}
+                onClick={() => handlePrevSlide()}
+              >
+                <i className="bi bi-arrow-left d-flex align-items-center"></i>
+              </button>
+            </li>
+            <li className={`page-item`}>
+              <button
+                type="button"
+                className={`btn border-0 fs-md-9 fs-10 page-hover py-8`}
+                onClick={() => handleNextSlide()}
+              >
+                <i className="bi bi-arrow-right d-flex align-items-center"></i>
+              </button>
+            </li>
+          </ul>
         </section>
       </main>
       <ScreenLoading isLoading={isScreenLoading} />
