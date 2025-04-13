@@ -68,6 +68,8 @@ export default function Header({ className, routes }) {
     if (navbarRef.current && isCollapseOpen.navbar) {
       const bsCollapse = new Collapse(navbarRef.current);
       bsCollapse.hide();
+      document.body.style.overflow = ""
+      document.body.style.paddingRight = "";
       setIsCollapseOpen((prev) => {
         return {
           ...prev,

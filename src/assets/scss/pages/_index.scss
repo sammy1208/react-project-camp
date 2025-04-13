@@ -43,10 +43,13 @@
     background-repeat: no-repeat; /* 避免重複 */
   }
   &-static {
-    height: 240px;
+    height: 560px;
     background-size: cover;
     background-position: center; /* 縮放時保持中心點 */
     background-repeat: no-repeat; /* 避免重複 */
+    @include mobile-larger {
+      height: 240px;
+    }
   }
 }
 
