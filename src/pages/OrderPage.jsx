@@ -29,12 +29,12 @@ export default function OrderPage() {
       );
       setOrder(res.data.order);
     } catch {
-			dispatch(
-				PushMessage({
-					text: "結帳失敗",
-					status: "failed"
-				})
-			)
+      dispatch(
+        PushMessage({
+          text: "結帳失敗",
+          status: "failed"
+        })
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -47,12 +47,12 @@ export default function OrderPage() {
       dispatch(PushMessage({ text: "付款成功！", status: "success" }));
       Navigate(`/PayOrder/${order_id}`);
     } catch {
-			dispatch(
-				PushMessage({
-					text: "付款失敗",
-					status: "failed"
-				})
-			)
+      dispatch(
+        PushMessage({
+          text: "付款失敗",
+          status: "failed"
+        })
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -62,7 +62,12 @@ export default function OrderPage() {
     <>
       <article className="container-default">
         <div className="container">
-					<SectionTitle subtitle="Shopping Cart" title="購物車" subtitleColor="text-primary" titleColor=""/>
+          <SectionTitle
+            subtitle="Shopping Cart"
+            title="購物車"
+            subtitleColor="text-primary"
+            titleColor=""
+          />
           <div className="row justify-content-center">
             <div className="col-8">
               <ul className="list-unstyled mb-14 ms-md-auto d-flex align-items-center justify-content-between w-100 mt-md-0 mt-4 custom-step-line">
@@ -81,38 +86,38 @@ export default function OrderPage() {
               </ul>
             </div>
           </div>
-					<div
-						key={order.id}
-						className="border-top border-bottom border-primary-1 mb-4"
-					>
-						<div className="p-8">
-							<div className="d-flex mb-6 justify-content-between">
-								<p style={{minWidth: "80px"}}>訂單編號</p>
-								<p className="text-break">{order.id}</p>
-							</div>
-							<div className="d-flex mb-6 justify-content-between">
-								<p style={{minWidth: "80px"}}>訂單總額</p>
-								<p>{`NT$ ${order.total?.toLocaleString("zh-Hant-TW")}`}</p>
-							</div>
-							<div className="d-flex justify-content-between">
-								<p style={{minWidth: "80px"}}>付款狀態</p>
-								<p>{order.is_paid ? "已付款" : "未付款"}</p>
-							</div>
-						</div>
-					</div>
-					<p className="fs-md-10 fs-11 mt-4 text-gray-70 mb-9">
-						※ 您的訂單將在付款後開始訂製，付款後，從開始製作到寄出商品為 14
-						個工作天。
-					</p>
-					<div className="text-end">
-						<button
-							onClick={() => getPay(order.id)}
-							className="btn btn-primary text-white btn-addCart fw-bold py-md-8 py-6 ms-auto"
-							type="button"
-						>
-							結帳付款
-						</button>
-					</div>
+          <div
+            key={order.id}
+            className="border-top border-bottom border-primary-1 mb-4"
+          >
+            <div className="p-8">
+              <div className="d-flex mb-6 justify-content-between">
+                <p style={{ minWidth: "80px" }}>訂單編號</p>
+                <p className="text-break">{order.id}</p>
+              </div>
+              <div className="d-flex mb-6 justify-content-between">
+                <p style={{ minWidth: "80px" }}>訂單總額</p>
+                <p>{`NT$ ${order.total?.toLocaleString("zh-Hant-TW")}`}</p>
+              </div>
+              <div className="d-flex justify-content-between">
+                <p style={{ minWidth: "80px" }}>付款狀態</p>
+                <p>{order.is_paid ? "已付款" : "未付款"}</p>
+              </div>
+            </div>
+          </div>
+          <p className="fs-md-10 fs-11 mt-4 text-gray-70 mb-9">
+            ※ 您的訂單將在付款後開始訂製，付款後，從開始製作到寄出商品為 14
+            個工作天。
+          </p>
+          <div className="text-end">
+            <button
+              onClick={() => getPay(order.id)}
+              className="btn btn-primary text-white btn-addCart fw-bold py-md-8 py-6 ms-auto"
+              type="button"
+            >
+              結帳付款
+            </button>
+          </div>
         </div>
       </article>
       <ScreenLoading isLoading={isScreenLoading} />

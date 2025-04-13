@@ -8,7 +8,6 @@ import { PushMessage } from "../../redux/slices/toastSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
-
 function ProductModal({
   modalMode,
   tempProduct,
@@ -19,7 +18,7 @@ function ProductModal({
   const [modalData, setModalData] = useState(tempProduct);
 
   const productModalRef = useRef(null);
-  const fileInputRef = useRef(null)
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setModalData({
@@ -60,7 +59,7 @@ function ProductModal({
         ...modalData,
         imageUrl: uploadedImageUrl
       });
-      fileInputRef.current.value = ""
+      fileInputRef.current.value = "";
     } catch {
       dispatch(
         PushMessage({
@@ -167,10 +166,6 @@ function ProductModal({
   };
 
   const handleCloseModal = () => {
-    // const modalInstance = Modal.getInstance(productModalRef.current);
-    // modalInstance.hide();
-    
-    // modalInstance.dispose();
     setIsOpen(false);
     getProduct();
 

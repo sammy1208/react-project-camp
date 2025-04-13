@@ -1,13 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getCart } from "../redux/slices/apiSlice";
 import { Collapse } from "bootstrap";
-
-
-
 export default function Header({ className, routes }) {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -29,7 +26,7 @@ export default function Header({ className, routes }) {
     nav03: false,
     Knowledge: false
   });
-  const { KnowledgeRoutes } = useSelector((state) => state.siteContent)
+  const { Knowledge } = useSelector((state) => state.siteContent);
   useEffect(() => {
     dispatch(getCart());
   }, []);
@@ -53,6 +50,13 @@ export default function Header({ className, routes }) {
     if (ref.current) {
       const bsCollapse = new Collapse(ref.current);
       bsCollapse.toggle();
+
+      const isOpening = !isCollapseOpen[key];
+      if (key === "navbar") {
+        document.body.style.overflow = isOpening ? "hidden" : ""
+        document.body.style.paddingRight = isOpening ? "0px" : "";
+      }
+
       setIsCollapseOpen((prev) => ({
         ...prev,
         [key]: !prev[key]
@@ -65,24 +69,24 @@ export default function Header({ className, routes }) {
       const bsCollapse = new Collapse(navbarRef.current);
       bsCollapse.hide();
       setIsCollapseOpen((prev) => {
-        return{
+        return {
           ...prev,
           productList: false,
-          navbar: false,
-        }
+          navbar: false
+        };
       });
     }
   };
 
   const handleProduct = (filter) => {
-    closeNavbar()
+    closeNavbar();
     Navigate(`/Products?filter=${filter}`);
   };
 
   const handleKnowledge = (path) => {
-    closeNavbar()
+    closeNavbar();
     Navigate(path);
-  }
+  };
 
   return (
     <nav
@@ -124,18 +128,6 @@ export default function Header({ className, routes }) {
                 ))}
               </ul>
               <ul className="list-unstyled d-flex align-items-lg-center m-0">
-                {/* <li className="nav-item d-flex align-items-center">
-                  <form className="d-flex">
-                    <button
-                      className="btn px-4 py-0 d-flex align-items-center border-0"
-                      type="submit"
-                    >
-                      <span className="material-symbols-outlined text-white">
-                        search
-                      </span>
-                    </button>
-                  </form>
-                </li> */}
                 <li className="nav-item d-flex align-items-center">
                   <NavLink
                     to={"/Wish"}
@@ -188,7 +180,12 @@ export default function Header({ className, routes }) {
               className="collapse navbar-collapse"
               id="navbar"
             >
-              <div className="" style={{ height: "100vh" }}>
+              <div 
+              style={{
+                height: "100vh",
+                overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
+              }}>
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mt-12">
                   <li className="nav-item dropdown">
                     <div
@@ -205,7 +202,7 @@ export default function Header({ className, routes }) {
                       ref={productListRef}
                       id="productList"
                       className="dropdown-menu border-0 pt-0 pt-6 list-unstyled text-white"
-                      style={{backgroundColor: "rgba(0, 128, 0, 0)"}}
+                      style={{ backgroundColor: "rgba(0, 128, 0, 0)" }}
                       aria-labelledby="navbarDropdown"
                     >
                       <li className="mb-4">
@@ -290,18 +287,7 @@ export default function Header({ className, routes }) {
                         </div>
                       </li>
                     </ul>
-
                   </li>
-                  {/* <li className="nav-item mt-12">
-                    <NavLink
-                      className="nav-link active text-white fw-bold fs-7 p-0"
-                      aria-current="page"
-                      to={`/Products`}
-                      onClick={closeNavbar}
-                    >
-                      產品分類
-                    </NavLink>
-                  </li> */}
                   <li className="nav-item mt-12">
                     <NavLink
                       className="nav-link active text-white fw-bold fs-7 p-0"
@@ -314,9 +300,7 @@ export default function Header({ className, routes }) {
                   </li>
                   <li className="nav-item mt-12 dropdown">
                     <div
-                      onClick={() =>
-                        toggleCollapse("Knowledge", KnowledgeRef)
-                      }
+                      onClick={() => toggleCollapse("Knowledge", KnowledgeRef)}
                       className="nav-link dropdown-toggle text-white fw-bold fs-7 p-0"
                       id="navbarDropdown"
                     >
@@ -327,10 +311,10 @@ export default function Header({ className, routes }) {
                       ref={KnowledgeRef}
                       id="Knowledge"
                       className="dropdown-menu border-0 pt-0 pt-6 list-unstyled text-white"
-                      style={{backgroundColor: "rgba(0, 128, 0, 0)"}}
+                      style={{ backgroundColor: "rgba(0, 128, 0, 0)" }}
                       aria-labelledby="navbarDropdown"
                     >
-                      {KnowledgeRoutes.map((item, index) => (
+                      {Knowledge.map((item, index) => (
                         <li key={index} className="mb-4">
                           <button
                             type="button"
@@ -341,9 +325,7 @@ export default function Header({ className, routes }) {
                           </button>
                         </li>
                       ))}
-
                     </ul>
-
                   </li>
                 </ul>
               </div>
@@ -361,7 +343,7 @@ Header.propTypes = {
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
     })
-  ).isRequired,
+  ).isRequired
 };

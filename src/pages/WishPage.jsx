@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,14 +7,14 @@ import Product from "../components/Product";
 import ScreenLoading from "../components/ScreenLoading";
 import "swiper/css/navigation";
 import "swiper/css";
-import SectionTitle from '../components/SectionTitle';
+import SectionTitle from "../components/SectionTitle";
 
 export default function WishPage() {
   const dispatch = useDispatch();
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const wishList = useSelector((state) => state.wish.list);
   const { productsAll } = useSelector((state) => state.api); // 全部產品
-  const swiperRef = useRef(null)
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     setIsScreenLoading(true);
@@ -25,26 +25,31 @@ export default function WishPage() {
 
   const handleNextSlide = () => {
     if (swiperRef.current.isEnd) {
-      swiperRef.current.slideTo(0)
+      swiperRef.current.slideTo(0);
     } else {
-      swiperRef.current.slideNext()
+      swiperRef.current.slideNext();
     }
-  }
+  };
 
   const handlePrevSlide = () => {
     if (swiperRef.current.isBeginning) {
-      swiperRef.current.slideTo(swiperRef.current.slides.length - 1)
+      swiperRef.current.slideTo(swiperRef.current.slides.length - 1);
     } else {
-      swiperRef.current.slidePrev()
+      swiperRef.current.slidePrev();
     }
-  }
+  };
 
   return (
     <>
       <main className="container-default">
         <div className="container">
           <div className="pb-md-18">
-            <SectionTitle subtitle="Wish List" title="收藏" subtitleColor="text-primary" titleColor=""/>
+            <SectionTitle
+              subtitle="Wish List"
+              title="收藏"
+              subtitleColor="text-primary"
+              titleColor=""
+            />
             {wishProduct?.length > 0 ? (
               <div className="row gy-10" style={{ alignItems: "stretch" }}>
                 {wishProduct.map((product) => (
@@ -52,7 +57,7 @@ export default function WishPage() {
                     className="col-md-4 col-6 d-flex flex-column"
                     key={product.id}
                   >
-                    <Product product={product}/>
+                    <Product product={product} />
                   </div>
                 ))}
               </div>
@@ -72,14 +77,17 @@ export default function WishPage() {
             )}
           </div>
           <div className="d-none d-md-block">
-            <SectionTitle subtitle="You May Also Like" title="猜你喜歡" subtitleColor="text-primary" titleColor=""/>
+            <SectionTitle
+              subtitle="You May Also Like"
+              title="猜你喜歡"
+              subtitleColor="text-primary"
+              titleColor=""
+            />
             <Swiper
               slidesPerView={4}
               spaceBetween={24}
               initialSlide={1}
-              onSwiper={(swiper) =>
-                swiperRef.current = swiper
-              }
+              onSwiper={(swiper) => (swiperRef.current = swiper)}
             >
               {productsAll.map((product) => (
                 <SwiperSlide
@@ -87,7 +95,7 @@ export default function WishPage() {
                   className="swiper-slide flex-column"
                 >
                   <div className="d-flex flex-column">
-                    <Product product={product}/>
+                    <Product product={product} />
                   </div>
                 </SwiperSlide>
               ))}
@@ -113,15 +121,11 @@ export default function WishPage() {
                 </button>
               </li>
             </ul>
-
-
-
-
           </div>
         </div>
       </main>
 
-      <ScreenLoading isLoading={isScreenLoading}/>
+      <ScreenLoading isLoading={isScreenLoading} />
     </>
   );
 }

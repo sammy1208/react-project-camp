@@ -22,11 +22,10 @@ export default function CartPage() {
   );
   const [total, setTotal] = useState(0);
   const carts = useSelector((state) => state.cart);
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getCart());
-    console.log(carts)
   }, []);
 
   useEffect(() => {
@@ -39,26 +38,8 @@ export default function CartPage() {
     }
   }, [carts]);
 
-  // const removeCart = async () => {
-  //   setIsScreenLoading(true);
-  //   try {
-  //     await axios.delete(`${BASE_URL}/v2/api/${API_PATH}/carts`);
-
-  //     dispatch(getCart());
-  //   } catch {
-  //     dispatch(
-  //       PushMessage({
-  //         text: "刪除購物車失敗",
-  //         status: "failed"
-  //       })
-  //     );
-  //   } finally {
-  //     setIsScreenLoading(false);
-  //   }
-  // };
-
   const removeCart = async () => {
-    setIsOpen(true)
+    setIsOpen(true);
   };
 
   const removeCartItem = async (cartItem_id) => {
@@ -97,7 +78,7 @@ export default function CartPage() {
           text: "更新購物車品項失敗",
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -112,7 +93,12 @@ export default function CartPage() {
     <>
       <article className="container-default">
         <div className="container">
-          <SectionTitle subtitle="Shopping Cart" title="購物車" subtitleColor="text-primary" titleColor=""/>
+          <SectionTitle
+            subtitle="Shopping Cart"
+            title="購物車"
+            subtitleColor="text-primary"
+            titleColor=""
+          />
           {carts.carts?.length > 0 ? (
             <div>
               <div className="row justify-content-center">
@@ -150,7 +136,9 @@ export default function CartPage() {
                           )}
                           <div className="d-flex align-items-center pb-5 ">
                             <p className="fs-9 fs-md-8 text-decoration-line-through text-gray-70 pe-4">{`$${cartItem.product.origin_price}`}</p>
-                            <p className="fs-9 fs-md-8 fw-bold text-primary">{`$${cartItem.product.price?.toLocaleString("zh-Hant-TW")}`}</p>
+                            <p className="fs-9 fs-md-8 fw-bold text-primary">{`$${cartItem.product.price?.toLocaleString(
+                              "zh-Hant-TW"
+                            )}`}</p>
                           </div>
                           <hr />
                           <div className="d-flex align-items-center pt-4 input-group w-100">
@@ -215,7 +203,9 @@ export default function CartPage() {
                             折扣金額
                           </th>
                           <td className="text-end border-0 px-0 pt-0 pb-4 text-gray-70">
-                            {`- NT$${(total - carts.final_total).toLocaleString("zh-Hant-TW")}`}
+                            {`- NT$${(total - carts.final_total).toLocaleString(
+                              "zh-Hant-TW"
+                            )}`}
                           </td>
                         </tr>
                       </tbody>
@@ -223,7 +213,9 @@ export default function CartPage() {
                     <div className="d-flex justify-content-between my-8">
                       <p className="mb-0 fs-7 fw-bold">總計金額</p>
                       <p className="mb-0 fs-7 fw-bold text-primary">
-                        {`NT$${carts.final_total?.toLocaleString("zh-Hant-TW")}`}
+                        {`NT$${carts.final_total?.toLocaleString(
+                          "zh-Hant-TW"
+                        )}`}
                       </p>
                     </div>
                     <div className="d-flex">
@@ -265,10 +257,7 @@ export default function CartPage() {
           )}
         </div>
       </article>
-      <DelModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      ></DelModal>
+      <DelModal isOpen={isOpen} setIsOpen={setIsOpen}></DelModal>
       <ScreenLoading isLoading={isScreenLoading} />
     </>
   );

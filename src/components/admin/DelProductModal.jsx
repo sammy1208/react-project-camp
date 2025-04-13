@@ -9,7 +9,7 @@ import { PushMessage } from "../../redux/slices/toastSlice";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
+function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
   const delProductModalRef = useRef(null);
   const dispatch = useDispatch(PushMessage);
 
@@ -27,8 +27,10 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
   }, [isOpen]);
 
   const handleDeleteProduct = async () => {
+    const deleteItem = type === "product" ? deleteProduct : removeOrder
+
     try {
-      await deleteProduct();
+      await deleteItem();
       getProduct();
       handleCloseDelModal();
       dispatch(
@@ -43,7 +45,7 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
           text: "刪除失敗`",
           status: "failed"
         })
-      )
+      );
     }
   };
 
@@ -62,6 +64,28 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
       dispatch(
         PushMessage({
           text: "刪除產品失敗`",
+          status: "failed"
+        })
+      );
+    }
+  };
+
+  const removeOrder = async () => {
+    try {
+      await axios.delete(
+        `${BASE_URL}/v2/api/${API_PATH}/admin/order/${tempProduct.id}`
+      );
+      dispatch(
+        PushMessage({
+          text: "刪除成功",
+          status: "success"
+        })
+      )
+    } catch (error) {
+      const err = error.message
+      dispatch(
+        PushMessage({
+          text: err,
           status: "failed"
         })
       )
@@ -89,8 +113,17 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
             ></button>
           </div>
           <div className="modal-body">
-            你是否要刪除
-            <span className="text-danger fw-bold">{tempProduct.title}</span>
+            {type === "product" ? (
+              <>
+                你是否要刪除
+                <span className="text-danger fw-bold">{tempProduct?.title}</span>
+              </>
+            ) : (
+              <>
+                你是否要刪除訂單編號：
+                <span className="text-danger fw-bold">{tempProduct?.id}</span>
+              </>
+            )}
           </div>
           <div className="modal-footer">
             <button
@@ -117,12 +150,13 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct }) {
 // **🔹 PropTypes 驗證**
 DelProductModal.propTypes = {
   tempProduct: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    title: PropTypes.string.isRequired
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    title: PropTypes.string
   }).isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  getProduct: PropTypes.func.isRequired
+  getProduct: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired
 };
 
 export default DelProductModal;

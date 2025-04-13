@@ -44,7 +44,7 @@ function DelModal({ isOpen, setIsOpen }) {
           text: "刪除失敗`",
           status: "failed"
         })
-      )
+      );
     }
     setTimeout(() => {
       document.body.classList.remove("modal-open");
@@ -59,21 +59,6 @@ function DelModal({ isOpen, setIsOpen }) {
     modalInstance.hide();
     setIsOpen(false);
   };
-
-  // const deleteProduct = async () => {
-  //   try {
-  //     await axios.delete(
-  //       `${BASE_URL}/v2/api/${API_PATH}/admin/product/${tempProduct.id}`
-  //     );
-  //   } catch {
-  //     dispatch(
-  //       PushMessage({
-  //         text: "刪除產品失敗`",
-  //         status: "failed"
-  //       })
-  //     )
-  //   }
-  // };
 
   const removeCart = async () => {
     try {
@@ -108,10 +93,7 @@ function DelModal({ isOpen, setIsOpen }) {
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
-            你是否要清空購物車?
-            {/* <span className="text-danger fw-bold">{carts.title}</span> */}
-          </div>
+          <div className="modal-body">你是否要清空購物車?</div>
           <div className="modal-footer">
             <button
               onClick={handleCloseDelModal}
@@ -137,7 +119,7 @@ function DelModal({ isOpen, setIsOpen }) {
 // **🔹 PropTypes 驗證**
 DelModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
+  setIsOpen: PropTypes.func.isRequired
 };
 
 export default DelModal;

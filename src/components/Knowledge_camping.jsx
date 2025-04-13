@@ -5,7 +5,7 @@ export default function Knowledge_camping() {
     <>
       <div className="pb-md-8 pb-6 border-bottom">
         <img
-          src="https://plus.unsplash.com/premium_photo-1680788452823-49bb63651490?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="https://images.unsplash.com/photo-1616259538387-9c602e98b747?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="無痕露營"
         />
         <h5 className="my-6 fs-md-4 fs-5">無痕露營：減少廢棄物，愛護大自然</h5>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import { getCart } from "../redux/slices/apiSlice";
 import { PushMessage } from "../redux/slices/toastSlice";
 import axios from "axios";
 import ScreenLoading from "../components/ScreenLoading";
-import SectionTitle from '../components/SectionTitle';
+import SectionTitle from "../components/SectionTitle";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -33,7 +33,7 @@ export default function PayOrderPage() {
           text: "結帳失敗",
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -52,7 +52,7 @@ export default function PayOrderPage() {
           text: "結帳失敗",
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -62,7 +62,12 @@ export default function PayOrderPage() {
     <>
       <article className="container-default">
         <div className="container">
-          <SectionTitle subtitle="Shopping Cart" title="購物車" subtitleColor="text-primary" titleColor=""/>
+          <SectionTitle
+            subtitle="Shopping Cart"
+            title="購物車"
+            subtitleColor="text-primary"
+            titleColor=""
+          />
           <div className="row justify-content-center">
             <div className="col-8">
               <ul className="list-unstyled mb-10 ms-md-auto d-flex align-items-center justify-content-between w-100 mt-md-0 mt-4 custom-step-line">
@@ -91,19 +96,21 @@ export default function PayOrderPage() {
           >
             <div className="p-8">
               <div className="d-flex mb-6 justify-content-between">
-                <p style={{minWidth: "80px"}}>訂單編號</p>
+                <p style={{ minWidth: "80px" }}>訂單編號</p>
                 <p className="text-break">{order.id}</p>
               </div>
               <div className="d-flex mb-6 justify-content-between">
-                <p style={{minWidth: "80px"}}>訂單時間</p>
-                <p className="text-break">{new Date(order.create_at * 1000).toLocaleString()}</p>
+                <p style={{ minWidth: "80px" }}>訂單時間</p>
+                <p className="text-break">
+                  {new Date(order.create_at * 1000).toLocaleString()}
+                </p>
               </div>
               <div className="d-flex mb-6 justify-content-between">
-                <p style={{minWidth: "80px"}}>訂單總額</p>
+                <p style={{ minWidth: "80px" }}>訂單總額</p>
                 <p>{`NT$ ${order.total?.toLocaleString("zh-Hant-TW")}`}</p>
               </div>
               <div className="d-flex justify-content-between">
-                <p style={{minWidth: "80px"}}>付款狀態</p>
+                <p style={{ minWidth: "80px" }}>付款狀態</p>
                 <p>{order.is_paid ? "已付款" : "未付款"}</p>
               </div>
             </div>
@@ -112,7 +119,7 @@ export default function PayOrderPage() {
             ※ 您的訂單將在付款後開始訂製，付款後，從開始製作到寄出商品為 14
             個工作天。
           </p>
-          <div className="text-end w-100">  
+          <div className="text-end w-100">
             <button
               onClick={() => checkoutPay()}
               type="button"
@@ -123,7 +130,7 @@ export default function PayOrderPage() {
           </div>
         </div>
       </article>
-      <ScreenLoading isLoading={isScreenLoading}/>
+      <ScreenLoading isLoading={isScreenLoading} />
     </>
   );
 }

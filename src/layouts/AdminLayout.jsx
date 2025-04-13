@@ -12,11 +12,11 @@ const routes = [
 export default function AdminLayout() {
   return (
     <>
-      <AutoScrollToTop />
-      <HeaderAdmin routes={routes} />
-      <Outlet />
-      <FooterAdmin />
-      <Toast />
+      <AutoScrollToTop/>
+      <HeaderAdmin routes={routes}/>
+      <Outlet/>
+      <FooterAdmin/>
+      <Toast/>
     </>
   );
 }

@@ -5,17 +5,29 @@ import Pagination from "../../components/admin/Pagination";
 import ScreenLoading from "../../components/ScreenLoading";
 import { useDispatch } from "react-redux";
 import { PushMessage } from "../../redux/slices/toastSlice";
+import DelProductModal from "../../components/admin/DelProductModal";
+import OrderModal from "../../components/admin/OrderModal";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
+
 
 function OrderListPage() {
   const [order, setOrder] = useState([]);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({});
   const dispatch = useDispatch();
+  const [isDleModalOpen, setIsDleModalOpen] = useState(false);
+  const [tempProduct, setTempProduct] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getOrder = async (page) => {
+  const handleOpenModal = (product) => {
+    setTempProduct(product);
+
+    setIsModalOpen(true);
+  };
+
+  const getProduct = async (page) => {
     setIsScreenLoading(true);
     try {
       const res = await axios.get(
@@ -36,57 +48,22 @@ function OrderListPage() {
     }
   };
 
-  // const checkUser = async () => {
-  //   setIsScreenLoading(true);
-  //   try {
-  //     await axios.post(`${BASE_URL}/v2/api/user/check`);
-  //     getOrder(1);
-  //   } catch (error) {
-  //     const err = error.message
-  //     dispatch(
-  //       PushMessage({
-  //         text: err,
-  //         status: "failed"
-  //       })
-  //     )
-  //   } finally {
-  //     setIsScreenLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
-    getOrder(1);
-    // const token = document.cookie.replace(
-    //   /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
-    //   "$1"
-    // );
-    // if (token.length > 0) {
-    //   axios.defaults.headers.common["Authorization"] = token;
-    //   checkUser();
-    // }
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    if (token.length > 0) {
+      axios.defaults.headers.common["Authorization"] = token;
+      getProduct(1);
+    }
   }, []);
 
-  const removeOrder = async (order_id) => {
-    try {
-      await axios.delete(
-        `${BASE_URL}/v2/api/${API_PATH}/admin/order/${order_id}`
-      );
-      dispatch(
-        PushMessage({
-          text: "刪除成功",
-          status: "success"
-        })
-      )
-      getOrder();
-    } catch (error) {
-      const err = error.message
-      dispatch(
-        PushMessage({
-          text: err,
-          status: "failed"
-        })
-      )
-    }
+
+
+  const handleOpenDelModal = (product) => {
+    setTempProduct(product);
+    setIsDleModalOpen(true);
   };
 
   return (
@@ -97,17 +74,6 @@ function OrderListPage() {
           <h2 className="text-center pb-md-17 pb-12">管理訂單</h2>
           <div className="row justify-content-center">
             <div className="col">
-              <div className="d-flex justify-content-between">
-                <button
-                  // onClick={() => {
-                  //   handleOpenModal("create");
-                  // }}
-                  type="button"
-                  className="btn btn-primary text-white"
-                >
-                  建立新的產品
-                </button>
-              </div>
               <table className="table">
                 <thead>
                   <tr>
@@ -134,9 +100,9 @@ function OrderListPage() {
                       <td>
                         <div className="btn-group">
                           <button
-                            // onClick={() => {
-                            //   handleOpenModal("edit", product);
-                            // }}
+                            onClick={() => {
+                              handleOpenModal(product);
+                            }}
                             type="button"
                             className="btn btn-outline-primary btn-sm"
                           >
@@ -144,7 +110,7 @@ function OrderListPage() {
                           </button>
                           <button
                             onClick={() => {
-                              removeOrder(product.id);
+                              handleOpenDelModal(product);
                             }}
                             type="button"
                             className="btn btn-outline-danger btn-sm"
@@ -163,11 +129,24 @@ function OrderListPage() {
             <Pagination
               products={order}
               pageInfo={pageInfo}
-              getProduct={getOrder}
+              getProduct={getProduct}
             />
           )}
         </div>
       </div>
+      <OrderModal
+        tempProduct={tempProduct}
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        getProduct={getProduct}
+      />
+      <DelProductModal
+        tempProduct={tempProduct}
+        isOpen={isDleModalOpen}
+        setIsOpen={setIsDleModalOpen}
+        getProduct={getProduct}
+        type={"order"}
+      />
       <ScreenLoading isLoading={isScreenLoading} />
     </>
   );

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { wishMessage } from "../redux/slices/wishSlice";
-
 export default function Product({ product }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -12,14 +11,11 @@ export default function Product({ product }) {
   const [isNewCart, setIsNewCart] = useState(false);
   const wishList = useSelector((state) => state.wish.list);
   const carts = useSelector((state) => state.cart.carts);
-
   const btnWishList = (e, product_id) => {
     e.stopPropagation();
     dispatch(wishMessage(product_id));
   };
-
   const Navigate = useNavigate();
-
   const handleProduct = () => {
     Navigate(`/Products/${product.id}`);
   };
@@ -32,16 +28,16 @@ export default function Product({ product }) {
     } else if (pathname === "/Products") {
       setIsPrimaryBg(false);
     }
-    cart()
+    cart();
   }, []);
 
   const dNone = isPrimaryBg ? "d-none" : "";
 
-const cart = () => {
-  const newCart = carts.map((item) => item.product_id)
-  const isInCart = newCart.includes(product.id);
-  setIsNewCart(isInCart);
-}
+  const cart = () => {
+    const newCart = carts.map((item) => item.product_id);
+    const isInCart = newCart.includes(product.id);
+    setIsNewCart(isInCart);
+  };
 
   return (
     <div
@@ -52,7 +48,7 @@ const cart = () => {
       <div className="mb-md-6 mb-2 bg-gray-30 rounded-3 card-padding h-100 btn-product-hover">
         <div className="position-absolute top-0 end-0">
           <div className="d-flex align-items-center">
-          <i
+            <i
               className={`bi fs-8 btn-product-wish ${
                 isNewCart
                   ? "bi-cart-fill text-primary"
@@ -74,7 +70,6 @@ const cart = () => {
             </button>
           </div>
         </div>
-        
         <img src={product.imageUrl} alt={product.title} />
       </div>
       <div className="card-body body p-0 d-flex flex-column">
@@ -95,7 +90,9 @@ const cart = () => {
           </p>
         </div>
         <p className="card-text fs-md-8 fs-9 fw-bold text-gray-100 mt-auto">
-          <small className="text-muted">{`$${product.price?.toLocaleString("zh-Hant-TW")}`}</small>
+          <small className="text-muted">{`$${product.price?.toLocaleString(
+            "zh-Hant-TW"
+          )}`}</small>
         </p>
       </div>
     </div>

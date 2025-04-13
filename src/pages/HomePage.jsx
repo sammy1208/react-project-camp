@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,8 @@ import axios from "axios";
 import Product from "../components/Product";
 import ProductLmg from "../components/ProductLmg";
 import ScreenLoading from "../components/ScreenLoading";
-import SectionTitle from '../components/SectionTitle';
-import { PushMessage } from '../redux/slices/toastSlice';
+import SectionTitle from "../components/SectionTitle";
+import { PushMessage } from "../redux/slices/toastSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -17,9 +17,7 @@ export default function HomePage() {
     (state) => state.siteContent
   );
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-
   const [products, setProducts] = useState([]);
-
   const [products1, setProducts1] = useState(null);
   const [products6, setProducts6] = useState(null);
   const Navigate = useNavigate();
@@ -38,15 +36,15 @@ export default function HomePage() {
           text: "取得產品失敗",
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }
   };
 
-  const handleTips =(link) => {
+  const handleTips = (link) => {
     Navigate(link);
-  }
+  };
 
   useEffect(() => {
     getProduct();
@@ -55,21 +53,26 @@ export default function HomePage() {
   return (
     <>
       <section className="container container-index">
-        <SectionTitle subtitle="Winter Series" title="冬眠季大應援" subtitleColor="text-primary" titleColor=""/>
+        <SectionTitle
+          subtitle="Winter Series"
+          title="冬眠季大應援"
+          subtitleColor="text-primary"
+          titleColor=""
+        />
         <div className="row">
           <div className="col d-none d-md-block">
-            {products1 && <Product product={products1}/>}
+            {products1 && <Product product={products1} />}
           </div>
           <div className="col">
             <div className="row row-cols-2 gy-md-10 gy-8">
               {products.slice(1, 5).map((product) => (
                 <div className="col" key={product.id}>
-                  <Product product={product}/>
+                  <Product product={product} />
                 </div>
               ))}
 
               <div className="col d-md-none d-block">
-                {products6 && <Product product={products6}/>}
+                {products6 && <Product product={products6} />}
               </div>
             </div>
           </div>
@@ -87,7 +90,12 @@ export default function HomePage() {
 
       <section className="container-index bg-gray-20">
         <div className="container">
-          <SectionTitle subtitle="tents Series" title="帳篷系列" subtitleColor="text-primary" titleColor=""/>
+          <SectionTitle
+            subtitle="tents Series"
+            title="帳篷系列"
+            subtitleColor="text-primary"
+            titleColor=""
+          />
           <div className="row g-0 flex-column-reverse flex-md-row">
             <div className="col-md d-flex justify-content-center align-items-center">
               <div className="text-md-end text-center me-md-21">
@@ -142,7 +150,12 @@ export default function HomePage() {
       </section>
 
       <section className="container container-index">
-        <SectionTitle subtitle="Outdoor Series" title="戶外用品系列" subtitleColor="text-primary" titleColor=""/>
+        <SectionTitle
+          subtitle="Outdoor Series"
+          title="戶外用品系列"
+          subtitleColor="text-primary"
+          titleColor=""
+        />
         <div className="row g-0 flex-column flex-md-row">
           <div className="col-md">
             <div className="row row-cols-1 gy-md-10 gy-6">
@@ -197,7 +210,12 @@ export default function HomePage() {
 
       <article className="container-index bg-primary">
         <div className="container">
-          <SectionTitle subtitle="CampEase design" title="青松嚴選，頂尖設計" subtitleColor="text-white" titleColor="text-white"/>
+          <SectionTitle
+            subtitle="CampEase design"
+            title="青松嚴選，頂尖設計"
+            subtitleColor="text-white"
+            titleColor="text-white"
+          />
           <div className="row justify-content-center">
             <div className="col-md-8">
               {designerList.map((designer, index) => (
@@ -239,13 +257,20 @@ export default function HomePage() {
       </article>
 
       <article className="container container-index">
-        <SectionTitle subtitle="Camping Tips" title="露營知識，不可不知" subtitleColor="text-primary" titleColor=""/>
+        <SectionTitle
+          subtitle="Camping Tips"
+          title="露營知識，不可不知"
+          subtitleColor="text-primary"
+          titleColor=""
+        />
         <div className="row justify-content-center">
           {Knowledge.map((know) => (
             <div
-            onClick={() => handleTips(know.path)}
-            style={{ cursor: "pointer" }}
-            className="col-md-3 mb-8 mb-md-0" key={know.path}>
+              onClick={() => handleTips(know.path)}
+              style={{ cursor: "pointer" }}
+              className="col-md-3 mb-8 mb-md-0"
+              key={know.path}
+            >
               <div
                 className="card mb-3 border-0 h-100 flex-row flex-md-column justify-content-between"
                 key={know.title}
@@ -277,7 +302,7 @@ export default function HomePage() {
         </div>
       </article>
 
-      <ScreenLoading isLoading={isScreenLoading}/>
+      <ScreenLoading isLoading={isScreenLoading} />
     </>
   );
 }

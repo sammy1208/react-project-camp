@@ -30,7 +30,7 @@ export default function ProductsDetailPage() {
   const { id: product_id } = useParams(); //因為有重新命名
   const Navigate = useNavigate();
   const { productsAll, productsDetail } = useSelector((state) => state.api); // 全部產品
-    const swiperRef = useRef(null)
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     setIsScreenLoading(true);
@@ -146,19 +146,19 @@ export default function ProductsDetailPage() {
 
   const handleNextSlide = () => {
     if (swiperRef.current.isEnd) {
-      swiperRef.current.slideTo(0)
+      swiperRef.current.slideTo(0);
     } else {
-      swiperRef.current.slideNext()
+      swiperRef.current.slideNext();
     }
-  }
+  };
 
   const handlePrevSlide = () => {
     if (swiperRef.current.isBeginning) {
-      swiperRef.current.slideTo(swiperRef.current.slides.length - 1)
+      swiperRef.current.slideTo(swiperRef.current.slides.length - 1);
     } else {
-      swiperRef.current.slidePrev()
+      swiperRef.current.slidePrev();
     }
-  }
+  };
 
   return (
     <div className="container">
@@ -202,7 +202,9 @@ export default function ProductsDetailPage() {
                     </span>
                   ))}
                 </p>
-                <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price?.toLocaleString("zh-Hant-TW")}`}</p>
+                <p className="text-primary pb-md-12 pb-9 fw-bold fs-8 fs-md-4">{`$${productsDetail.price?.toLocaleString(
+                  "zh-Hant-TW"
+                )}`}</p>
               </section>
 
               <div className="mb-6 mb-md-10">
@@ -371,14 +373,12 @@ export default function ProductsDetailPage() {
             slidesPerView={4}
             spaceBetween={24}
             initialSlide={1}
-            onSwiper={(swiper) =>
-              swiperRef.current = swiper
-            }
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
           >
             {productsAll.map((product) => (
               <SwiperSlide
-              key={product.id}
-              className="swiper-slide flex-column"
+                key={product.id}
+                className="swiper-slide flex-column"
               >
                 <div
                   onClick={() => Navigate(`/Products/${product.id}`)}

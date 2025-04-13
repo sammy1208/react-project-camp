@@ -7,31 +7,27 @@ import "swiper/css";
 
 export default function Banner({ imageUrl, data, title, type }) {
   if (type === "carousel" && Array.isArray(data)) {
-      const swiperRef = useRef(null)
+    const swiperRef = useRef(null);
 
-      const handleNextSlide = () => {
-        if (swiperRef.current.isEnd) {
-          swiperRef.current.slideTo(0)
-        } else {
-          swiperRef.current.slideNext()
-        }
+    const handleNextSlide = () => {
+      if (swiperRef.current.isEnd) {
+        swiperRef.current.slideTo(0);
+      } else {
+        swiperRef.current.slideNext();
       }
-    
-      const handlePrevSlide = () => {
-        if (swiperRef.current.isBeginning) {
-          swiperRef.current.slideTo(swiperRef.current.slides.length - 1)
-        } else {
-          swiperRef.current.slidePrev()
-        }
+    };
+
+    const handlePrevSlide = () => {
+      if (swiperRef.current.isBeginning) {
+        swiperRef.current.slideTo(swiperRef.current.slides.length - 1);
+      } else {
+        swiperRef.current.slidePrev();
       }
+    };
 
     return (
       <>
-        <Swiper
-          onSwiper={(swiper) =>
-            swiperRef.current = swiper
-          }
-        >
+        <Swiper onSwiper={(swiper) => (swiperRef.current = swiper)}>
           {data.map((item) => (
             <SwiperSlide key={item.id}>
               <div
@@ -75,7 +71,6 @@ export default function Banner({ imageUrl, data, title, type }) {
                   </button>
                 </li>
               </ul>
-
             </SwiperSlide>
           ))}
         </Swiper>

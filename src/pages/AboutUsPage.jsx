@@ -25,7 +25,12 @@ export default function AboutUsPage() {
     <>
       <article className="container-index">
         <div className="container">
-          <SectionTitle subtitle="Brand Timeline" title="品牌年表" subtitleColor="text-primary" titleColor=""/>
+          <SectionTitle
+            subtitle="Brand Timeline"
+            title="品牌年表"
+            subtitleColor="text-primary"
+            titleColor=""
+          />
           <div className="row row-cols-md-5 row-cols-1 align-items-end">
             {brandTimeline.map((data, index) => (
               <div className="col" key={index}>
@@ -41,11 +46,15 @@ export default function AboutUsPage() {
                       <p className="fs-lg-1 fs-2 fw-light text-primary">
                         {data.time}
                       </p>
-                      <p style={{minHeight: "80px"}}>{data.description}</p>
+                      <p style={{ minHeight: "80px" }}>{data.description}</p>
                     </div>
                   </div>
                   <div className="col">
-                    <img className="rounded-4" src={data.imageUrl} alt={data.description} />
+                    <img
+                      className="rounded-4"
+                      src={data.imageUrl}
+                      alt={data.description}
+                    />
                   </div>
                 </div>
               </div>
@@ -56,7 +65,12 @@ export default function AboutUsPage() {
 
       <article className="container-index bg-primary">
         <div className="container">
-          <SectionTitle subtitle="Brand story" title="品牌故事" subtitleColor="text-white" titleColor="text-white"/>
+          <SectionTitle
+            subtitle="Brand story"
+            title="品牌故事"
+            subtitleColor="text-white"
+            titleColor="text-white"
+          />
           <div className="row row-cols-md-3 row-cols-1 justify-content-center text-white pb-10 pb-md-14 gy-10">
             <div className="col">
               <p>{brandStory.content01}</p>
@@ -80,7 +94,12 @@ export default function AboutUsPage() {
 
       <article className="container-index">
         <div className="container">
-          <SectionTitle subtitle="Responsibility" title="社會責任" subtitleColor="text-primary" titleColor=""/>
+          <SectionTitle
+            subtitle="Responsibility"
+            title="社會責任"
+            subtitleColor="text-primary"
+            titleColor=""
+          />
           {responsibility.map((res, index) => (
             <div
               key={index}

@@ -65,38 +65,19 @@ function ProductListPage() {
       setProduct(res.data.products);
       setPageInfo(res.data.pagination);
     } catch (error) {
-      const err = error.message
+      const err = error.message;
       dispatch(
         PushMessage({
           text: err,
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }
   };
 
-  // const checkUser = async () => {
-  //   setIsScreenLoading(true);
-  //   try {
-  //     await axios.post(`${BASE_URL}/v2/api/user/check`);
-  //     getProduct(1);
-  //   } catch (error) {
-  //     const err = error.message
-  //     dispatch(
-  //       PushMessage({
-  //         text: err,
-  //         status: "failed"
-  //       })
-  //     )
-  //   } finally {
-  //     setIsScreenLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
-    
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
       "$1"
@@ -201,6 +182,7 @@ function ProductListPage() {
             isOpen={isDleModalOpen}
             setIsOpen={setIsDleModalOpen}
             getProduct={getProduct}
+            type={"product"}
           />
         )}
       </article>
