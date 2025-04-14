@@ -31,7 +31,6 @@ function OrderModal({
   });
 
   const productModalRef = useRef(null);
-  // const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (tempProduct) {
