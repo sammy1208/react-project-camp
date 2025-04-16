@@ -26,7 +26,7 @@ function DelCouponModal({ tempCoupons, isOpen, setIsOpen, getCoupon }) {
     }
   }, [isOpen]);
 
-  const handleDeleteProduct = async () => {
+  const handleDeleteCoupon = async () => {
     try {
       await deleteProduct();
       getCoupon();
@@ -101,7 +101,7 @@ function DelCouponModal({ tempCoupons, isOpen, setIsOpen, getCoupon }) {
               取消
             </button>
             <button
-              onClick={handleDeleteProduct}
+              onClick={handleDeleteCoupon}
               type="button"
               className="btn btn-danger"
             >

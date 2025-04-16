@@ -8,6 +8,7 @@ import { PushMessage } from "../../redux/slices/toastSlice";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
+
 function CouponModal({
   modalMode,
   tempCoupons,
@@ -51,8 +52,8 @@ function CouponModal({
     });
   };
 
-  const handleUpdateProduct = async () => {
-    const apiCall = modalMode === "create" ? createProduct : updateProduct;
+  const handleUpdateCoupon = async () => {
+    const apiCall = modalMode === "create" ? createCoupon : updateCoupon;
 
     try {
       await apiCall();
@@ -80,7 +81,7 @@ function CouponModal({
     }
   };
 
-  const createProduct = async () => {
+  const createCoupon = async () => {
     return await axios.post(`${BASE_URL}/v2/api/${API_PATH}/admin/coupon`, {
       data: {
         ...modalData,
@@ -91,7 +92,7 @@ function CouponModal({
     });
   };
 
-  const updateProduct = async () => {
+  const updateCoupon = async () => {
     return await axios.put(
       `${BASE_URL}/v2/api/${API_PATH}/admin/coupon/${modalData.id}`,
       {
@@ -263,7 +264,7 @@ function CouponModal({
               取消
             </button>
             <button
-              onClick={handleUpdateProduct}
+              onClick={handleUpdateCoupon}
               type="button"
               className="btn btn-primary text-white"
             >

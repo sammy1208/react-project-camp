@@ -26,7 +26,7 @@ function DelOrderModal({ tempProduct, isOpen, setIsOpen, getOrder }) {
     }
   }, [isOpen]);
 
-  const handleDeleteProduct = async () => {
+  const handleDeleteOrder = async () => {
 
     try {
       await removeOrder();
@@ -109,7 +109,7 @@ function DelOrderModal({ tempProduct, isOpen, setIsOpen, getOrder }) {
               取消
             </button>
             <button
-              onClick={handleDeleteProduct}
+              onClick={handleDeleteOrder}
               type="button"
               className="btn btn-danger"
             >
