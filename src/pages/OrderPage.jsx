@@ -40,7 +40,7 @@ export default function OrderPage() {
     }
   };
 
-  const processPayment = async (order_id) => {
+  const handlePayment = async (order_id) => {
     setIsScreenLoading(true);
     try {
       await axios.post(`${BASE_URL}/v2/api/${API_PATH}/pay/${order_id}`);
@@ -113,7 +113,7 @@ export default function OrderPage() {
               </p>
               <div className="text-end">
                 <button
-                  onClick={() => processPayment(order.id)}
+                  onClick={() => handlePayment(order.id)}
                   className="btn btn-primary text-white btn-addCart fw-bold py-md-8 py-6 ms-auto"
                   type="button"
                 >

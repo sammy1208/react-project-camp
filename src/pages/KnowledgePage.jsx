@@ -16,11 +16,11 @@ export default function KnowledgePage() {
     const time = setTimeout(() => {
       setIsScreenLoading(false);
     }, 300);
-    changeTitle(location.pathname);
+    updateCategoryByPath(location.pathname);
     return () => clearTimeout(time);
   }, [location.pathname]);
 
-  const changeTitle = (key) => {
+  const updateCategoryByPath = (key) => {
     switch (key) {
       case "/KnowledgePage":
         setNavTitle("無痕露營");
@@ -39,7 +39,7 @@ export default function KnowledgePage() {
     }
   };
 
-  const handleChangeTitle = (key) => {
+  const updateCategoryByName = (key) => {
     switch (key) {
       case "無痕露營":
         setNavTitle("無痕露營");
@@ -71,7 +71,7 @@ export default function KnowledgePage() {
                   <li className="mb-4 border-bottom" key={routes.path}>
                     <Link
                       to={routes.path}
-                      onClick={() => handleChangeTitle(routes.name)}
+                      onClick={() => updateCategoryByName(routes.name)}
                       className={`btn-nav-know py-8 px-0 w-100 border-0 fw-normal text-start ${
                         location.pathname === routes.path ? "active" : ""
                       }`}

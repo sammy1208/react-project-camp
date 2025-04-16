@@ -23,7 +23,7 @@ export default function HomePage() {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const getProduct = async () => {
+  const fetchProducts = async () => {
     setIsScreenLoading(true);
     try {
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products`);
@@ -42,12 +42,12 @@ export default function HomePage() {
     }
   };
 
-  const handleTips = (link) => {
+  const navigateToTip = (link) => {
     Navigate(link);
   };
 
   useEffect(() => {
-    getProduct();
+    fetchProducts();
   }, []);
 
   return (
@@ -266,7 +266,7 @@ export default function HomePage() {
         <div className="row justify-content-center">
           {Knowledge.map((know) => (
             <div
-              onClick={() => handleTips(know.path)}
+              onClick={() => navigateToTip(know.path)}
               style={{ cursor: "pointer" }}
               className="col-md-3 mb-8 mb-md-0"
               key={know.path}

@@ -22,8 +22,8 @@ import "swiper/css";
 
 export default function ProductsDetailPage() {
   const [qtySelect, setQtySelect] = useState(1);
-  const [isColorActive, setIsColorActive] = useState(null);
-  const [isSpecsActive, setIsSpecsActive] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSpec, setSelectedSpec] = useState(null);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const wishList = useSelector((state) => state.wish.list);
   const dispatch = useDispatch();
@@ -55,12 +55,12 @@ export default function ProductsDetailPage() {
     }
   };
 
-  const handleQty = (qty) => {
+  const handleQtyChange = (qty) => {
     setQtySelect(qty);
   };
 
   const handleAddToCart = async () => {
-    if (isColorActive && isSpecsActive) {
+    if (selectedColor && selectedSpec) {
       try {
         await addItemToCart(product_id, qtySelect);
         dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
@@ -71,8 +71,8 @@ export default function ProductsDetailPage() {
       dispatch(
         PushSelectedProduct({
           id: product_id,
-          color: isColorActive,
-          specs: isSpecsActive
+          color: selectedColor,
+          specs: selectedSpec
         })
       );
     } else {
@@ -86,15 +86,15 @@ export default function ProductsDetailPage() {
   };
 
   const handleBuyNow = async () => {
-    if (isColorActive && isSpecsActive) {
+    if (selectedColor && selectedSpec) {
       try {
         await addItemToCart(product_id, qtySelect);
         dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
         dispatch(
           PushSelectedProduct({
             id: product_id,
-            color: isColorActive,
-            specs: isSpecsActive
+            color: selectedColor,
+            specs: selectedSpec
           })
         );
         Navigate("/CartPage");
@@ -116,12 +116,12 @@ export default function ProductsDetailPage() {
     dispatch(wishMessage(product_id));
   };
 
-  const btnColorActive = (item) => {
-    setIsColorActive(item);
+  const handleSelectColor = (item) => {
+    setSelectedColor(item);
   };
 
-  const btnSpecsActive = (item) => {
-    setIsSpecsActive(item);
+  const handleSelectSpec = (item) => {
+    setSelectedSpec(item);
   };
 
   const descriptionRef = useRef(null);
@@ -213,10 +213,10 @@ export default function ProductsDetailPage() {
                   {productsDetail.colors?.map((color, index) => (
                     <li className="me-lg-5 me-3 mb-lg-3 mb-1" key={index}>
                       <button
-                        onClick={() => btnColorActive(color)}
+                        onClick={() => handleSelectColor(color)}
                         type="button"
                         className={`btn btn-outline-secondary btn-detail py-4 px-6 border-gray-40 fw-normal ${
-                          isColorActive === color && "active"
+                          selectedColor === color && "active"
                         }`}
                       >
                         <p>{color}</p>
@@ -231,11 +231,11 @@ export default function ProductsDetailPage() {
                   {productsDetail.specs?.map((specs, index) => (
                     <li className="me-lg-5 me-3 mb-lg-3 mb-1" key={index}>
                       <button
-                        onClick={() => btnSpecsActive(specs)}
+                        onClick={() => handleSelectSpec(specs)}
                         key={index}
                         type="button"
                         className={`btn btn-outline-secondary btn-detail py-4 px-6 border-gray-40 fw-normal ${
-                          isSpecsActive === specs && "active"
+                          selectedSpec === specs && "active"
                         }`}
                       >
                         <p>{specs}</p>
@@ -249,7 +249,7 @@ export default function ProductsDetailPage() {
                 <p className="fs-md-9 fs-10 mb-md-6 mb-4">數量</p>
                 <div>
                   <button
-                    onClick={() => handleQty(qtySelect - 1)}
+                    onClick={() => handleQtyChange(qtySelect - 1)}
                     type="button"
                     className="btn p-0 btn-qty text-gray-50"
                     disabled={qtySelect === 1}
@@ -260,7 +260,7 @@ export default function ProductsDetailPage() {
                   </button>
                   <span className="text-gray-70 px-8">{qtySelect}</span>
                   <button
-                    onClick={() => handleQty(qtySelect + 1)}
+                    onClick={() => handleQtyChange(qtySelect + 1)}
                     type="button"
                     className="btn p-0 btn-qty text-gray-50"
                   >

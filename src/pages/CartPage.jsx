@@ -22,7 +22,7 @@ export default function CartPage() {
   );
   const [total, setTotal] = useState(0);
   const carts = useSelector((state) => state.cart);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDelModalOpen, setIsDelModalOpen] = useState(false);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -34,13 +34,13 @@ export default function CartPage() {
       const product = carts.carts?.map((item) => {
         return item.product.origin_price * item.qty;
       });
-      const totalALL = product.reduce((acc, item) => acc + item, 0);
-      setTotal(totalALL);
+      const totalOriginPrice = product.reduce((acc, item) => acc + item, 0);
+      setTotal(totalOriginPrice);
     }
   }, [carts]);
 
   const openClearCartModal = async () => {
-    setIsOpen(true);
+    setIsDelModalOpen(true);
   };
 
   const removeCartItem = async (cartItem_id) => {
@@ -62,7 +62,7 @@ export default function CartPage() {
     }
   };
 
-  const updataCartItem = async (cartItem_id, product_id, qty) => {
+  const updateCartItem = async (cartItem_id, product_id, qty) => {
     setIsScreenLoading(true);
     try {
       await axios.put(`${BASE_URL}/v2/api/${API_PATH}/cart/${cartItem_id}`, {
@@ -86,8 +86,8 @@ export default function CartPage() {
   };
 
   const getSelectProduct = (id) => {
-    const curren = currentSelection.find((product) => id === product.id);
-    return curren || null;
+    const matchedSelection = currentSelection.find((product) => id === product.id);
+    return matchedSelection || null;
   };
 
   const handleProductList = () => {
@@ -152,7 +152,7 @@ export default function CartPage() {
                                 type="button"
                                 className="btn border-0 p-1"
                                 onClick={() =>
-                                  updataCartItem(
+                                  updateCartItem(
                                     cartItem.id,
                                     cartItem.product.id,
                                     cartItem.qty - 1
@@ -169,7 +169,7 @@ export default function CartPage() {
                                 type="button"
                                 className="btn border-0 p-1"
                                 onClick={() =>
-                                  updataCartItem(
+                                  updateCartItem(
                                     cartItem.id,
                                     cartItem.product.id,
                                     cartItem.qty + 1
@@ -270,7 +270,7 @@ export default function CartPage() {
           )}
         </div>
       </article>
-      <DelModal isOpen={isOpen} setIsOpen={setIsOpen}></DelModal>
+      <DelModal isOpen={isDelModalOpen} setIsOpen={setIsDelModalOpen}></DelModal>
       <ScreenLoading isLoading={isScreenLoading} />
     </>
   );

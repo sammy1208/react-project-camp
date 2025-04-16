@@ -14,9 +14,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
 export default function CheckoutFormPage() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const cartState = useSelector((state) => state.cart);
   const [total, setTotal] = useState(0);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
 
@@ -39,12 +39,12 @@ export default function CheckoutFormPage() {
         message
       }
     };
-    const res = await checkout(userInfo);
+    const res = await createOrder(userInfo);
     dispatch(PushMessage({ text: "建立訂單成功！", status: "success" }));
-    Navigate(`/Order/${res.orderId}`);
+    navigate(`/Order/${res.orderId}`);
   });
 
-  const checkout = async (data) => {
+  const createOrder = async (data) => {
     setIsScreenLoading(true);
     try {
       const res = await axios.post(
@@ -67,14 +67,14 @@ export default function CheckoutFormPage() {
   };
 
   useEffect(() => {
-    if (cart.carts) {
-      const product = cart.carts.map((item) => {
+    if (cartState.carts) {
+      const product = cartState.carts.map((item) => {
         return item.product.origin_price * item.qty;
       });
       const totalALL = product.reduce((acc, item) => acc + item, 0);
       setTotal(totalALL);
     }
-  }, [cart]);
+  }, [cartState]);
 
   return (
     <>
@@ -245,7 +245,7 @@ export default function CheckoutFormPage() {
             <div className="col-md-4">
               <div className="border border-primary-1 p-8 mb-4 rounded">
                 <h5 className="fw-bold mb-6 fs-8 fs-md-7">明細</h5>
-                {cart.carts?.map((cartItem) => (
+                {cartState.carts?.map((cartItem) => (
                   <div key={cartItem.id} className="d-flex mb-4 w-100">
                     <div className="mb-0 rounded-4 col-5 me-4">
                       <ProductLmg
@@ -285,7 +285,7 @@ export default function CheckoutFormPage() {
                         折扣金額
                       </th>
                       <td className="text-end border-0 px-0 pt-0 pb-4 text-gray-70">
-                        {`- NT$${(total - cart.final_total).toLocaleString(
+                        {`- NT$${(total - cartState.final_total).toLocaleString(
                           "zh-Hant-TW"
                         )}`}
                       </td>
@@ -295,7 +295,7 @@ export default function CheckoutFormPage() {
                 <div className="d-flex justify-content-between my-8">
                   <p className="mb-0 fs-7 fw-bold">總計金額</p>
                   <p className="mb-0 fs-7 fw-bold text-primary">
-                    {`NT$${cart.final_total.toLocaleString("zh-Hant-TW")}`}
+                    {`NT$${cartState.final_total.toLocaleString("zh-Hant-TW")}`}
                   </p>
                 </div>
 
@@ -303,7 +303,7 @@ export default function CheckoutFormPage() {
                   <button
                     type="submit"
                     className={`btn btn-primary text-white fw-bold py-md-8 py-6 w-100 ${
-                      cart.carts?.length === 0 && "disabled"
+                      cartState.carts?.length === 0 && "disabled"
                     }`}
                   >
                     送出訂單

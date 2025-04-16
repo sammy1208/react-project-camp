@@ -23,7 +23,7 @@ export default function PayOrderPage() {
     dispatch(getCart());
   }, []);
 
-  const navigateToProducts = () => {
+  const handleGoToProducts = () => {
     setIsScreenLoading(true);
     try {
       Navigate("/Products");
@@ -123,7 +123,7 @@ export default function PayOrderPage() {
               </p>
               <div className="text-end w-100">
                 <button
-                  onClick={() => navigateToProducts()}
+                  onClick={() => handleGoToProducts()}
                   type="button"
                   className="btn btn-primary btn-addCart fw-bold py-md-8 py-6 me-4 text-white"
                 >
