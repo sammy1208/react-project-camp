@@ -9,7 +9,7 @@ import { PushMessage } from "../../redux/slices/toastSlice";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-function DelModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
+function DelCouponModal({ tempCoupons, isOpen, setIsOpen, getCoupon }) {
   const delProductModalRef = useRef(null);
   const dispatch = useDispatch(PushMessage);
 
@@ -27,11 +27,9 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
   }, [isOpen]);
 
   const handleDeleteProduct = async () => {
-    const deleteItem = type === "product" ? deleteProduct : removeOrder;
-
     try {
-      await deleteItem();
-      getProduct();
+      await deleteProduct();
+      getCoupon();
       handleCloseDelModal();
       dispatch(
         PushMessage({
@@ -58,34 +56,12 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
   const deleteProduct = async () => {
     try {
       await axios.delete(
-        `${BASE_URL}/v2/api/${API_PATH}/admin/product/${tempProduct.id}`
+        `${BASE_URL}/v2/api/${API_PATH}/admin/coupon/${tempCoupons.id}`
       );
     } catch {
       dispatch(
         PushMessage({
           text: "刪除產品失敗`",
-          status: "failed"
-        })
-      );
-    }
-  };
-
-  const removeOrder = async () => {
-    try {
-      await axios.delete(
-        `${BASE_URL}/v2/api/${API_PATH}/admin/order/${tempProduct.id}`
-      );
-      dispatch(
-        PushMessage({
-          text: "刪除成功",
-          status: "success"
-        })
-      );
-    } catch (error) {
-      const err = error.message;
-      dispatch(
-        PushMessage({
-          text: err,
           status: "failed"
         })
       );
@@ -113,17 +89,8 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
             ></button>
           </div>
           <div className="modal-body">
-            {type === "product" ? (
-              <>
-                你是否要刪除
-                <span className="text-danger fw-bold">{tempProduct?.title}</span>
-              </>
-            ) : (
-              <>
-                你是否要刪除訂單編號：
-                <span className="text-danger fw-bold">{tempProduct?.id}</span>
-              </>
-            )}
+            你是否要刪除
+            <span className="text-danger fw-bold">{tempCoupons?.title}</span>
           </div>
           <div className="modal-footer">
             <button
@@ -148,15 +115,14 @@ function DelModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
 }
 
 // **🔹 PropTypes 驗證**
-DelModal.propTypes = {
-  tempProduct: PropTypes.shape({
+DelCouponModal.propTypes = {
+  tempCoupons: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string
   }).isRequired,
   isOpen: PropTypes.bool.isRequired,
   setIsOpen: PropTypes.func.isRequired,
-  getProduct: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired
+  getCoupon: PropTypes.func.isRequired
 };
 
-export default DelModal;
+export default DelCouponModal;

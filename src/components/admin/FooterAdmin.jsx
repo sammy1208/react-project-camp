@@ -31,10 +31,14 @@ export default function FooterAdmin() {
       /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
       "$1"
     );
-    if (token.length > 0) {
-      axios.defaults.headers.common["Authorization"] = token;
-      checkUser();
+
+    if (!token) {
+      navigate("/login");
+      return;
     }
+    axios.defaults.headers.common["Authorization"] = token;
+    checkUser();
+
   }, []);
 
   const handelLogout = async () => {

@@ -20,6 +20,7 @@ import PayOrderPage from "../pages/PayOrderPage";
 import LoginPage from "../pages/admin/LoginPage";
 import ProductListPage from "../pages/admin/ProductListPage";
 import OrderListPage from "../pages/admin/OrderListPage";
+import CouponListPage from "../pages/admin/CouponListPage";
 
 const router = createHashRouter([
   {
@@ -105,6 +106,10 @@ const router = createHashRouter([
       {
         path: "order",
         element: <OrderListPage />
+      },
+      {
+        path: "coupon",
+        element: <CouponListPage />
       }
     ]
   },

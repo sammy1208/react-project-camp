@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function Pagination({ products, pageInfo, getProduct }) {
+function Pagination({ products, pageInfo,  onPageChange }) {
   const handlePageChange = (e, page) => {
     e.preventDefault();
-    getProduct(page);
+    onPageChange(page);
   };
 
   return (
@@ -66,7 +66,7 @@ Pagination.propTypes = {
     has_pre: PropTypes.bool.isRequired,
     has_next: PropTypes.bool.isRequired
   }).isRequired,
-  getProduct: PropTypes.func.isRequired // 確保 `getProduct` 是函式
+  onPageChange: PropTypes.func.isRequired // 確保 `getProduct` 是函式
 };
 
 export default Pagination;

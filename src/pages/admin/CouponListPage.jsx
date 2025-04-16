@@ -5,34 +5,51 @@ import Pagination from "../../components/admin/Pagination";
 import ScreenLoading from "../../components/ScreenLoading";
 import { useDispatch } from "react-redux";
 import { PushMessage } from "../../redux/slices/toastSlice";
-import DelOrderModal from "../../components/admin/DelOrderModal";
-import OrderModal from "../../components/admin/OrderModal";
+import CouponModal from "../../components/admin/CouponModal";
+import DelCouponModal from "../../components/admin/DelCouponModal";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-function OrderListPage() {
-  const [order, setOrder] = useState([]);
+const defaultModalState = {
+  title: "",
+  is_enabled: 0,
+  percent: "",
+  due_date: "",
+  code: ""
+};
+
+function CouponListPage() {
+  const [coupons, setCoupons] = useState([]);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({});
   const dispatch = useDispatch();
+  const [modalMode, setModalMode] = useState(null);
   const [isDleModalOpen, setIsDleModalOpen] = useState(false);
-  const [tempProduct, setTempProduct] = useState({});
+  const [tempCoupons, setTempCoupons] = useState(defaultModalState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = (product) => {
-    setTempProduct(product);
+  const handleOpenModal = (mode, product) => {
+    setModalMode(mode);
+    switch (mode) {
+      case "create":
+        setTempCoupons({ ...defaultModalState });
+        break;
 
+      case "edit":
+        setTempCoupons(product);
+        break;
+    }
     setIsModalOpen(true);
   };
 
-  const getOrder = async (page = 1) => {
+  const getCoupon = async (page = 1) => {
     setIsScreenLoading(true);
     try {
       const res = await axios.get(
-        `${BASE_URL}/v2/api/${API_PATH}/admin/orders?page=${page}`
+        `${BASE_URL}/v2/api/${API_PATH}/admin/coupons?page=${page}`
       );
-      setOrder(res.data.orders);
+      setCoupons(res.data.coupons);
       setPageInfo(res.data.pagination);
     } catch (error) {
       const err = error.message;
@@ -54,12 +71,12 @@ function OrderListPage() {
     );
     if (token.length > 0) {
       axios.defaults.headers.common["Authorization"] = token;
-      getOrder(1);
+      getCoupon(1);
     }
   }, []);
 
   const handleOpenDelModal = (product) => {
-    setTempProduct(product);
+    setTempCoupons(product);
     setIsDleModalOpen(true);
   };
 
@@ -67,38 +84,49 @@ function OrderListPage() {
     <>
       <div className="container-default">
         <div className="container">
-          <p className="text-center pb-md-2">Manage Orders</p>
-          <h2 className="text-center pb-md-17 pb-12">管理訂單</h2>
+          <p className="text-center pb-md-2">Manage Coupon</p>
+          <h2 className="text-center pb-md-17 pb-12">管理優惠卷</h2>
           <div className="row justify-content-center">
             <div className="col">
+              <div className="d-flex justify-content-end">
+                <button
+                  onClick={() => {
+                    handleOpenModal("create");
+                  }}
+                  type="button"
+                  className="btn btn-primary text-white"
+                >
+                  建立新的產品
+                </button>
+              </div>
               <table className="table">
                 <thead>
                   <tr>
-                    <th scope="col">訂單編號</th>
-                    <th scope="col">時間</th>
-                    <th scope="col">是否付款</th>
+                    <th scope="col">優惠卷編號</th>
+                    <th scope="col">到期時間</th>
+                    <th scope="col">是否啟用</th>
                     <th scope="col">查看細節</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {order.filter((item) => item.id).map((product) => (
+                  {coupons.map((product) => (
                     <tr key={product.id}>
-                      <th scope="row">{product.id}</th>
+                      <th scope="row">{product.code}</th>
                       <td>
-                        {new Date(product.create_at * 1000).toLocaleString()}
+                        {new Date(product.due_date * 1000).toLocaleString()}
                       </td>
                       <td>
-                        {product.is_paid ? (
-                          <span className="text-success">付款</span>
+                        {product.is_enabled ? (
+                          <span className="text-success">啟用</span>
                         ) : (
-                          <span>未付款</span>
+                          <span>未啟用</span>
                         )}
                       </td>
                       <td>
                         <div className="btn-group">
                           <button
                             onClick={() => {
-                              handleOpenModal(product);
+                              handleOpenModal("edit", product);
                             }}
                             type="button"
                             className="btn btn-outline-primary btn-sm"
@@ -124,28 +152,31 @@ function OrderListPage() {
           </div>
           {pageInfo.total_pages !== undefined && (
             <Pagination
-              products={order}
+              products={coupons}
               pageInfo={pageInfo}
-              onPageChange={getOrder}
+              onPageChange={getCoupon}
             />
           )}
         </div>
       </div>
-      <OrderModal
-        tempProduct={tempProduct}
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        getOrder={getOrder}
-      />
-      <DelOrderModal
-        tempProduct={tempProduct}
+      {modalMode && (
+        <CouponModal
+          modalMode={modalMode}
+          tempCoupons={tempCoupons}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          getCoupon={getCoupon}
+        />
+      )}
+      <DelCouponModal
+        tempCoupons={tempCoupons}
         isOpen={isDleModalOpen}
         setIsOpen={setIsDleModalOpen}
-        getOrder={getOrder}
+        getCoupon={getCoupon}
       />
       <ScreenLoading isLoading={isScreenLoading} />
     </>
   );
 }
 
-export default OrderListPage;
+export default CouponListPage;

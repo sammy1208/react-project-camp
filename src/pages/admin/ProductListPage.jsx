@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../../components/admin/Pagination";
 import ProductModal from "../../components/admin/ProductModal";
-import DelModal from "../../components/admin/DelModal";
+import DelProductModal from "../../components/admin/DelProductModal";
 import ScreenLoading from "../../components/ScreenLoading";
 import { PushMessage } from "../../redux/slices/toastSlice";
 import { useDispatch } from "react-redux";
@@ -163,7 +163,7 @@ function ProductListPage() {
             <Pagination
               products={products}
               pageInfo={pageInfo}
-              getProduct={getProduct}
+              onPageChange={getProduct}
             />
           )}
         </div>
@@ -177,7 +177,7 @@ function ProductListPage() {
           />
         )}
         {tempProduct.id !== undefined && (
-          <DelModal
+          <DelProductModal
             tempProduct={tempProduct}
             isOpen={isDleModalOpen}
             setIsOpen={setIsDleModalOpen}

@@ -13,7 +13,7 @@ function OrderModal({
   tempProduct,
   isOpen,
   setIsOpen,
-  getProduct
+  getOrder
 }) {
   const [modalData, setModalData] = useState({
     id: "",
@@ -98,7 +98,7 @@ function OrderModal({
     try {
       await updateOrder();
 
-      getProduct();
+      getOrder();
 
       handleCloseModal();
       dispatch(
@@ -144,7 +144,7 @@ function OrderModal({
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    getProduct();
+    getOrder();
 
     setTimeout(() => {
       document.body.classList.remove("modal-open");
@@ -314,7 +314,7 @@ OrderModal.propTypes = {
   }).isRequired,
   isOpen: PropTypes.bool.isRequired, // 是否開啟 Modal
   setIsOpen: PropTypes.func.isRequired, // 設置 Modal 狀態
-  getProduct: PropTypes.func.isRequired // 取得產品列表
+  getOrder: PropTypes.func.isRequired // 取得產品列表
 };
 
 export default OrderModal;
