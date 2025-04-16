@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../../components/admin/Pagination";
 import ProductModal from "../../components/admin/ProductModal";
-import DelProductModal from "../../components/admin/DelProductModal";
+import DelModal from "../../components/admin/DelModal";
 import ScreenLoading from "../../components/ScreenLoading";
 import { PushMessage } from "../../redux/slices/toastSlice";
 import { useDispatch } from "react-redux";
@@ -56,7 +56,7 @@ function ProductListPage() {
 
   const [pageInfo, setPageInfo] = useState({});
 
-  const getProduct = async (page) => {
+  const getProduct = async (page = 1) => {
     setIsScreenLoading(true);
     try {
       const res = await axios.get(
@@ -177,7 +177,7 @@ function ProductListPage() {
           />
         )}
         {tempProduct.id !== undefined && (
-          <DelProductModal
+          <DelModal
             tempProduct={tempProduct}
             isOpen={isDleModalOpen}
             setIsOpen={setIsDleModalOpen}

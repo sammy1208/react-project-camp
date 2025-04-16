@@ -49,7 +49,7 @@ export default function Product({ product }) {
         <div className="position-absolute top-0 end-0">
           <div className="d-flex align-items-center">
             <i
-              className={`bi fs-8 btn-product-wish ${
+              className={`bi fs-8 btn-product-wish pb-1 ${
                 isNewCart
                   ? "bi-cart-fill text-primary"
                   : "bi-cart3 text-gray-70"

@@ -5,7 +5,7 @@ import Pagination from "../../components/admin/Pagination";
 import ScreenLoading from "../../components/ScreenLoading";
 import { useDispatch } from "react-redux";
 import { PushMessage } from "../../redux/slices/toastSlice";
-import DelProductModal from "../../components/admin/DelProductModal";
+import DelModal from "../../components/admin/DelModal";
 import OrderModal from "../../components/admin/OrderModal";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -27,7 +27,7 @@ function OrderListPage() {
     setIsModalOpen(true);
   };
 
-  const getProduct = async (page) => {
+  const getProduct = async (page = 1) => {
     setIsScreenLoading(true);
     try {
       const res = await axios.get(
@@ -36,13 +36,13 @@ function OrderListPage() {
       setOrder(res.data.orders);
       setPageInfo(res.data.pagination);
     } catch (error) {
-      const err = error.message
+      const err = error.message;
       dispatch(
         PushMessage({
           text: err,
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }
@@ -140,7 +140,7 @@ function OrderListPage() {
         setIsOpen={setIsModalOpen}
         getProduct={getProduct}
       />
-      <DelProductModal
+      <DelModal
         tempProduct={tempProduct}
         isOpen={isDleModalOpen}
         setIsOpen={setIsDleModalOpen}

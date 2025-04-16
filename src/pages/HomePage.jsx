@@ -18,8 +18,8 @@ export default function HomePage() {
   );
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [products, setProducts] = useState([]);
-  const [products1, setProducts1] = useState(null);
-  const [products6, setProducts6] = useState(null);
+  const [featuredProduct, setFeaturedProduct] = useState(null);
+  const [mobileExtraProduct, setMobileExtraProduct] = useState(null);
   const Navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,8 +28,8 @@ export default function HomePage() {
     try {
       const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/products`);
       setProducts(res.data.products);
-      setProducts1(res.data.products[0]);
-      setProducts6(res.data.products[6]);
+      setFeaturedProduct(res.data.products[0]);
+      setMobileExtraProduct(res.data.products[6]);
     } catch {
       dispatch(
         PushMessage({
@@ -61,7 +61,7 @@ export default function HomePage() {
         />
         <div className="row">
           <div className="col d-none d-md-block">
-            {products1 && <Product product={products1} />}
+            {featuredProduct && <Product product={featuredProduct} />}
           </div>
           <div className="col">
             <div className="row row-cols-2 gy-md-10 gy-8">
@@ -72,7 +72,7 @@ export default function HomePage() {
               ))}
 
               <div className="col d-md-none d-block">
-                {products6 && <Product product={products6} />}
+                {mobileExtraProduct && <Product product={mobileExtraProduct} />}
               </div>
             </div>
           </div>

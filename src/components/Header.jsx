@@ -53,7 +53,7 @@ export default function Header({ className, routes }) {
 
       const isOpening = !isCollapseOpen[key];
       if (key === "navbar") {
-        document.body.style.overflow = isOpening ? "hidden" : ""
+        document.body.style.overflow = isOpening ? "hidden" : "";
         document.body.style.paddingRight = isOpening ? "0px" : "";
       }
 
@@ -68,7 +68,7 @@ export default function Header({ className, routes }) {
     if (navbarRef.current && isCollapseOpen.navbar) {
       const bsCollapse = new Collapse(navbarRef.current);
       bsCollapse.hide();
-      document.body.style.overflow = ""
+      document.body.style.overflow = "";
       document.body.style.paddingRight = "";
       setIsCollapseOpen((prev) => {
         return {

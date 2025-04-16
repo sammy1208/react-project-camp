@@ -108,9 +108,9 @@ export default function CheckoutFormPage() {
             <div className="col-md-8">
               <div className="h-100 rounded">
                 <div className="mb-5 justify-content-center">
-                  <div onSubmit={onSubmit}>
+                  <div>
                     <p className="fw-bold fs-8 fs-md-7 mb-6">訂單資料</p>
-                    <div className="mb-6 text-start">
+                    <div className="mb-6 text-start pb-6">
                       <label
                         htmlFor="email"
                         className="form-label mb-2 text-gray-70"
@@ -140,7 +140,7 @@ export default function CheckoutFormPage() {
                       )}
                     </div>
 
-                    <div className="mb-6 text-start">
+                    <div className="mb-6 text-start pb-6">
                       <label
                         htmlFor="name"
                         className="form-label mb-2 text-gray-70"
@@ -166,7 +166,7 @@ export default function CheckoutFormPage() {
                       )}
                     </div>
 
-                    <div className="mb-6 text-start">
+                    <div className="mb-6 text-start pb-6">
                       <label
                         htmlFor="tel"
                         className="form-label mb-2 text-gray-70"
@@ -195,7 +195,7 @@ export default function CheckoutFormPage() {
                       )}
                     </div>
 
-                    <div className="mb-6 text-start">
+                    <div className="mb-6 text-start pb-6">
                       <label
                         htmlFor="address"
                         className="form-label mb-2 text-gray-70"
@@ -222,7 +222,7 @@ export default function CheckoutFormPage() {
                       )}
                     </div>
 
-                    <div className="mb-6 text-start">
+                    <div className="mb-6 text-start pb-6">
                       <label
                         htmlFor="message"
                         className="form-label mb-2 text-gray-70"

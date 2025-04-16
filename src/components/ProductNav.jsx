@@ -15,10 +15,10 @@ export default function ProductNav({ product }) {
   };
 
   useEffect(() => {
-    const filter = searchParams.get("filter")
-    setSelectedFilter(filterLabelMap[filter] || "產品分類")
+    const filter = searchParams.get("filter");
+    setSelectedFilter(filterLabelMap[filter] || "產品分類");
 
-  }, [searchParams])
+  }, [searchParams]);
 
 
   return (

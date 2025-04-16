@@ -32,11 +32,11 @@ function ProductsPage() {
   }, [productsAll]);
 
   useEffect(() => {
-    const initialFilter = searchParams.get("filter")
+    const initialFilter = searchParams.get("filter");
     if(initialFilter) {
-      handleFilterChange(initialFilter)
+      handleFilterChange(initialFilter);
     }
-  },[searchParams])
+  },[searchParams]);
 
   //篩選功能
   const applyFilter = (filter) => {

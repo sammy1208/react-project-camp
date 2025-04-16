@@ -39,7 +39,7 @@ export default function ProductsDetailPage() {
     dispatch(getCart()).finally(() => setIsScreenLoading(false));
   }, [product_id]);
 
-  const updataCartItem = async (product_id, qty) => {
+  const addItemToCart = async (product_id, qty) => {
     const CartData = {
       product_id,
       qty
@@ -59,10 +59,10 @@ export default function ProductsDetailPage() {
     setQtySelect(qty);
   };
 
-  const addCart = async () => {
+  const handleAddToCart = async () => {
     if (isColorActive && isSpecsActive) {
       try {
-        await updataCartItem(product_id, qtySelect);
+        await addItemToCart(product_id, qtySelect);
         dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
       } catch {
         dispatch(PushMessage({ text: "新增購物車失敗", status: "failed" }));
@@ -85,10 +85,10 @@ export default function ProductsDetailPage() {
     }
   };
 
-  const goCart = async () => {
+  const handleBuyNow = async () => {
     if (isColorActive && isSpecsActive) {
       try {
-        await updataCartItem(product_id, qtySelect);
+        await addItemToCart(product_id, qtySelect);
         dispatch(PushMessage({ text: "成功加入購物車！", status: "success" }));
         dispatch(
           PushSelectedProduct({
@@ -273,14 +273,14 @@ export default function ProductsDetailPage() {
 
               <div className="list-unstyled d-flex">
                 <button
-                  onClick={goCart}
+                  onClick={handleBuyNow}
                   type="button"
                   className="btn btn-primary text-white fw-bold py-md-8 py-6 w-100 me-4"
                 >
                   直接購買
                 </button>
                 <button
-                  onClick={addCart}
+                  onClick={handleAddToCart}
                   type="button"
                   className="btn btn-outline-primary btn-addCart fw-bold py-md-8 py-6 w-100 me-4"
                 >

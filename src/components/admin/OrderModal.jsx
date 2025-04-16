@@ -72,17 +72,17 @@ function OrderModal({
 
   const handleInputChange = (e) => {
     const { value, name, checked, type } = e.target;
-    const fieldValue = type === "checkbox" ? checked : value
+    const fieldValue = type === "checkbox" ? checked : value;
 
     if(name.includes("user")) {
-      const key = name.split(".")[1]
+      const key = name.split(".")[1];
       setModalData((prev) => ({
         ...prev,
         user: {
           ...prev.user,
           [key]: fieldValue
         }
-      }))
+      }));
     } else {
       setModalData((prev) => ({
         ...prev,
@@ -93,10 +93,10 @@ function OrderModal({
 
 
 
-  const handleUpdateProduct = async () => {
+  const handleUpdateOrder = async () => {
 
     try {
-      await updateProduct();
+      await updateOrder();
 
       getProduct();
 
@@ -121,7 +121,7 @@ function OrderModal({
     }
   };
 
-  const updateProduct = async () => {
+  const updateOrder = async () => {
     return await axios.put(
       `${BASE_URL}/v2/api/${API_PATH}/admin/order/${modalData.id}`,
       {
@@ -276,7 +276,7 @@ function OrderModal({
               取消
             </button>
             <button
-              onClick={handleUpdateProduct}
+              onClick={handleUpdateOrder}
               type="button"
               className="btn btn-primary text-white"
             >

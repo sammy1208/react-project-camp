@@ -44,7 +44,7 @@ function LoginPage() {
           text: "登入失敗",
           status: "failed"
         })
-      )
+      );
     }
   };
 
@@ -59,7 +59,7 @@ function LoginPage() {
           text: "驗證失敗，可能是因為用戶已登出",
           status: "failed"
         })
-      )
+      );
     } finally {
       setIsScreenLoading(false);
     }

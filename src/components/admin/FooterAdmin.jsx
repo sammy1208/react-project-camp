@@ -16,13 +16,13 @@ export default function FooterAdmin() {
     try {
       await axios.post(`${BASE_URL}/v2/api/user/check`);
     } catch (error) {
-      const err = error.message
+      const err = error.message;
       dispatch(
         PushMessage({
           text: err,
           status: "failed"
         })
-      )
+      );
     }
   };
 
@@ -43,13 +43,13 @@ export default function FooterAdmin() {
       document.cookie = "hexToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       navigate("/login");
     } catch (error) {
-      const err = `登出失敗:${error.message}`
+      const err = `登出失敗:${error.message}`;
       dispatch(
         PushMessage({
           text: err,
           status: "failed"
         })
-      )
+      );
     }
   };
   return (

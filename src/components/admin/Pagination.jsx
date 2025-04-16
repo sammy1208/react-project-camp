@@ -18,6 +18,7 @@ function Pagination({ products, pageInfo, getProduct }) {
               <a
                 onClick={(e) => handlePageChange(e, pageInfo.current_page - 1)}
                 className="page-link"
+                style={{ cursor: "pointer" }}
               >
                 上一頁
               </a>
@@ -33,6 +34,7 @@ function Pagination({ products, pageInfo, getProduct }) {
                 <a
                   onClick={(e) => handlePageChange(e, index + 1)}
                   className="page-link"
+                  style={{ cursor: "pointer" }}
                 >
                   {index + 1}
                 </a>
@@ -43,6 +45,7 @@ function Pagination({ products, pageInfo, getProduct }) {
               <a
                 onClick={(e) => handlePageChange(e, pageInfo.current_page + 1)}
                 className="page-link"
+                style={{ cursor: "pointer" }}
               >
                 下一頁
               </a>

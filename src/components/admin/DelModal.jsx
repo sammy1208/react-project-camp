@@ -9,7 +9,7 @@ import { PushMessage } from "../../redux/slices/toastSlice";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
-function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
+function DelModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
   const delProductModalRef = useRef(null);
   const dispatch = useDispatch(PushMessage);
 
@@ -27,7 +27,7 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
   }, [isOpen]);
 
   const handleDeleteProduct = async () => {
-    const deleteItem = type === "product" ? deleteProduct : removeOrder
+    const deleteItem = type === "product" ? deleteProduct : removeOrder;
 
     try {
       await deleteItem();
@@ -80,15 +80,15 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
           text: "刪除成功",
           status: "success"
         })
-      )
+      );
     } catch (error) {
-      const err = error.message
+      const err = error.message;
       dispatch(
         PushMessage({
           text: err,
           status: "failed"
         })
-      )
+      );
     }
   };
 
@@ -148,7 +148,7 @@ function DelProductModal({ tempProduct, isOpen, setIsOpen, getProduct, type }) {
 }
 
 // **🔹 PropTypes 驗證**
-DelProductModal.propTypes = {
+DelModal.propTypes = {
   tempProduct: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string
@@ -159,4 +159,4 @@ DelProductModal.propTypes = {
   type: PropTypes.string.isRequired
 };
 
-export default DelProductModal;
+export default DelModal;

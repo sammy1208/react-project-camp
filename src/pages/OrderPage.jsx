@@ -40,7 +40,7 @@ export default function OrderPage() {
     }
   };
 
-  const getPay = async (order_id) => {
+  const processPayment = async (order_id) => {
     setIsScreenLoading(true);
     try {
       await axios.post(`${BASE_URL}/v2/api/${API_PATH}/pay/${order_id}`);
@@ -86,37 +86,41 @@ export default function OrderPage() {
               </ul>
             </div>
           </div>
-          <div
-            key={order.id}
-            className="border-top border-bottom border-primary-1 mb-4"
-          >
-            <div className="p-8">
-              <div className="d-flex mb-6 justify-content-between">
-                <p style={{ minWidth: "80px" }}>訂單編號</p>
-                <p className="text-break">{order.id}</p>
+          <div className="row justify-content-center">
+            <div className="col-8">
+              <div
+                key={order.id}
+                className="border-top border-bottom border-primary-1 mb-4"
+              >
+                <div className="p-8">
+                  <div className="d-flex mb-6 justify-content-between">
+                    <p style={{ minWidth: "80px" }}>訂單編號</p>
+                    <p className="text-break">{order.id}</p>
+                  </div>
+                  <div className="d-flex mb-6 justify-content-between">
+                    <p style={{ minWidth: "80px" }}>訂單總額</p>
+                    <p>{`NT$ ${order.total?.toLocaleString("zh-Hant-TW")}`}</p>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <p style={{ minWidth: "80px" }}>付款狀態</p>
+                    <p>{order.is_paid ? "已付款" : "未付款"}</p>
+                  </div>
+                </div>
               </div>
-              <div className="d-flex mb-6 justify-content-between">
-                <p style={{ minWidth: "80px" }}>訂單總額</p>
-                <p>{`NT$ ${order.total?.toLocaleString("zh-Hant-TW")}`}</p>
-              </div>
-              <div className="d-flex justify-content-between">
-                <p style={{ minWidth: "80px" }}>付款狀態</p>
-                <p>{order.is_paid ? "已付款" : "未付款"}</p>
+              <p className="fs-md-10 fs-11 mt-4 text-gray-70 mb-9">
+                ※ 您的訂單將在付款後開始訂製，付款後，從開始製作到寄出商品為 14
+                個工作天。
+              </p>
+              <div className="text-end">
+                <button
+                  onClick={() => processPayment(order.id)}
+                  className="btn btn-primary text-white btn-addCart fw-bold py-md-8 py-6 ms-auto"
+                  type="button"
+                >
+                  結帳付款
+                </button>
               </div>
             </div>
-          </div>
-          <p className="fs-md-10 fs-11 mt-4 text-gray-70 mb-9">
-            ※ 您的訂單將在付款後開始訂製，付款後，從開始製作到寄出商品為 14
-            個工作天。
-          </p>
-          <div className="text-end">
-            <button
-              onClick={() => getPay(order.id)}
-              className="btn btn-primary text-white btn-addCart fw-bold py-md-8 py-6 ms-auto"
-              type="button"
-            >
-              結帳付款
-            </button>
           </div>
         </div>
       </article>

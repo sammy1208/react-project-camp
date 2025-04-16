@@ -1,7 +1,7 @@
 import React from 'react';
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './assets/scss/all.scss'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './assets/scss/all.scss';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 import { RouterProvider } from 'react-router-dom';
@@ -16,4 +16,4 @@ createRoot(document.getElementById('root')).render(
       <RouterProvider router={router}/>
     </Provider>
   </StrictMode>,
-)
+);
