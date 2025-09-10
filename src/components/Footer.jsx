@@ -22,6 +22,11 @@ export default function Footer() {
                 <i className="bi bi-github  fs-3"></i>
               </a>
             </li>
+            <li className="ps-8">
+              <Link to="/login">
+                <i className="bi bi-person-circle fs-3"></i>
+              </Link>
+            </li>
           </ul>
           <ul className="text-white list-unstyled fs-10 fs-md-9 d-flex m-0">
             <li className="footer-li">
