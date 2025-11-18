@@ -8,6 +8,7 @@ import ProductLmg from "../components/ProductLmg";
 import ScreenLoading from "../components/ScreenLoading";
 import SectionTitle from "../components/SectionTitle";
 import { PushMessage } from "../redux/slices/toastSlice";
+import AOS from "aos";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -34,7 +35,7 @@ export default function HomePage() {
       dispatch(
         PushMessage({
           text: "取得產品失敗",
-          status: "failed"
+          status: "failed",
         })
       );
     } finally {
@@ -48,6 +49,7 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchProducts();
+    AOS.init();
   }, []);
 
   return (
@@ -60,11 +62,14 @@ export default function HomePage() {
           titleColor=""
         />
         <div className="row">
-          <div className="col d-none d-md-block">
+          <div className="col d-none d-md-block" data-aos="zoom-out-right">
             {featuredProduct && <Product product={featuredProduct} />}
           </div>
           <div className="col">
-            <div className="row row-cols-2 gy-md-10 gy-8">
+            <div
+              className="row row-cols-2 gy-md-10 gy-8"
+              data-aos="zoom-out-right"
+            >
               {products.slice(1, 5).map((product) => (
                 <div className="col" key={product.id}>
                   <Product product={product} />
@@ -98,7 +103,10 @@ export default function HomePage() {
           />
           <div className="row g-0 flex-column-reverse flex-md-row">
             <div className="col-md d-flex justify-content-center align-items-center">
-              <div className="text-md-end text-center me-md-21">
+              <div
+                className="text-md-end text-center me-md-21"
+                data-aos="zoom-out-right"
+              >
                 <h3 className="pb-4 pb-md-8 pt-10 pt-md-0 fs-7 fs-md-3">
                   {productShow[0].title}
                 </h3>
@@ -114,7 +122,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="col-md">
-              <div className="row row-cols-1 gy-md-10 gy-6">
+              <div
+                className="row row-cols-1 gy-md-10 gy-6"
+                data-aos="zoom-out-right"
+              >
                 <div className="col">
                   <ProductLmg
                     img={`${productShow[0].image_url}`}
@@ -158,7 +169,10 @@ export default function HomePage() {
         />
         <div className="row g-0 flex-column flex-md-row">
           <div className="col-md">
-            <div className="row row-cols-1 gy-md-10 gy-6">
+            <div
+              className="row row-cols-1 gy-md-10 gy-6"
+              data-aos="zoom-out-right"
+            >
               <div className="col">
                 <ProductLmg
                   img={`${productShow[1].image_url}`}
@@ -190,7 +204,10 @@ export default function HomePage() {
             </div>
           </div>
           <div className="col-md d-flex justify-content-center align-items-center">
-            <div className="text-md-start text-center ms-md-21">
+            <div
+              className="text-md-start text-center ms-md-21"
+              data-aos="zoom-out-right"
+            >
               <h3 className="pb-4 pb-md-8 pt-10 pt-md-0 fs-7 fs-md-3">
                 {productShow[1].title}
               </h3>
@@ -226,7 +243,10 @@ export default function HomePage() {
                   key={designer.title}
                 >
                   <div className="col-md-7">
-                    <div className="text-white text-md-start text-center">
+                    <div
+                      className="text-white text-md-start text-center"
+                      data-aos="zoom-out-right"
+                    >
                       <span className="fs-md-10 pb-2 border-bottom">
                         {designer.title}
                       </span>
